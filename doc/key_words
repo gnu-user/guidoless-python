@@ -6,7 +6,7 @@ integer    ([0-9])+
 Other tokens terminal tokens
 
 NEWLINE        \n
-INDENT         \s\s\s\s
+INDENT         \t
 DEDENT         lack of 4 spaces
 if_keyword     if
 else_keyword   else
@@ -19,5 +19,8 @@ mult_div       (*|/)
 comma          ,
 equal          =
 colan          :
-
+brackets_1     [
+brackets_2     ]
+brackets_3     (
+brackets_4     )
 
