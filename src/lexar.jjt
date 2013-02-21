@@ -25,14 +25,17 @@ SKIP: {
 
 
 /** Programming syntax structuring */
-void Program() : 
+SimpleNode Program() : 
 {}
 {
     (
        (Statement())
      /*| (Statement() Program())*/
-    )*
-    <EOF>    
+    )
+    (<NEWLINE>)*
+    <EOF>
+    { return jjtThis;}
+        
 }
 
 void Statement() :

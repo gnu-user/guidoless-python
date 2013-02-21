@@ -48,7 +48,8 @@ public class SPL {
       return;
     }
     try {
-      parser.Program();
+      SimpleNode tree = parser.Program();
+      tree.dump("");
       //parser.jjtree.rootNode().interpret();
     } catch (ParseException e) {
       System.out.println("Stupid Programming Language Interpreter Version 0.1:  Encountered errors during parse.");
