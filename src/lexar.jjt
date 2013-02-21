@@ -1,0 +1,255 @@
+options {
+    MULTI=true;
+    NODE_EXTENDS="MyNode";
+    TRACK_TOKENS=true;
+}
+
+PARSER_BEGIN(lexar)
+
+public class lexar {
+
+  public Node rootNode() {
+    return jjtree.rootNode();
+  }  
+
+}
+
+PARSER_END(lexar)
+
+SKIP: {
+	
+	"\r"  
+    | "\f"
+	| " "
+}
+
+
+/** Programming syntax structuring */
+void Program() : 
+{}
+{
+    (
+       (Statement())
+     /*| (Statement() Program())*/
+    )*
+    <EOF>    
+}
+
+void Statement() :
+{}
+{
+    (
+      DefStatement()
+    | IfStatement()
+    | ReturnStatement()
+    | PrintStatement()
+    | WhileStatement()
+    | AssignmentStatement()
+    | FunctionCallStatement()
+    )
+}
+
+void DefStatement() :
+{}
+{
+    ("def " <IDENTIFIER> <LEFTR> ArgList() <RIGHTR> " :" Sequence())
+}
+
+void ArgList() :
+{}
+{
+    (<IDENTIFIER> MoreArgs() | {})
+}
+
+void MoreArgs() : 
+{}
+{
+    ("," <IDENTIFIER> MoreArgs() | {})
+}
+
+void IfStatement() :
+{}
+{
+    ("if " Expression() ":" Sequence() "else:" Sequence())
+}
+
+void WhileStatement() :
+{}
+{
+    ("while " Expression() ":" Sequence())
+}
+
+void ReturnStatement() :
+{}
+{
+    ("return " Expression() <NEWLINE>)
+}
+
+void PrintStatement() :
+{}
+{
+    ("print " Expression() <NEWLINE>)
+}
+
+void AssignmentStatement() :
+{}
+{
+    (<IDENTIFIER> "=" Expression() <NEWLINE>)
+}
+
+void Sequence() :
+{}
+{
+    (<NEWLINE> <INDENT> MoreStatements() /*<DEDENT>*/)
+}
+
+void MoreStatements() :
+{}
+{
+    ( 
+      (Statement() AnotherStatement())
+    )
+}
+
+void AnotherStatement() :
+{}
+{
+    (
+      (Statement() AnotherStatement())
+    | {}
+    )
+}
+
+void Expression() :
+{}
+{
+    (AdditionalExpression() Comparison())
+}
+
+void Comparison() :
+{}
+{
+    (
+      (<COMPARE> AdditionalExpression() Comparison())
+    | {}
+    )
+}
+
+void AdditionalExpression() :
+{}
+{
+    (MultiplicationExpression() AdditionFactor())
+}
+
+void AdditionFactor() :
+{}
+{
+    (
+      <ADDSUB> MultiplicationExpression() AdditionFactor()
+    | {}
+    )
+}
+
+void MultiplicationExpression() :
+{}
+{
+    (ElementExpression() MultiplicationFactor())
+}
+
+void MultiplicationFactor() :
+{}
+{
+    (
+      (<MUTLDIV> ElementExpression() MultiplicationFactor())
+    | {}
+    )
+}
+
+void ElementExpression() :
+{}
+{
+    (PrimitiveExpression() ElementAccess())
+}
+
+void ElementAccess() :
+{}
+{
+    (
+      (<LEFTS> Expression() <RIGHTS> ElementAccess())
+    | {}
+    )
+}
+
+void ExpressionList() :
+{}
+{
+    (
+      (Expression() MoreExpressions())
+    | {}
+    )
+}
+
+void MoreExpressions() :
+{}
+{
+    (
+      ("," Expression() MoreExpressions())
+    | {}
+    )
+}
+
+void PrimitiveExpression() :
+{}
+{
+    (
+      <INTEGER>
+    | (<LEFTR> Expression() <RIGHTR>)
+    | <IDENTIFIER>
+    )
+}
+
+void FunctionCallStatement() :
+{}
+{
+    (PrimitiveExpression() <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>)
+}
+
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: (<LETTER>|<UNDERSCORE>) (<LETTER>|<DIGIT>|<UNDERSCORE>)* >
+| < #UNDERSCORE: "_" >
+| < #LETTER: [ "a"-"z", "A"-"Z" ] >
+| < #DIGIT: [ "0"-"9"] >
+}
+
+TOKEN : /* LITERALS */
+{
+  <INTEGER: (<DIGIT>)+ >
+}
+
+TOKEN : /* DEDENT */
+{
+    /*  <DEDENT: ~["\t"]>
+    | */<INDENT: "\t">
+    | <NEWLINE: "\n">
+}
+
+TOKEN : /* Comparison */
+{
+    <COMPARE: ("<"|">"|"<="|">="|"==")>
+}
+
+TOKEN : /* MATH */
+{
+      <ADDSUB: ("+"|"-")>
+    | <MUTLDIV: ("*"|"/")>
+}
+
+TOKEN : /* BRACKETS */
+{
+      <LEFTR: "(">
+    | <RIGHTR: ")">
+    | <LEFTS: "[">
+    | <RIGHTS: "]">
+}
