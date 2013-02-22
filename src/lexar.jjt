@@ -55,7 +55,7 @@ void Statement() :
 void DefStatement() :
 {}
 {
-    ("def " <IDENTIFIER> <LEFTR> ArgList() <RIGHTR> " :" Sequence())
+    ("def " <IDENTIFIER> <LEFTR> ArgList() <RIGHTR> ":" Sequence())
 }
 
 void ArgList() :

@@ -1,0 +1,6 @@
+def factorial (x):
+	p = 1
+	while (x > 1):
+		p = p * x
+		x = x - 1
+		return p
