@@ -19,7 +19,7 @@ PARSER_END(lexar)
 SKIP: {
 	
 	"\r"  
-    | "\f"
+  | "\f"
 	| " "
 }
 
@@ -117,9 +117,14 @@ void MoreStatements() :
 void AnotherStatement() :
 {}
 {
+    /* Requires the same number of indends as previous */
+    /*
+     * Essentially, we need to get DEDENT working so that multiple statements can excepted within a single loop, as well.
+     */
     (
-      (Statement() AnotherStatement())
+      (/* <INDENT> */ Statement() AnotherStatement())
     | {}
+
     )
 }
 

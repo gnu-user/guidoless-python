@@ -1,1 +1,6 @@
-first = 1
+if 2 < 3:
+	my = 1 + 1
+else:
+	my = 1
+while my < 1:
+	toool = 1

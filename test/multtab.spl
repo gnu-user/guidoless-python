@@ -1,0 +1,10 @@
+if 2 < 3:
+	my = 1 + 1
+	print (my + my)
+	dude = my * 2
+	print (dude)
+else:
+	my = 1
+	cool = (my * (4 - 3)) / 3
+while my < 1:
+	toool = 1
