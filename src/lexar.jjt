@@ -84,7 +84,10 @@ void MoreArgs() :
 void IfStatement() :
 {}
 {
-    ("if " Expression() ":" Sequence() "else:" Sequence())
+    {
+      //System.out.println("here");
+    }
+    ("if " Expression() ":" Sequence() IndentCopy() "else:" Sequence())
 }
 
 void WhileStatement() :
@@ -120,6 +123,12 @@ void Sequence() :
     {
       //Token t;
       nesting--;
+      int i = nesting;
+      while (i > 1)
+      {
+        Indent(false);
+        i--;
+      }
       System.out.println("nesting = " + nesting);
       //System.out.println("token = " + t.toString());
     }
@@ -133,29 +142,51 @@ void IndentEnter() :
   {
     nesting = 1;
     System.out.println("nesting = " + nesting);
+    //System.out.println("first tab");
   }
   (
-      (<INDENT> Indent()) 
+      (t=<INDENT> Indent(true)) 
   )
+
 }
 
-void Indent() :
+void IndentCopy() :
+{
+  Token t;
+}
+{
+  {
+    nesting = 1;
+    System.out.println("nesting = " + nesting);
+    //System.out.println("first tab");
+  }
+  (
+      (Indent(true)) 
+  )
+
+}
+
+void Indent(boolean total) :
 {
   Token t = null;
 }
 {
-  
+
   (
-      (t=<INDENT> Indent()) 
+      (t=<INDENT>) 
       | {}
   )
   {
     //Token t;
     if(t != null)
     {
-      nesting++;
+      if(total)
+      {
+        nesting++;
+      }
       System.out.println("nesting = " + nesting);
       System.out.println("token = " + t.toString());
+      Indent(true);
     }
   }
 }
@@ -178,10 +209,14 @@ void AnotherStatement() :
      * Essentially, we need to get DEDENT working so that multiple statements can excepted within a single loop, as well.
      */
     (
+      LOOKAHEAD(3)
       ( IndentEnter() Statement()  AnotherStatement())
     | {}
 
     )
+    {
+    //System.out.println("anotherDone");
+    }
 }
 
 void Expression() :

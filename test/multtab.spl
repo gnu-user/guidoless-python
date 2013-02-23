@@ -2,8 +2,12 @@ if 2 < 3:
 	my = 1 + 1
 	print (my + my)
 	dude = my * 2
-	while 4 < 5:
+	if 4 < 5:
 		print (dude)
+	else:
+		print (my)
+		while 2 < 5:
+			what (2)
 else:
 	my = 1
 	cool = 3 + 2
