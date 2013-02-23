@@ -3,4 +3,7 @@ def factorial (x):
 	while (x > 1):
 		p = p * x
 		x = x - 1
-		return p
+		print (p)
+		return x
+factorial (x)
+print 9999

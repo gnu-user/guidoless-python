@@ -1,6 +1,6 @@
 if 2 < 3:
 	my = 1 + 1
 else:
-	my = 1
-while my < 1:
-	toool = 1
+	my = 2
+while 2 < 3:
+	print (my)

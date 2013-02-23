@@ -2,9 +2,10 @@ if 2 < 3:
 	my = 1 + 1
 	print (my + my)
 	dude = my * 2
-	print (dude)
+	while 4 < 5:
+		print (dude)
 else:
 	my = 1
-	cool = (my * (4 - 3)) / 3
+	cool = 3 + 2
 while my < 1:
 	toool = 1

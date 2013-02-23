@@ -8,10 +8,12 @@ PARSER_BEGIN(lexar)
 
 public class lexar {
 
+  public static int nesting = 0;
+  public static int numNewLines = 0;
+
   public Node rootNode() {
     return jjtree.rootNode();
   }  
-
 }
 
 PARSER_END(lexar)
@@ -28,10 +30,11 @@ SKIP: {
 SimpleNode Program() : 
 {}
 {
+
     (
        (Statement())
      /*| (Statement() Program())*/
-    )
+    )*
     (<NEWLINE>)*
     <EOF>
     { return jjtThis;}
@@ -46,10 +49,18 @@ void Statement() :
     | IfStatement()
     | ReturnStatement()
     | PrintStatement()
-    | WhileStatement()
-    | AssignmentStatement()
-    | FunctionCallStatement()
+    | WhileStatement()  
+    | CallStatement()
     )
+}
+
+void CallStatement() : 
+{}
+{
+  
+  ( LOOKAHEAD(2) 
+    AssignmentStatement()
+    | FunctionCallStatement())
 }
 
 void DefStatement() :
@@ -101,10 +112,55 @@ void AssignmentStatement() :
 }
 
 void Sequence() :
-{}
+{ Token t; }
 {
-    (<NEWLINE> <INDENT> MoreStatements() /*<DEDENT>*/)
+    
+    
+    (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
+    {
+      //Token t;
+      nesting--;
+      System.out.println("nesting = " + nesting);
+      //System.out.println("token = " + t.toString());
+    }
 }
+
+void IndentEnter() :
+{
+  Token t;
+}
+{
+  {
+    nesting = 1;
+    System.out.println("nesting = " + nesting);
+  }
+  (
+      (<INDENT> Indent()) 
+  )
+}
+
+void Indent() :
+{
+  Token t = null;
+}
+{
+  
+  (
+      (t=<INDENT> Indent()) 
+      | {}
+  )
+  {
+    //Token t;
+    if(t != null)
+    {
+      nesting++;
+      System.out.println("nesting = " + nesting);
+      System.out.println("token = " + t.toString());
+    }
+  }
+}
+
+
 
 void MoreStatements() :
 {}
@@ -115,14 +171,14 @@ void MoreStatements() :
 }
 
 void AnotherStatement() :
-{}
+{ }
 {
     /* Requires the same number of indends as previous */
     /*
      * Essentially, we need to get DEDENT working so that multiple statements can excepted within a single loop, as well.
      */
     (
-      (/* <INDENT> */ Statement() AnotherStatement())
+      ( IndentEnter() Statement()  AnotherStatement())
     | {}
 
     )

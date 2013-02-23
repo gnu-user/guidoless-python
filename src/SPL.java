@@ -48,6 +48,7 @@ public class SPL {
       return;
     }
     try {
+
       SimpleNode tree = parser.Program();
       tree.dump("");
       //parser.jjtree.rootNode().interpret();
