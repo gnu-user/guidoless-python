@@ -1,28 +1,30 @@
-options {
+options
+{
     MULTI=true;
     NODE_EXTENDS="MyNode";
     TRACK_TOKENS=true;
 }
 
-PARSER_BEGIN(lexar)
+PARSER_BEGIN(Minimp)
 
-public class lexar {
-
+public class Minimp
+{
   public static int nesting = 0;
   public static int numNewLines = 0;
 
-  public Node rootNode() {
+  public Node rootNode()
+  {
     return jjtree.rootNode();
   }  
 }
 
-PARSER_END(lexar)
+PARSER_END(Minimp)
 
-SKIP: {
-	
-	"\r"  
-  | "\f"
-	| " "
+SKIP: 
+{	
+  	  "\r"  
+    | "\f"
+  	| " "
 }
 
 
@@ -33,13 +35,14 @@ SimpleNode Program() :
 
     (
        (Statement())
-     /*| (Statement() Program())*/
+    /*| (Statement() Program())*/
     )*
     (<NEWLINE>)*
     <EOF>
     { return jjtThis;}
         
 }
+
 
 void Statement() :
 {}
@@ -54,14 +57,18 @@ void Statement() :
     )
 }
 
+
 void CallStatement() : 
 {}
 {
   
-  ( LOOKAHEAD(2) 
-    AssignmentStatement()
-    | FunctionCallStatement())
+    ( 
+      LOOKAHEAD(2) 
+      AssignmentStatement()
+    | FunctionCallStatement()
+    )
 }
+
 
 void DefStatement() :
 {}
@@ -69,17 +76,20 @@ void DefStatement() :
     ("def " <IDENTIFIER> <LEFTR> ArgList() <RIGHTR> ":" Sequence())
 }
 
+
 void ArgList() :
 {}
 {
     (<IDENTIFIER> MoreArgs() | {})
 }
 
+
 void MoreArgs() : 
 {}
 {
     ("," <IDENTIFIER> MoreArgs() | {})
 }
+
 
 void IfStatement() :
 {}
@@ -90,11 +100,13 @@ void IfStatement() :
     ("if " Expression() ":" Sequence() IndentCopy() "else:" Sequence())
 }
 
+
 void WhileStatement() :
 {}
 {
     ("while " Expression() ":" Sequence())
 }
+
 
 void ReturnStatement() :
 {}
@@ -102,11 +114,13 @@ void ReturnStatement() :
     ("return " Expression() <NEWLINE>)
 }
 
+
 void PrintStatement() :
 {}
 {
     ("print " Expression() <NEWLINE>)
 }
+
 
 void AssignmentStatement() :
 {}
@@ -114,11 +128,10 @@ void AssignmentStatement() :
     (<IDENTIFIER> "=" Expression() <NEWLINE>)
 }
 
+
 void Sequence() :
 { Token t; }
 {
-    
-    
     (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
     {
       //Token t;
@@ -134,6 +147,7 @@ void Sequence() :
     }
 }
 
+
 void IndentEnter() :
 {
   Token t;
@@ -147,8 +161,8 @@ void IndentEnter() :
   (
       (t=<INDENT> Indent(true)) 
   )
-
 }
+
 
 void IndentCopy() :
 {
@@ -163,17 +177,16 @@ void IndentCopy() :
   (
       (Indent(true)) 
   )
-
 }
+
 
 void Indent(boolean total) :
 {
   Token t = null;
 }
 {
-
   (
-      (t=<INDENT>) 
+        (t=<INDENT>) 
       | {}
   )
   {
@@ -193,7 +206,6 @@ void Indent(boolean total) :
 }
 
 
-
 void MoreStatements() :
 {}
 {
@@ -202,8 +214,9 @@ void MoreStatements() :
     )
 }
 
+
 void AnotherStatement() :
-{ }
+{}
 {
     /* Requires the same number of indends as previous */
     /*
@@ -220,11 +233,13 @@ void AnotherStatement() :
     }
 }
 
+
 void Expression() :
 {}
 {
     (AdditionalExpression() Comparison())
 }
+
 
 void Comparison() :
 {}
@@ -235,11 +250,13 @@ void Comparison() :
     )
 }
 
+
 void AdditionalExpression() :
 {}
 {
     (MultiplicationExpression() AdditionFactor())
 }
+
 
 void AdditionFactor() :
 {}
@@ -250,11 +267,13 @@ void AdditionFactor() :
     )
 }
 
+
 void MultiplicationExpression() :
 {}
 {
     (ElementExpression() MultiplicationFactor())
 }
+
 
 void MultiplicationFactor() :
 {}
@@ -265,11 +284,13 @@ void MultiplicationFactor() :
     )
 }
 
+
 void ElementExpression() :
 {}
 {
     (PrimitiveExpression() ElementAccess())
 }
+
 
 void ElementAccess() :
 {}
@@ -280,6 +301,7 @@ void ElementAccess() :
     )
 }
 
+
 void ExpressionList() :
 {}
 {
@@ -289,6 +311,7 @@ void ExpressionList() :
     )
 }
 
+
 void MoreExpressions() :
 {}
 {
@@ -297,6 +320,7 @@ void MoreExpressions() :
     | {}
     )
 }
+
 
 void PrimitiveExpression() :
 {}
@@ -308,6 +332,7 @@ void PrimitiveExpression() :
     )
 }
 
+
 void FunctionCallStatement() :
 {}
 {
@@ -317,34 +342,39 @@ void FunctionCallStatement() :
 
 TOKEN : /* IDENTIFIERS */
 {
-  < IDENTIFIER: (<LETTER>|<UNDERSCORE>) (<LETTER>|<DIGIT>|<UNDERSCORE>)* >
-| < #UNDERSCORE: "_" >
-| < #LETTER: [ "a"-"z", "A"-"Z" ] >
-| < #DIGIT: [ "0"-"9"] >
+      < IDENTIFIER: (<LETTER>|<UNDERSCORE>) (<LETTER>|<DIGIT>|<UNDERSCORE>)* >
+    | < #UNDERSCORE: "_" >
+    | < #LETTER: [ "a"-"z", "A"-"Z" ] >
+    | < #DIGIT: [ "0"-"9"] >
 }
+
 
 TOKEN : /* LITERALS */
 {
-  <INTEGER: (<DIGIT>)+ >
+    <INTEGER: (<DIGIT>)+ >
 }
 
-TOKEN : /* DEDENT */
+
+TOKEN : /* INDENTATION */
 {
-    /*  <DEDENT: ~["\t"]>
-    | */<INDENT: "\t">
+    /*  <DEDENT: ~["\t"]> */
+      <INDENT: "\t">
     | <NEWLINE: "\n">
 }
+
 
 TOKEN : /* Comparison */
 {
     <COMPARE: ("<"|">"|"<="|">="|"==")>
 }
 
+
 TOKEN : /* MATH */
 {
       <ADDSUB: ("+"|"-")>
     | <MUTLDIV: ("*"|"/")>
 }
+
 
 TOKEN : /* BRACKETS */
 {
