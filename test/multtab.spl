@@ -6,8 +6,10 @@ if 2 < 3:
 		print (dude)
 	else:
 		print (my)
-		while 2 < 5:
+		if 2 < 5:
 			what (2)
+		else: 
+			print (1)
 else:
 	my = 1
 	cool = 3 + 2

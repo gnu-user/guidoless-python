@@ -186,7 +186,8 @@ void Indent(boolean total) :
       }
       System.out.println("nesting = " + nesting);
       System.out.println("token = " + t.toString());
-      Indent(true);
+
+      Indent(total);
     }
   }
 }
