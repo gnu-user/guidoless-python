@@ -1,0 +1,9 @@
+if 5 <= 5:
+	var = 5
+else:
+	var = 0
+if 5 >= 5:
+	var2 = 5
+else:
+	var2 = 0
+ 
