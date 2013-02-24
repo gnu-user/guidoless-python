@@ -32,9 +32,9 @@ public class mimpc
     private static final int INVALID_ARGUMENTS   = -3;
 
 
-    public static int main(String args[])
+    public static void main(String args[])
     {
-        Minimp parser;
+        Minimp parser = null;
 
         /* Attempt to read the Minimp source file provided */
         if (args.length == 1)
@@ -48,7 +48,7 @@ public class mimpc
             catch (java.io.FileNotFoundException e)
             {
                 System.out.println("Mimpc -- A Minimp Parser:  File " + args[0] + " not found.");
-                return FILE_NOT_FOUND;
+                System.exit(FILE_NOT_FOUND);
             }
         }
         /* Minimp source file not provided, print program usage */
@@ -56,7 +56,7 @@ public class mimpc
         {
             System.out.println("Mimpc -- A Minimp Parser:  Source file not provided!");
             System.out.println("USAGE:  java mimpc source_file");
-            return INVALID_ARGUMENTS;
+            System.exit(INVALID_ARGUMENTS);
         }
 
         /* Attempt to parse the Minimp source file given and generate the AST */
@@ -68,19 +68,19 @@ public class mimpc
             //parser.jjtree.rootNode().interpret();
             
             System.out.println("Minimp source file successfully parsed!");
-            return VALID_SOURCE_FILE;
+            System.exit(VALID_SOURCE_FILE);
         } 
         catch (ParseException pe)
         {
             System.out.println("Mimpc -- A Minimp Parser:  Encountered errors during parse.");
             pe.printStackTrace();
-            return INVALID_SOURCE_FILE;
+            System.exit(INVALID_SOURCE_FILE);
         }
         catch (Exception e)
         {
             System.out.println("Mimpc -- A Minimp Parser:  Encountered errors during interpretation/tree building.");
             e.printStackTrace();
-            return INVALID_SOURCE_FILE;
+            System.exit(INVALID_SOURCE_FILE);
         }
     }
 }
