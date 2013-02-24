@@ -7,7 +7,7 @@ class SimpleNode extends MyNode implements Node {
   protected Node[] children;
   protected int id;
   protected Object value;
-  protected lexar parser;
+  protected Minimp parser;
   protected Token firstToken;
   protected Token lastToken;
 
@@ -15,7 +15,7 @@ class SimpleNode extends MyNode implements Node {
     id = i;
   }
 
-  public SimpleNode(lexar p, int i) {
+  public SimpleNode(Minimp p, int i) {
     this(i);
     parser = p;
   }
@@ -62,7 +62,7 @@ class SimpleNode extends MyNode implements Node {
      toString(String), otherwise overriding toString() is probably all
      you need to do. */
 
-  public String toString() { return lexarTreeConstants.jjtNodeName[id]; }
+  public String toString() { return MinimpTreeConstants.jjtNodeName[id]; }
   public String toString(String prefix) { return prefix + toString(); }
 
   /* Override this method if you want to customize how the node dumps
@@ -81,4 +81,4 @@ class SimpleNode extends MyNode implements Node {
   }
 }
 
-/* JavaCC - OriginalChecksum=ff74137008596c59f6637c048e8ae01d (do not edit this line) */
+/* JavaCC - OriginalChecksum=64d38a11732f40eb415eea622da0d674 (do not edit this line) */

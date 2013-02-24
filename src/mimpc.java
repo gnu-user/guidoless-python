@@ -1,63 +1,86 @@
-/* Copyright (c) 2006, Sun Microsystems, Inc.
+/**
+ * Minimp -- An implementation of an imperative subset of Python
+ *
+ *
+ * Copyright (C) 2013, Joseph Heron, Jonathan Gillett, and Daniel Smullen
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
  *
- *     * Redistributions of source code must retain the above copyright notice,
- *       this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
- * THE POSSIBILITY OF SUCH DAMAGE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
- * Stupid Programming Language parser.
+ * Minimc -- A parser for Minimp, an imperative subset of Python 
  */
-public class SPL {
+public class mimpc
+{
+    /* Exit return codes */
+    private static final int VALID_SOURCE_FILE   =  0;
+    private static final int INVALID_SOURCE_FILE = -1;
+    private static final int FILE_NOT_FOUND      = -2;
+    private static final int INVALID_ARGUMENTS   = -3;
 
-  /** Main entry point. */
-  public static void main(String args[]) {
-    lexar parser;
-    if (args.length == 1) {
-      System.out.println("Stupid Programming Language Interpreter Version 0.1:  Reading from file " + args[0] + " . . .");
-      try {
-        parser = new lexar(new java.io.FileInputStream(args[0]));
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("Stupid Programming Language Interpreter Version 0.1:  File " + args[0] + " not found.");
-        return;
-      }
-    } else {
-      System.out.println("Stupid Programming Language Interpreter Version 0.1:  Usage :");
-      System.out.println("         java SPL inputfile");
-      return;
-    }
-    try {
 
-      SimpleNode tree = parser.Program();
-      tree.dump("");
-      //parser.jjtree.rootNode().interpret();
-    } catch (ParseException e) {
-      System.out.println("Stupid Programming Language Interpreter Version 0.1:  Encountered errors during parse.");
-      e.printStackTrace();
-    } catch (Exception e1) {
-      System.out.println("Stupid Programming Language Interpreter Version 0.1:  Encountered errors during interpretation/tree building.");
-      e1.printStackTrace();
+    public static int main(String args[])
+    {
+        Minimp parser;
+
+        /* Attempt to read the Minimp source file provided */
+        if (args.length == 1)
+        {
+            System.out.println("Mimpc -- A Minimp Parser:  Reading from source file " + args[0] + " . . .");
+            
+            try
+            {
+                parser = new Minimp(new java.io.FileInputStream(args[0]));
+            }
+            catch (java.io.FileNotFoundException e)
+            {
+                System.out.println("Mimpc -- A Minimp Parser:  File " + args[0] + " not found.");
+                return FILE_NOT_FOUND;
+            }
+        }
+        /* Minimp source file not provided, print program usage */
+        else
+        {
+            System.out.println("Mimpc -- A Minimp Parser:  Source file not provided!");
+            System.out.println("USAGE:  java mimpc source_file");
+            return INVALID_ARGUMENTS;
+        }
+
+        /* Attempt to parse the Minimp source file given and generate the AST */
+        try
+        {
+            SimpleNode tree = parser.Program();
+            
+            //tree.dump("");
+            //parser.jjtree.rootNode().interpret();
+            
+            System.out.println("Minimp source file successfully parsed!");
+            return VALID_SOURCE_FILE;
+        } 
+        catch (ParseException pe)
+        {
+            System.out.println("Mimpc -- A Minimp Parser:  Encountered errors during parse.");
+            pe.printStackTrace();
+            return INVALID_SOURCE_FILE;
+        }
+        catch (Exception e)
+        {
+            System.out.println("Mimpc -- A Minimp Parser:  Encountered errors during interpretation/tree building.");
+            e.printStackTrace();
+            return INVALID_SOURCE_FILE;
+        }
     }
-  }
 }
