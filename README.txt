@@ -12,9 +12,10 @@ Parsing source files using mimpc
 		java mimpc [source_file]
 
 
-	For example:
+	For example, using our factorial source file:
 
-		java mimpc test_file.mim
+		cd src/
+		java mimpc ../test/factorial.mim
 
 
 2.	Mimpc requires that the source file provided exists and that it conforms to the Minimp
