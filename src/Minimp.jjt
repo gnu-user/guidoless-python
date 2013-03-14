@@ -11,11 +11,27 @@ public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
+  public static int argAmount=0;
+  public static int seqAmount=0;
 
   public Node rootNode()
   {
     return jjtree.rootNode();
   }  
+
+  public static void print_AST(SimpleNode root, String prefix)
+  {
+    if (root != null) {
+      if (root.value != null)
+      System.out.println(prefix + root.value);
+      for (int i = 0; i < root.jjtGetNumChildren(); ++i) {
+        SimpleNode n = (SimpleNode)root.jjtGetChild(i);
+        if (n != null) {
+          print_AST(n, prefix + "   ");
+        }
+      }
+    }
+  }
 }
 
 PARSER_END(Minimp)
@@ -44,7 +60,7 @@ SimpleNode Program() :
 }
 
 
-void Statement() :
+void Statement() #void:
 {}
 {
     (
@@ -58,7 +74,7 @@ void Statement() :
 }
 
 
-void CallStatement() : 
+void CallStatement() #void: 
 {}
 {
   
@@ -70,69 +86,77 @@ void CallStatement() :
 }
 
 
-void DefStatement() :
-{}
+void DefStatement() #void:
+{Token t;
+ Token n;}
 {
-    ("def " <IDENTIFIER> <LEFTR> ArgList() <RIGHTR> ":" Sequence())
+    {argAmount=0; seqAmount=0;}
+    (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
+    {jjtThis.value=n.image;} #arg_list(argAmount) 
+    ":" Sequence()
+    {jjtThis.value=t.image;} #seq_list(1+seqAmount) 
+    {argAmount=0; seqAmount=0;})
+
 }
 
 
-void ArgList() :
+void ArgList() #void:
 {}
 {
-    (<IDENTIFIER> MoreArgs() | {})
+    ((Variable() MoreArgs() {argAmount++;}) | {})
 }
 
 
-void MoreArgs() : 
+void MoreArgs() #void: 
 {}
 {
-    ("," <IDENTIFIER> MoreArgs() | {})
+    (("," Variable() MoreArgs() {argAmount++;}) | {})
 }
 
 
-void IfStatement() :
+void IfStatement() #void:
 {}
 {
-    {
-      //System.out.println("here");
-    }
     ("if " Expression() ":" Sequence() IndentCopy() "else:" Sequence())
 }
 
 
-void WhileStatement() :
+void WhileStatement() #void:
 {}
 {
     ("while " Expression() ":" Sequence())
 }
 
 
-void ReturnStatement() :
-{}
+void ReturnStatement() #void:
+{Token t;}
 {
-    ("return " Expression() <NEWLINE>)
+    (t="return " Expression() <NEWLINE>
+      {jjtThis.value=t.image;} #return_op(1))
 }
 
 
-void PrintStatement() :
-{}
+void PrintStatement() #void:
+{Token t;}
 {
-    ("print " Expression() <NEWLINE>)
+    (t="print " Expression() 
+      {jjtThis.value=t.image;} #print_op(1) 
+      <NEWLINE>)
 }
 
 
-void AssignmentStatement() :
-{}
+void AssignmentStatement() #void:
+{Token t;}
 {
-    (<IDENTIFIER> "=" Expression() <NEWLINE>)
+    (Variable() t="=" Expression()
+    {jjtThis.value=t.image;} #equal(2) <NEWLINE>)
 }
 
 
-void Sequence() :
+void Sequence() #void:
 { Token t; }
 {
-    (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
+  (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
     {
       //Token t;
       nesting--;
@@ -142,20 +166,20 @@ void Sequence() :
         Indent(false);
         i--;
       }
-      System.out.println("nesting = " + nesting);
+      //System.out.println("nesting = " + nesting);
       //System.out.println("token = " + t.toString());
     }
 }
 
 
-void IndentEnter() :
+void IndentEnter() #void:
 {
   Token t;
 }
 {
   {
     nesting = 1;
-    System.out.println("nesting = " + nesting);
+    //System.out.println("nesting = " + nesting);
     //System.out.println("first tab");
   }
   (
@@ -164,14 +188,14 @@ void IndentEnter() :
 }
 
 
-void IndentCopy() :
+void IndentCopy() #void:
 {
   Token t;
 }
 {
   {
     nesting = 1;
-    System.out.println("nesting = " + nesting);
+    //System.out.println("nesting = " + nesting);
     //System.out.println("first tab");
   }
   (
@@ -180,7 +204,7 @@ void IndentCopy() :
 }
 
 
-void Indent(boolean total) :
+void Indent(boolean total) #void:
 {
   Token t = null;
 }
@@ -197,8 +221,8 @@ void Indent(boolean total) :
       {
         nesting++;
       }
-      System.out.println("nesting = " + nesting);
-      System.out.println("token = " + t.toString());
+      //System.out.println("nesting = " + nesting);
+      //System.out.println("token = " + t.toString());
 
       Indent(total);
     }
@@ -206,16 +230,16 @@ void Indent(boolean total) :
 }
 
 
-void MoreStatements() :
+void MoreStatements() #void:
 {}
 {
     ( 
-      (Statement() AnotherStatement())
+      (Statement() {seqAmount++;} AnotherStatement())
     )
 }
 
 
-void AnotherStatement() :
+void AnotherStatement() #void:
 {}
 {
     /* Requires the same number of indends as previous */
@@ -224,7 +248,7 @@ void AnotherStatement() :
      */
     (
       LOOKAHEAD(3)
-      ( IndentEnter() Statement()  AnotherStatement())
+      ( IndentEnter() Statement() {seqAmount++;} AnotherStatement())
     | {}
 
     )
@@ -234,65 +258,68 @@ void AnotherStatement() :
 }
 
 
-void Expression() :
+void Expression() #void:
 {}
 {
     (AdditionalExpression() Comparison())
 }
 
 
-void Comparison() :
-{}
+void Comparison() #void:
+{Token t;}
 {
     (
-      (<COMPARE> AdditionalExpression() Comparison())
+      (t=<COMPARE> AdditionalExpression() Comparison()
+        {jjtThis.value=t.image;} #comp_op(2))
     | {}
     )
 }
 
 
-void AdditionalExpression() :
+void AdditionalExpression() #void:
 {}
 {
     (MultiplicationExpression() AdditionFactor())
 }
 
 
-void AdditionFactor() :
-{}
+void AdditionFactor() #void:
+{Token t;}
 {
     (
-      <ADDSUB> MultiplicationExpression() AdditionFactor()
+      t=<ADDSUB> MultiplicationExpression() AdditionFactor() 
+      {jjtThis.value=t.image;} #add_sub_op(2)
     | {}
     )
 }
 
 
-void MultiplicationExpression() :
+void MultiplicationExpression() #void:
 {}
 {
     (ElementExpression() MultiplicationFactor())
 }
 
 
-void MultiplicationFactor() :
-{}
+void MultiplicationFactor() #void:
+{Token t;}
 {
     (
-      (<MUTLDIV> ElementExpression() MultiplicationFactor())
+      (t=<MUTLDIV> ElementExpression() MultiplicationFactor()
+        {jjtThis.value=t.image;} #mul_div_op(2))
     | {}
     )
 }
 
 
-void ElementExpression() :
+void ElementExpression() #void:
 {}
 {
     (PrimitiveExpression() ElementAccess())
 }
 
 
-void ElementAccess() :
+void ElementAccess() #void:
 {}
 {
     (
@@ -302,7 +329,7 @@ void ElementAccess() :
 }
 
 
-void ExpressionList() :
+void ExpressionList() #void:
 {}
 {
     (
@@ -312,7 +339,7 @@ void ExpressionList() :
 }
 
 
-void MoreExpressions() :
+void MoreExpressions() #void:
 {}
 {
     (
@@ -321,22 +348,34 @@ void MoreExpressions() :
     )
 }
 
+void FunctionCallStatement() #void:
+{}
+{
+  // This could be simplified to Not include <INTEGER> as primitive expression
+  // Also expression could be removed as well since the only way to properly call a function is through the function's <IDENTIFIER>
+  (PrimitiveExpression() <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>)
+}
 
-void PrimitiveExpression() :
+void PrimitiveExpression() #void:
 {}
 {
     (
-      <INTEGER>
+      Number()
     | (<LEFTR> Expression() <RIGHTR>)
-    | <IDENTIFIER>
+    | Variable()
     )
 }
 
-
-void FunctionCallStatement() :
-{}
+void Number() #Number:
+{Token t;}
 {
-    (PrimitiveExpression() <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>)
+  t=<INTEGER>{jjtThis.value=t.image;}
+}
+
+void Variable() #Variable:
+{Token t;}
+{
+  t=<IDENTIFIER>{jjtThis.value=t.image;}
 }
 
 

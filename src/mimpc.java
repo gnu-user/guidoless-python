@@ -65,6 +65,7 @@ public class mimpc
             SimpleNode tree = parser.Program();
             
             //tree.dump("");
+            parser.print_AST(tree,"   ");
             //parser.jjtree.rootNode().interpret();
             
             System.out.println("Minimp source file successfully parsed!");
