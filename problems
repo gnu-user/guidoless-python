@@ -1,0 +1,32 @@
+Problems with test cases:
+1. Return and print statments cannot have function calls
+	Ex. print myFunction(x) //Not allowed based on grammar
+	Ex. return myFunction(x) //Not allowed based on grammar
+
+Therefore 
+	1. RightFibonacci.mimp will fail
+	2. RighFunction.mimp will fail
+	3. WrongFibonacci.mimp will fail
+	4. WrongFunction.mimp will fail
+
+2. Using 4 spaces rather then the specified \t
+	Ex.
+if x < 6:
+    print 1
+else:
+    print 0
+
+Therefore: 
+	1. RightIf.mimp will fail
+	2. WrongIf.mimp will fail
+
+3. Print statements cannot print lists
+	Ex. print [1,2,3]
+
+Therefore
+	1. RightList.mimp will fail
+	2. WrongList.mimp will fail
+
+Worked:
+	RightWhile.mimp
+	WrongWhile.mimp

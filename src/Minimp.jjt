@@ -7,12 +7,28 @@ options
 
 PARSER_BEGIN(Minimp)
 
+import java.util.ArrayList;
+
 public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
   public static int argAmount=0;
-  public static int seqAmount=0;
+  public static ArrayList<Integer> seqAmount = new ArrayList<Integer>();
+
+  public static void initList() {
+    seqAmount.add(0);
+  }
+  public static void addToChild() {
+    seqAmount.set(seqAmount.size()-1, seqAmount.get(seqAmount.size()-1)+1);
+  }
+  public static void removeArray() {
+    seqAmount.remove(seqAmount.size()-1);
+  }
+
+  public static int getCurrent() {
+    return seqAmount.get(seqAmount.size()-1);
+  }
 
   public Node rootNode()
   {
@@ -90,12 +106,12 @@ void DefStatement() #void:
 {Token t;
  Token n;}
 {
-    {argAmount=0; seqAmount=0;}
+    {argAmount=0; initList();}
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
     ":" Sequence()
-    {jjtThis.value=t.image;} #seq_list(1+seqAmount) 
-    {argAmount=0; seqAmount=0;})
+    {jjtThis.value=t.image;} #seq_list(1+getCurrent()) 
+    {argAmount=0; removeArray();})
 
 }
 
@@ -115,16 +131,27 @@ void MoreArgs() #void:
 
 
 void IfStatement() #void:
-{}
+{Token t;
+ Token n;}
 {
-    ("if " Expression() ":" Sequence() IndentCopy() "else:" Sequence())
+    {initList();}
+    (t="if " Expression() ":" Sequence() 
+      {jjtThis.value=t.image;} #if_statement(1+getCurrent())
+      IndentCopy()
+      {initList();}
+      n="else:" Sequence()
+      {jjtThis.value=n.image;} #else_statement(getCurrent()))
+    {removeArray();}
 }
 
 
 void WhileStatement() #void:
-{}
+{Token t;}
 {
-    ("while " Expression() ":" Sequence())
+  {initList();}
+    (t="while " Expression() ":" Sequence()
+      {jjtThis.value=t.image;} #while_statement(1+getCurrent()))
+    {removeArray();}
 }
 
 
@@ -234,7 +261,7 @@ void MoreStatements() #void:
 {}
 {
     ( 
-      (Statement() {seqAmount++;} AnotherStatement())
+      (Statement() {addToChild();} AnotherStatement())
     )
 }
 
@@ -248,7 +275,7 @@ void AnotherStatement() #void:
      */
     (
       LOOKAHEAD(3)
-      ( IndentEnter() Statement() {seqAmount++;} AnotherStatement())
+      ( IndentEnter() Statement() {addToChild();} AnotherStatement())
     | {}
 
     )
