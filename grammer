@@ -1,0 +1,12 @@
+finding firsts:
+    - traverse tree until you reach a terminal character for the first.
+
+Finding follow
+    - traverse to find element after given element
+        - it is the follow if it is a terminal
+        - if it is not terminal
+            - the first of the non terminal is the follow, if not empty
+            - if empty it is it's parent follow
+
+
+
