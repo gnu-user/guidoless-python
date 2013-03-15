@@ -6,7 +6,7 @@ Statement := DefStatement | IfStatement | ReturnStatement
 
 DefStatement := def identifier ( ArgList ) : Sequence
 
-ArgList := identifier MoreArgs | ε  <- replacing ArgList with MoreArgs
+ArgList := identifier MoreArgs | ε  // replacing ArgList with MoreArgs
 
 MoreArgs := , identifier MoreArgs | ε
 
@@ -38,15 +38,19 @@ MultiplicationFactor := (*|/) ElementExpression MultiplicationFactor | ε
 
 ElementExpression := PrimitiveExpression ElementAccess
 
-ElementAccess := [ Expression ] ElementAcess | ε
+ElementAccess := [ Expression ] MoreElementAcess // Removeal of | ε since this must not match to every possible cases
 
-ExpressionList := Expression MoreExpressions | ε
+MoreElementAccess := [ Expression ] MoreElementAccess | ε // Added to allow for multiple elements accessed
+
+ExpressionList := Expression MoreExpressions // Removeal of | ε since this must not match to every possible case. TODO remove left recursion
 
 MoreExpressions := , Expression MoreExpressions | ε
 
-PrimitiveExpression := Integer | ( Expression ) | identifier <- adding identifier to the end of this statement as a final option
+PrimitiveExpression := Integer | ( Expression ) | ExpressionList | ElementAccess | VariableExpression // added ElementAccess, added variable expression
 
-FunctionCallStatement := PrimitiveExpression ( ExpressionList ) NEWLINE
+FunctionCallStatement := identifier ( ExpressionList ) NEWLINE	// Changed primitiveExpression to just identifier since that is all it can be.
+
+VariableExpression := identifier ( ( ExpressionList ) NEWLINE | ε )  // Created to allow for integer and function call and remove look ahead
 
 identifier := see definition below
 
