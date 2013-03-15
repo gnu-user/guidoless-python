@@ -20,8 +20,17 @@ public class Minimp
     seqAmount.add(0);
   }
   public static void addToChild() {
-    seqAmount.set(seqAmount.size()-1, seqAmount.get(seqAmount.size()-1)+1);
+    if(seqAmount.size() >= 1) {
+      seqAmount.set(seqAmount.size()-1, seqAmount.get(seqAmount.size()-1)+1);
+    }
   }
+
+  /*public static void addToPrev() {
+    if(seqAmount.size() > 1) {
+      seqAmount.set(seqAmount.size()-2, seqAmount.get(seqAmount.size()-2)+1);
+    }
+  }*/
+
   public static void removeArray() {
     seqAmount.remove(seqAmount.size()-1);
   }
@@ -136,11 +145,13 @@ void IfStatement() #void:
 {
     {initList();}
     (t="if " Expression() ":" Sequence() 
-      {jjtThis.value=t.image;} #if_statement(1+getCurrent())
+      {jjtThis.value=t.image;
+        /*System.out.println("amount " + getCurrent());*/} #if_statement(1+getCurrent())
       IndentCopy()
-      {initList();}
+      {removeArray(); addToChild(); initList();}
       n="else:" Sequence()
-      {jjtThis.value=n.image;} #else_statement(getCurrent()))
+      { jjtThis.value=n.image;
+        /*System.out.println("else " + getCurrent());*/} #else_statement(getCurrent()))
     {removeArray();}
 }
 
@@ -360,7 +371,7 @@ void ExpressionList() #void:
 {}
 {
     (
-      (Expression() MoreExpressions())
+      (Expression() {argAmount++;} MoreExpressions())
     | {}
     )
 }
@@ -370,17 +381,20 @@ void MoreExpressions() #void:
 {}
 {
     (
-      ("," Expression() MoreExpressions())
+      ("," Expression() {argAmount++;} MoreExpressions())
     | {}
     )
 }
 
 void FunctionCallStatement() #void:
-{}
+{Token t;}
 {
   // This could be simplified to Not include <INTEGER> as primitive expression
   // Also expression could be removed as well since the only way to properly call a function is through the function's <IDENTIFIER>
-  (PrimitiveExpression() <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>)
+  {argAmount=0;}
+  (t=<IDENTIFIER> <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>
+     {jjtThis.value=t.image;} #function(argAmount))
+  {argAmount=0;}
 }
 
 void PrimitiveExpression() #void:

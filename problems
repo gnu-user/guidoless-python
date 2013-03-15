@@ -9,7 +9,7 @@ Therefore
 	3. WrongFibonacci.mimp will fail
 	4. WrongFunction.mimp will fail
 
-2. Using 4 spaces rather then the specified \t
+2. Using 4 spaces rather then the specified '\t'
 	Ex.
 if x < 6:
     print 1
@@ -20,13 +20,14 @@ Therefore:
 	1. RightIf.mimp will fail
 	2. WrongIf.mimp will fail
 
-3. Print statements cannot print lists
+3. Print statements cannot print lists since it requires an expression element prior to the element list.
 	Ex. print [1,2,3]
 
 Therefore
 	1. RightList.mimp will fail
 	2. WrongList.mimp will fail
 
-Worked:
+
+Working test cases:
 	RightWhile.mimp
 	WrongWhile.mimp
