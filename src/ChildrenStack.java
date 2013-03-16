@@ -29,7 +29,7 @@ public class ChildrenStack {
 	
 	public Integer peek()
 	{
-		return stack.get(stack.size()-1);
+		return stack.get(stack.size();
 	}
 
 }

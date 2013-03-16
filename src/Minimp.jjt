@@ -16,31 +16,23 @@ public class Minimp
 
   public static ChildrenStack seqAmount = new ChildrenStack();
 
+  public static ChildrenStack funcAmount = new ChildrenStack();
+
   public static int argAmount=0;
-  //public static ArrayList<Integer> seqAmount = new ArrayList<Integer>();
 
-  /*public static void initList() {
-    seqAmount.add(0);
-  }
-  public static void addToChild() {
-    if(seqAmount.size() >= 1) {
-      seqAmount.set(seqAmount.size()-1, seqAmount.get(seqAmount.size()-1)+1);
+  public static ArrayList<String> indentStack = new ArrayList<String>();
+
+  public static int reverseSearch(String element)
+  {
+    for (int i = indentStack.size()-1; i >= 0; i--)
+    {
+      if(indentStack.get(i).equalsIgnoreCase(element))
+      {
+        return i;
+      }
     }
+    return -1;
   }
-
-  /*public static void addToPrev() {
-    if(seqAmount.size() > 1) {
-      seqAmount.set(seqAmount.size()-2, seqAmount.get(seqAmount.size()-2)+1);
-    }
-  }
-
-  public static void removeArray() {
-    seqAmount.remove(seqAmount.size()-1);
-  }
-
-  public static int getCurrent() {
-    return seqAmount.get(seqAmount.size()-1);
-  }*/
 
   public Node rootNode()
   {
@@ -106,13 +98,23 @@ void CallStatement() #void:
 {
   Token t;
 }
-{
-  
-    ( 
-      LOOKAHEAD(2) 
+{     
+    /*  LOOKAHEAD(2) 
       AssignmentStatement()
-    | FunctionCallStatement()
-      //t=<IDENTIFIER>
+    | FunctionCallStatement()*/  
+    
+    t=Variable()
+    (
+      ( t="=" Expression() 
+        {jjtThis.value=t.image;} #equal(2) <NEWLINE>
+      )
+      |
+      (
+        {funcAmount.push(0);}
+        <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>
+        #function(funcAmount.peek())
+        {funcAmount.pop();}
+      )
     )
 }
 
@@ -121,7 +123,10 @@ void DefStatement() #void:
 {Token t;
  Token n;}
 {
-    {argAmount=0; seqAmount.push(0);}
+    {
+      argAmount=0; seqAmount.push(0);
+      indentStack.add("def");
+    }
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
     ":" Sequence()
@@ -149,15 +154,25 @@ void IfStatement() #void:
 {Token t;
  Token n;}
 {
-    {seqAmount.push(0);}
+    {
+      seqAmount.push(0);
+      indentStack.add("if");
+    }
     (t="if " Expression() ":" Sequence() 
-      {jjtThis.value=t.image;
-        /*System.out.println("amount " + seqAmount.peek());*/} #if_statement(1+seqAmount.peek())
+      {
+        jjtThis.value=t.image;
+      } #if_statement(1+seqAmount.peek())
       IndentCopy()
-      {seqAmount.pop(); seqAmount.addToTop(); seqAmount.push(0);}
+      {
+        seqAmount.pop();
+        seqAmount.addToTop();
+        seqAmount.push(0);
+        indentStack.add("else");
+      }
       n="else:" Sequence()
-      { jjtThis.value=n.image;
-        /*System.out.println("else " + seqAmount.peek());*/} #else_statement(seqAmount.peek()))
+      {
+        jjtThis.value=n.image;        
+      } #else_statement(seqAmount.peek()))
     {seqAmount.pop();}
 }
 
@@ -165,10 +180,13 @@ void IfStatement() #void:
 void WhileStatement() #void:
 {Token t;}
 {
-  {seqAmount.push(0);}
-    (t="while " Expression() ":" Sequence()
-      {jjtThis.value=t.image;} #while_statement(1+seqAmount.peek()))
-    {seqAmount.pop();}
+  {
+    seqAmount.push(0);
+    indentStack.add("while");
+  }
+  (t="while " Expression() ":" Sequence()
+    {jjtThis.value=t.image;} #while_statement(1+seqAmount.peek()))
+  {seqAmount.pop();}
 }
 
 
@@ -189,12 +207,12 @@ void PrintStatement() #void:
 }
 
 
-void AssignmentStatement() #void:
+/*void AssignmentStatement() #void:
 {Token t;}
 {
     (Variable() t="=" Expression()
     {jjtThis.value=t.image;} #equal(2) <NEWLINE>)
-}
+}*/
 
 
 void Sequence() #void:
@@ -215,7 +233,17 @@ void Sequence() #void:
     }
 }
 
-
+/* 
+ * Possible solution for fixing indentation problems, 
+ * Keep the stack to identify depth. Create a token for each different depth '\t' '\t\t' ... 
+ * Do it for like 5 to 10 depths. Create a call that will based on the stack choose the direction
+ * However you would have to compare to each depth up to the current.
+ * Example:
+ * if you are at depth 2 your next statement could be (under most cases) 0, 1 or 2.
+ * 
+ * It could go to 3 the next line if indicated by the stack. If the stack adds an element on then the next line must be the depth.
+ * Indentation can grown but not strink after an if an else must also follow the if at the same indentation. An else, while def do not have this restriction.
+ */
 void IndentEnter() #void:
 {
   Token t;
@@ -377,7 +405,7 @@ void ExpressionList() #void:
 {}
 {
     (
-      (Expression() {argAmount++;} MoreExpressions())
+      (Expression() {funcAmount.addToTop();} MoreExpressions())
     | {}
     )
 }
@@ -387,7 +415,7 @@ void MoreExpressions() #void:
 {}
 {
     (
-      ("," Expression() {argAmount++;} MoreExpressions())
+      ("," Expression() {funcAmount.addToTop();} MoreExpressions())
     | {}
     )
 }
@@ -397,10 +425,10 @@ void FunctionCallStatement() #void:
 {
   // This could be simplified to Not include <INTEGER> as primitive expression
   // Also expression could be removed as well since the only way to properly call a function is through the function's <IDENTIFIER>
-  {argAmount=0;}
+  {funcAmount.push(0);}
   (t=<IDENTIFIER> <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>
-     {jjtThis.value=t.image;} #function(argAmount))
-  {argAmount=0;}
+     {jjtThis.value=t.image;} #function(funcAmount.peek()))
+  {funcAmount.pop();}
 }
 
 void PrimitiveExpression() #void:
@@ -419,10 +447,11 @@ void Number() #Number:
   t=<INTEGER>{jjtThis.value=t.image;}
 }
 
-void Variable() #Variable:
+Token Variable() #Variable:
 {Token t;}
 {
-  t=<IDENTIFIER>{jjtThis.value=t.image;}
+  t=<IDENTIFIER>{jjtThis.value=t.image;
+    return t;}
 }
 
 
