@@ -13,10 +13,13 @@ public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
-  public static int argAmount=0;
-  public static ArrayList<Integer> seqAmount = new ArrayList<Integer>();
 
-  public static void initList() {
+  public static ChildrenStack seqAmount = new ChildrenStack();
+
+  public static int argAmount=0;
+  //public static ArrayList<Integer> seqAmount = new ArrayList<Integer>();
+
+  /*public static void initList() {
     seqAmount.add(0);
   }
   public static void addToChild() {
@@ -29,7 +32,7 @@ public class Minimp
     if(seqAmount.size() > 1) {
       seqAmount.set(seqAmount.size()-2, seqAmount.get(seqAmount.size()-2)+1);
     }
-  }*/
+  }
 
   public static void removeArray() {
     seqAmount.remove(seqAmount.size()-1);
@@ -37,7 +40,7 @@ public class Minimp
 
   public static int getCurrent() {
     return seqAmount.get(seqAmount.size()-1);
-  }
+  }*/
 
   public Node rootNode()
   {
@@ -100,13 +103,16 @@ void Statement() #void:
 
 
 void CallStatement() #void: 
-{}
+{
+  Token t;
+}
 {
   
     ( 
       LOOKAHEAD(2) 
       AssignmentStatement()
     | FunctionCallStatement()
+      //t=<IDENTIFIER>
     )
 }
 
@@ -115,12 +121,12 @@ void DefStatement() #void:
 {Token t;
  Token n;}
 {
-    {argAmount=0; initList();}
+    {argAmount=0; seqAmount.push(0);}
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
     ":" Sequence()
-    {jjtThis.value=t.image;} #seq_list(1+getCurrent()) 
-    {argAmount=0; removeArray();})
+    {jjtThis.value=t.image;} #seq_list(1+seqAmount.peek()) 
+    {argAmount=0; seqAmount.pop();})
 
 }
 
@@ -143,26 +149,26 @@ void IfStatement() #void:
 {Token t;
  Token n;}
 {
-    {initList();}
+    {seqAmount.push(0);}
     (t="if " Expression() ":" Sequence() 
       {jjtThis.value=t.image;
-        /*System.out.println("amount " + getCurrent());*/} #if_statement(1+getCurrent())
+        /*System.out.println("amount " + seqAmount.peek());*/} #if_statement(1+seqAmount.peek())
       IndentCopy()
-      {removeArray(); addToChild(); initList();}
+      {seqAmount.pop(); seqAmount.addToTop(); seqAmount.push(0);}
       n="else:" Sequence()
       { jjtThis.value=n.image;
-        /*System.out.println("else " + getCurrent());*/} #else_statement(getCurrent()))
-    {removeArray();}
+        /*System.out.println("else " + seqAmount.peek());*/} #else_statement(seqAmount.peek()))
+    {seqAmount.pop();}
 }
 
 
 void WhileStatement() #void:
 {Token t;}
 {
-  {initList();}
+  {seqAmount.push(0);}
     (t="while " Expression() ":" Sequence()
-      {jjtThis.value=t.image;} #while_statement(1+getCurrent()))
-    {removeArray();}
+      {jjtThis.value=t.image;} #while_statement(1+seqAmount.peek()))
+    {seqAmount.pop();}
 }
 
 
@@ -272,7 +278,7 @@ void MoreStatements() #void:
 {}
 {
     ( 
-      (Statement() {addToChild();} AnotherStatement())
+      (Statement() {seqAmount.addToTop();} AnotherStatement())
     )
 }
 
@@ -286,7 +292,7 @@ void AnotherStatement() #void:
      */
     (
       LOOKAHEAD(3)
-      ( IndentEnter() Statement() {addToChild();} AnotherStatement())
+      ( IndentEnter() Statement() {seqAmount.addToTop();} AnotherStatement())
     | {}
 
     )
