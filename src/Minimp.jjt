@@ -7,7 +7,7 @@ options
 
 PARSER_BEGIN(Minimp)
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class Minimp
 {
@@ -20,19 +20,7 @@ public class Minimp
 
   public static int argAmount=0;
 
-  public static ArrayList<String> indentStack = new ArrayList<String>();
-
-  public static int reverseSearch(String element)
-  {
-    for (int i = indentStack.size()-1; i >= 0; i--)
-    {
-      if(indentStack.get(i).equalsIgnoreCase(element))
-      {
-        return i;
-      }
-    }
-    return -1;
-  }
+  public static IndentStack indentStack = new IndentStack();
 
   public Node rootNode()
   {
@@ -75,7 +63,14 @@ SimpleNode Program() :
     )*
     (<NEWLINE>)*
     <EOF>
-    { return jjtThis;}
+    { 
+      System.out.println("list:");
+      for(int i = 0; i < indentStack.size(); i++) 
+      {
+        System.out.println(indentStack.get(i));
+      }
+      return jjtThis;
+    }
         
 }
 
@@ -125,7 +120,7 @@ void DefStatement() #void:
 {
     {
       argAmount=0; seqAmount.push(0);
-      indentStack.add("def");
+      indentStack.push("def");
     }
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
@@ -156,24 +151,26 @@ void IfStatement() #void:
 {
     {
       seqAmount.push(0);
-      indentStack.add("if");
+      indentStack.push("if");
     }
     (t="if " Expression() ":" Sequence() 
       {
         jjtThis.value=t.image;
       } #if_statement(1+seqAmount.peek())
-      IndentCopy()
+      //IndentEnter()
       {
         seqAmount.pop();
         seqAmount.addToTop();
         seqAmount.push(0);
-        indentStack.add("else");
+        indentStack.push("else");
       }
       n="else:" Sequence()
       {
         jjtThis.value=n.image;        
       } #else_statement(seqAmount.peek()))
-    {seqAmount.pop();}
+    {
+      seqAmount.pop();
+    }
 }
 
 
@@ -182,7 +179,7 @@ void WhileStatement() #void:
 {
   {
     seqAmount.push(0);
-    indentStack.add("while");
+    indentStack.push("while");
   }
   (t="while " Expression() ":" Sequence()
     {jjtThis.value=t.image;} #while_statement(1+seqAmount.peek()))
@@ -218,9 +215,23 @@ void PrintStatement() #void:
 void Sequence() #void:
 { Token t; }
 {
+
+  {
+    System.out.println("list:");
+    for(int i = 0; i < indentStack.size(); i++) 
+    {
+      System.out.println(indentStack.get(i));
+    }
+  }
   (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
     {
-      //Token t;
+      
+      for(int i = 0; i < indentStack.size(); i++)
+      {
+        System.out.println("i = " + i + " stack = " + indentStack.get(i));
+      }
+      indentStack.pop();
+
       nesting--;
       int i = nesting;
       while (i > 1)

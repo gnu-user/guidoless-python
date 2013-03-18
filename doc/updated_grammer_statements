@@ -36,9 +36,9 @@ MultiplicationExpression := ElementExpression MultiplicationFactor
 
 MultiplicationFactor := (*|/) ElementExpression MultiplicationFactor | ε
 
-ElementExpression := PrimitiveExpression ElementAccess
+ElementExpression := PrimitiveExpression MoreElementAccess
 
-ElementAccess := [ Expression ] MoreElementAcess // Removeal of | ε since this must not match to every possible cases
+ElementAccess := [ Expression ] MoreElementAccess // Removeal of | ε since this must not match to every possible cases
 
 MoreElementAccess := [ Expression ] MoreElementAccess | ε // Added to allow for multiple elements accessed
 
@@ -50,7 +50,7 @@ PrimitiveExpression := Integer | ( Expression ) | ExpressionList | ElementAccess
 
 FunctionCallStatement := identifier ( ExpressionList ) NEWLINE	// Changed primitiveExpression to just identifier since that is all it can be.
 
-VariableExpression := identifier ( ( ExpressionList ) NEWLINE | ε )  // Created to allow for integer and function call and remove look ahead
+VariableExpression := identifier ( ( ExpressionList ) | ε )  // Created to allow for integer and function call and remove look ahead
 
 identifier := see definition below
 
