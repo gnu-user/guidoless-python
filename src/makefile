@@ -1,5 +1,7 @@
 ###############################################################################
 #
+#  Mimpc -- Minimp parser makefile
+#
 #  Copyright (C) 2013, Joseph Heron, Jonathan Gillett, and Daniel Smullen
 #  All rights reserved.
 # 
@@ -18,6 +20,9 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+
+# Name of targe
+TARGET_NAME := Minimp
 
 # Source files
 JJTREE_SOURCE_FILE := Minimp.jjt
@@ -48,6 +53,11 @@ mimpc:
 	javac $(JAVA_SOURCE_FILES)
 	@echo ''
 	@echo -e '\e[0;32mFinished building target: $@ \e[0m'
+
+# Test Minimp
+test:
+	@echo "Testing: $(TARGET_NAME)"
+	@cd ..; ./test_suite.sh
 
 # Clean
 clean:
