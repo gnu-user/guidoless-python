@@ -64,11 +64,11 @@ SimpleNode Program() :
     (<NEWLINE>)*
     <EOF>
     { 
-      System.out.println("list:");
+      /*System.out.println("list:");
       for(int i = 0; i < indentStack.size(); i++) 
       {
         System.out.println(indentStack.get(i));
-      }
+      }*/
       return jjtThis;
     }
         
@@ -157,7 +157,7 @@ void IfStatement() #void:
       {
         jjtThis.value=t.image;
       } #if_statement(1+seqAmount.peek())
-      //IndentEnter()
+      IndentCopy()
       {
         seqAmount.pop();
         seqAmount.addToTop();
@@ -216,20 +216,20 @@ void Sequence() #void:
 { Token t; }
 {
 
-  {
+  /*{
     System.out.println("list:");
     for(int i = 0; i < indentStack.size(); i++) 
     {
       System.out.println(indentStack.get(i));
     }
-  }
+  }*/
   (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
     {
       
-      for(int i = 0; i < indentStack.size(); i++)
+      /*for(int i = 0; i < indentStack.size(); i++)
       {
         System.out.println("i = " + i + " stack = " + indentStack.get(i));
-      }
+      }*/
       indentStack.pop();
 
       nesting--;
