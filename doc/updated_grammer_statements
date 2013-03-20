@@ -38,11 +38,11 @@ MultiplicationFactor := (*|/) ElementExpression MultiplicationFactor | ε
 
 ElementExpression := PrimitiveExpression MoreElementAccess
 
-ElementAccess := [ Expression ] MoreElementAccess // Removeal of | ε since this must not match to every possible cases
+ElementAccess := [ Expression ] MoreElementAccess // Removal of | ε since this must not match to every possible cases
 
 MoreElementAccess := [ Expression ] MoreElementAccess | ε // Added to allow for multiple elements accessed
 
-ExpressionList := Expression MoreExpressions // Removeal of | ε since this must not match to every possible case. TODO remove left recursion
+ExpressionList := Expression MoreExpressions // Removal of | ε since this must not match to every possible case.
 
 MoreExpressions := , Expression MoreExpressions | ε
 
@@ -55,4 +55,3 @@ VariableExpression := identifier ( ( ExpressionList ) | ε )  // Created to allo
 identifier := see definition below
 
 Integer := see definition below
-
