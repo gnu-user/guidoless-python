@@ -42,11 +42,13 @@ ElementAccess := [ Expression ] MoreElementAccess // Removal of | ε since this 
 
 MoreElementAccess := [ Expression ] MoreElementAccess | ε // Added to allow for multiple elements accessed
 
-ExpressionList := Expression MoreExpressions // Removal of | ε since this must not match to every possible case.
+ExpressionList :=  Expression MoreExpressions "]" // Removal of | ε since this must not match to every possible case. Added Square brackets because it properly defined the desired out come
+
+ElementList := Expression MoreExpressions //Added this element to cover lists of items
 
 MoreExpressions := , Expression MoreExpressions | ε
 
-PrimitiveExpression := Integer | ( Expression ) | ExpressionList | ElementAccess | VariableExpression // added ElementAccess, added variable expression
+PrimitiveExpression := Integer | ( Expression ) | ElementList | VariableExpression // removed ElementAccess, added variable expression
 
 FunctionCallStatement := identifier ( ExpressionList ) NEWLINE	// Changed primitiveExpression to just identifier since that is all it can be.
 

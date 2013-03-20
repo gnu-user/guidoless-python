@@ -398,7 +398,7 @@ void MultiplicationFactor() #void:
 void ElementExpression() #void:
 {}
 {
-    (PrimitiveExpression() ElementAccess())
+    (PrimitiveExpression() MoreElementAccess())
 }
 
 
@@ -406,18 +406,38 @@ void ElementAccess() #void:
 {}
 {
     (
-      (<LEFTS> Expression() <RIGHTS> ElementAccess())
-    | {}
+      (<LEFTS> Expression() <RIGHTS> MoreElementAccess())
     )
 }
 
+void MoreElementAccess() #void:
+{}
+{
+  (
+    (<LEFTS> Expression() <RIGHTS> MoreElementAccess())
+    | {}
+  )
+}
+
+void ElementList() #void:
+{Token t;}
+{
+    (
+      (<LEFTS> Expression() 
+      {
+        funcAmount.push(1);
+      } 
+      MoreExpressions() 
+      {jjtThis.value="list";} #list(funcAmount.peek())
+      <RIGHTS>)
+    )
+}
 
 void ExpressionList() #void:
 {}
 {
     (
       (Expression() {funcAmount.addToTop();} MoreExpressions())
-    | {}
     )
 }
 
@@ -437,8 +457,8 @@ void FunctionCallStatement() #void:
   // This could be simplified to Not include <INTEGER> as primitive expression
   // Also expression could be removed as well since the only way to properly call a function is through the function's <IDENTIFIER>
   {funcAmount.push(0);}
-  (t=<IDENTIFIER> <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>
-     {jjtThis.value=t.image;} #function(funcAmount.peek()))
+  (t=<IDENTIFIER> (<LEFTR> ExpressionList() <RIGHTR>)?
+     {jjtThis.value=t.image;} #function(funcAmount.peek()) )
   {funcAmount.pop();}
 }
 
@@ -448,7 +468,8 @@ void PrimitiveExpression() #void:
     (
       Number()
     | (<LEFTR> Expression() <RIGHTR>)
-    | Variable()
+    | FunctionCallStatement()
+    | ElementList()
     )
 }
 

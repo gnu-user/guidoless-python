@@ -7,3 +7,10 @@
 
 # Ignore Backup Files #
 *~
+
+# Ignore log files #
+*.log
+
+# Ignore project files #
+.p*
+.c*
