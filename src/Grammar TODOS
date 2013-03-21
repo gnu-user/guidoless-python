@@ -1,13 +1,21 @@
 Grammar TODOS
+- Comparison
+
 - Variable handling
 	- Symbol table
 - Assignment statement
-- Comparison
+
+
 - While statement
+	-test scope using assignment and while
+	
 - arg_list
+
+- def statement
 - Function call statements
 	- Add to Symbol table
+
 - return statment
-- def statement
 	- Add to symbol table
+
 - If statement 
