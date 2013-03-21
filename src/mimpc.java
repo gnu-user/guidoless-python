@@ -66,6 +66,7 @@ public class mimpc
             
             //tree.dump("");
             parser.print_AST(tree,"   ");
+            System.out.println(parser.print_AST(tree));
             //parser.jjtree.rootNode().interpret();
             
             System.out.println("Minimp source file successfully parsed!");

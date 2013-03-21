@@ -31,7 +31,7 @@ public class Minimp
   {
     if (root != null) {
       if (root.value != null)
-      System.out.println(prefix + root.value);
+        System.out.println(prefix + root.value);
       for (int i = 0; i < root.jjtGetNumChildren(); ++i) {
         SimpleNode n = (SimpleNode)root.jjtGetChild(i);
         if (n != null) {
@@ -39,6 +39,49 @@ public class Minimp
         }
       }
     }
+  }
+
+  public static String print_AST(SimpleNode root)
+  {
+    String array = prepareArray(root);
+    return array.substring(1, array.length());
+  }
+
+  public static String prepareArray(SimpleNode root)
+  {
+    String value = "";
+    boolean nonTerminal = false;
+    if (root != null) {
+      if (root.value != null)
+      {
+        if(root.jjtGetNumChildren() > 0) 
+        {
+          //System.out.println(root.value);
+          value += " [ ";
+          nonTerminal = true;
+        }
+        value += root.value;
+        if(nonTerminal)
+        {
+          value += " [ ";
+        }
+      }
+      for (int i = 0; i < root.jjtGetNumChildren(); ++i) {
+        SimpleNode n = (SimpleNode)root.jjtGetChild(i);
+        if (n != null) {
+          value += prepareArray(n);
+          if (i < root.jjtGetNumChildren()-1)
+          {
+            value += ", ";
+          }
+        }
+      }
+      if (nonTerminal)
+      {
+        value += " ] ]";
+      }
+    }
+    return value;
   }
 }
 
