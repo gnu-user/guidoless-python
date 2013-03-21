@@ -12,16 +12,13 @@ class ASTvar extends SimpleNode {
 
   public Object interpret()
   {
-<<<<<<< HEAD
-	  // No idea what dfdsfs do
+	  /* 
+	   * This method will identify whether the variable exists or not and will
+	   *  call add look it up in the syntax table.
+	   */ 
+	  
 	  
 	  return null;
-=======
-  	  String derp = "derp"
-	  // No idea what to do
-
-	  String heyyyy = "heyyy"
->>>>>>> f85b5da883083cdb97a00362d96b11b6660d075e
   }
 }
 /* JavaCC - OriginalChecksum=db34d54a30b154981e1cf184a01acd73 (do not edit this line) */
