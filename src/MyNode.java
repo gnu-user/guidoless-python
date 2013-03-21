@@ -43,8 +43,9 @@ public class MyNode
   protected static Object[] stack = new Object[1024];
   protected static int top = -1;
 
-  /** @throws UnsupportedOperationException if called */
-  public void interpret()
+  /** @return 
+ * @throws UnsupportedOperationException if called */
+  public Object interpret()
   {
      throw new UnsupportedOperationException(); // It better not come here.
   }
