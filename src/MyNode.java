@@ -43,13 +43,6 @@ public class MyNode
   protected static Object[] stack = new Object[1024];
   protected static int top = -1;
 
-  /** @return 
- * @throws UnsupportedOperationException if called */
-  public Object interpret()
-  {
-     throw new UnsupportedOperationException(); // It better not come here.
-  }
-
   protected static Writer out = new PrintWriter(System.out);
   protected static Reader in = new InputStreamReader(System.in);
 

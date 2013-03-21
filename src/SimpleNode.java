@@ -79,6 +79,11 @@ class SimpleNode extends MyNode implements Node {
       }
     }
   }
+
+  @Override
+  public Object interpret() {
+	  throw new UnsupportedOperationException(); // It better not come here.
+  }
 }
 
 /* JavaCC - OriginalChecksum=64d38a11732f40eb415eea622da0d674 (do not edit this line) */
