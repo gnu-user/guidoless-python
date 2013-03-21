@@ -5,11 +5,6 @@ class ASTvar extends SimpleNode {
   public ASTvar(int id) {
     super(id);
   }
-
-  public DerpityDerp(int derp)
-  {
-  	System.exit(0);
-  }
   
   public ASTvar(Minimp p, int id) {
     super(p, id);
@@ -17,7 +12,9 @@ class ASTvar extends SimpleNode {
 
   public Object interpret()
   {
-	  // No idea what to do
+	  // No idea what dfdsfs do
+	  
+	  return null;
   }
 }
 /* JavaCC - OriginalChecksum=db34d54a30b154981e1cf184a01acd73 (do not edit this line) */
