@@ -143,7 +143,7 @@ void CallStatement() #void:
     
     t=<IDENTIFIER>
     (
-      ( NewVar(t) t="=" Expression() 
+      ( Declaration(t) t="=" Expression() 
         {jjtThis.value=t.image;} #equal(2) <NEWLINE>
       )
       |
@@ -529,7 +529,7 @@ Token Variable() #Variable:
     return t;}
 }
 
-void NewVar(Token t) #NewVar:
+void Declaration(Token t) #Declaration:
 {}
 {
   {jjtThis.value=t.image;}
