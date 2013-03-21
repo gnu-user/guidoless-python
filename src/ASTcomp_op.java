@@ -16,7 +16,8 @@ class ASTcomp_op extends SimpleNode {
 	  {
 		  if(this.jjtGetValue().toString().equalsIgnoreCase(">"))
 		  {			
-			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) > Integer.valueOf(this.jjtGetChild(1).interpret().toString())); 
+			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) >
+			  		  Integer.valueOf(this.jjtGetChild(1).interpret().toString())); 
 		  }
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase("<"))
 		  {

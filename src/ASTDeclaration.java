@@ -26,7 +26,7 @@ class ASTDeclaration extends SimpleNode {
 			  // Add the value to the syntax table
 		  }
 		  
-		  //return the value the variable.
+		  //return the variable.
 	  }
 	  
 	  return null;	
