@@ -12,16 +12,17 @@ class ASTadd_sub_op extends SimpleNode {
   
   public Object interpret()
   {
-	  boolean add = false;
 	  if(this.jjtGetNumChildren() == 2)
 	  {
 		  if(this.jjtGetValue().toString().equalsIgnoreCase("+"))
 		  {			
-			  add = true;
+			  return Integer.valueOf(this.jjtGetChild(0).interpret().toString()) +
+					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()); 
 		  }
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase("-"))
 		  {
-			  add = false;
+			  return Integer.valueOf(this.jjtGetChild(0).interpret().toString()) -
+					  Integer.valueOf(this.jjtGetChild(1).interpret().toString());
 		  }
 		  else
 		  {
@@ -29,16 +30,6 @@ class ASTadd_sub_op extends SimpleNode {
 			  return null;
 		  }
 		  
-		  if(add)
-		  {
-			  return Integer.valueOf(this.jjtGetChild(0).interpret().toString()) +
-					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()); 
-		  }
-		  else
-		  {
-			  return Integer.valueOf(this.jjtGetChild(0).interpret().toString()) -
-					  Integer.valueOf(this.jjtGetChild(1).interpret().toString());
-		  }
 	  }
 	  
 	  // ERROR	  
