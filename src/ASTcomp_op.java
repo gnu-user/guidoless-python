@@ -10,10 +10,45 @@ class ASTcomp_op extends SimpleNode {
     super(p, id);
   }
 
-  public int interpret ()
+  public Object interpret()
   {
+	  if(this.jjtGetNumChildren() == 2)
+	  {
+		  if(this.jjtGetValue().toString().equalsIgnoreCase(">"))
+		  {			
+			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) > Integer.valueOf(this.jjtGetChild(1).interpret().toString())); 
+		  }
+		  else if(this.jjtGetValue().toString().equalsIgnoreCase("<"))
+		  {
+			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) < 
+					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+		  }
+		  else if(this.jjtGetValue().toString().equalsIgnoreCase("<="))
+		  {
+			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) <= 
+					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+		  }
+		  else if(this.jjtGetValue().toString().equalsIgnoreCase(">="))
+		  {
+			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) >= 
+					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+		  }
+		  else if(this.jjtGetValue().toString().equalsIgnoreCase("=="))
+		  {
+			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) == 
+					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+		  }
+		  else
+		  {
+			  // ERROR
+			  return null;
+		  }
+		  
+	  }
 	  
+	  // ERROR	  
+	  return null;
   }
-  
+
 }
-/* JavaCC - OriginalChecksum=876b21a8adc2c66e2a673e5f2542546b (do not edit this line) */
+/* JavaCC - OriginalChecksum=1c73793fe55587ce1f2d5311750b72ea (do not edit this line) */
