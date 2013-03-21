@@ -10,5 +10,9 @@ class ASTvar extends SimpleNode {
     super(p, id);
   }
 
+  public Object interpret()
+  {
+	  // No idea what to do
+  }
 }
 /* JavaCC - OriginalChecksum=db34d54a30b154981e1cf184a01acd73 (do not edit this line) */
