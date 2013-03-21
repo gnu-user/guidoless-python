@@ -141,16 +141,16 @@ void CallStatement() #void:
       AssignmentStatement()
     | FunctionCallStatement()*/  
     
-    t=Variable()
+    t=<IDENTIFIER>
     (
-      ( t="=" Expression() 
+      ( NewVar(t) t="=" Expression() 
         {jjtThis.value=t.image;} #equal(2) <NEWLINE>
       )
       |
       (
         {funcAmount.push(0);}
         <LEFTR> ExpressionList() <RIGHTR> <NEWLINE>
-        #function(funcAmount.peek())
+        {jjtThis.value=t.image;} #function(funcAmount.peek())
         {funcAmount.pop();}
       )
     )
@@ -527,6 +527,12 @@ Token Variable() #Variable:
 {
   t=<IDENTIFIER>{jjtThis.value=t.image;
     return t;}
+}
+
+void NewVar(Token t) #NewVar:
+{}
+{
+  {jjtThis.value=t.image;}
 }
 
 
