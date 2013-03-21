@@ -168,7 +168,7 @@ void DefStatement() #void:
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
     ":" Sequence()
-    {jjtThis.value=t.image;} #seq_list(1+seqAmount.peek()) 
+    {jjtThis.value=t.image;} #def_statement(1+seqAmount.peek()) 
     {argAmount=0; seqAmount.pop();})
 
 }
