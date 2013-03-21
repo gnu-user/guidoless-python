@@ -1,6 +1,4 @@
 Grammar TODOS
-- Comparison
-
 - Variable handling
 	- Symbol table
 - Assignment statement
@@ -8,7 +6,7 @@ Grammar TODOS
 
 - While statement
 	-test scope using assignment and while
-	
+
 - arg_list
 
 - def statement
