@@ -6,6 +6,11 @@ class ASTvar extends SimpleNode {
     super(id);
   }
 
+  public DerpityDerp(int derp)
+  {
+  	System.exit(0);
+  }
+  
   public ASTvar(Minimp p, int id) {
     super(p, id);
   }
