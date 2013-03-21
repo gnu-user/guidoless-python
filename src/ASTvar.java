@@ -17,7 +17,10 @@ class ASTvar extends SimpleNode {
 
   public Object interpret()
   {
+  	  String derp = "derp"
 	  // No idea what to do
+
+	  String heyyyy = "heyyy"
   }
 }
 /* JavaCC - OriginalChecksum=db34d54a30b154981e1cf184a01acd73 (do not edit this line) */
