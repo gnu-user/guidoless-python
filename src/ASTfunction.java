@@ -13,7 +13,13 @@ class ASTfunction extends SimpleNode {
   
   public Object interpret()
   {
-	  // Search the hash table for the function and interpret it. 
+	  // this.jjtGetValue().toString() is in the hashmap
+	  
+	  // If function is found
+	  	// If there is a return 
+	  		// interpret and return their value
+	  	// Else
+	  		// interpret and return null
 	  return null;
   }
 }
