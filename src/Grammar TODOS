@@ -1,11 +1,9 @@
 Grammar TODOS
 
-- While statement
-	-test scope using assignment and while
-
 - def statement
 - Function call statements
 	- Scope
 
 - If statement 
 	- Implement and scope
+	- don't forget to include 'else'
