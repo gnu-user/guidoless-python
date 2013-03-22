@@ -15,18 +15,12 @@ class ASTDeclaration extends SimpleNode {
 	  /* 
 	   * This method will identify whether the variable exists or not and will
 	   *  call add look it up in the syntax table.
-	   */ 
+	   */
 	  if(this.jjtGetNumChildren() == 0)
 	  {
-		  // Look up variable in table
+		  symtab.put(this.jjtGetValue().toString(), (Node)this.jjtGetValue());
 		  
-		  // Variable not found
-		  if(false)
-		  {
-			  // Add the value to the syntax table
-		  }
-		  
-		  //return the variable.
+		  return this.jjtGetValue();
 	  }
 	  
 	  return null;	

@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.HashMap;
 
 /**
  * Specialised node.
@@ -37,8 +38,11 @@ import java.io.Writer;
 public class MyNode
 {
   /** Symbol table */
-  protected static java.util.Hashtable symtab = new java.util.Hashtable();
+  protected static HashMap<String, Node> symtab = new HashMap<String, Node>();
 
+  /** Scope depth */
+  protected static Integer scope = 0;
+  
   /** Stack for calculations. */
   protected static Object[] stack = new Object[1024];
   protected static int top = -1;

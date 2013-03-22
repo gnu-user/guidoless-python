@@ -31,8 +31,13 @@ interface Node {
   /** Return the number of children the node has. */
   public int jjtGetNumChildren();
   
-  /** @return 
- * @throws UnsupportedOperationException if called */
+  /**
+   * Interprets the current node of the AST
+   *  
+   * @return an Object
+   * 
+   * @throws UnsupportedOperationException if not implemented 
+   */
   public Object interpret();
 }
 /* JavaCC - OriginalChecksum=ac47b8014c10f83481136edb80e4326c (do not edit this line) */
