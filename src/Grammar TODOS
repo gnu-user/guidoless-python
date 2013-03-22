@@ -1,8 +1,4 @@
 Grammar TODOS
-- Variable handling
-	- Symbol table
-- Assignment statement
-
 
 - While statement
 	-test scope using assignment and while

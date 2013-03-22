@@ -14,12 +14,21 @@ class ASTfunction extends SimpleNode {
   public Object interpret()
   {
 	  // this.jjtGetValue().toString() is in the hashmap
+	  ASTdef_statement function = (ASTdef_statement) symtab.get(this.jjtGetValue().toString());
 	  
-	  // If function is found
-	  	// If there is a return 
-	  		// interpret and return their value
-	  	// Else
-	  		// interpret and return null
+	  if(function != null)
+	  {
+		  // Scope check
+		  if(function.getScope() <= scope)
+		  {
+			  // If there is a problem interpreting it will throw an error
+			  	// If there is no return then the return is null (therefore the return of this interpret is also null)
+			  	// Else return is the integer value returned.
+			  return Integer.valueOf(function.interpret().toString());
+		  }
+	  }
+	  
+	  // ERROR function not found
 	  return null;
   }
 }

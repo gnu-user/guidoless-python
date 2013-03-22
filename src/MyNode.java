@@ -41,7 +41,7 @@ public class MyNode
   protected static HashMap<String, Object> symtab = new HashMap<String, Object>();
 
   /** Scope depth */
-  protected static Integer scope = 0;
+  public static Integer scope = 0;
   
   /** Stack for calculations. */
   protected static Object[] stack = new Object[1024];

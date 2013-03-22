@@ -11,6 +11,11 @@ class SimpleNode extends MyNode implements Node {
   protected Token firstToken;
   protected Token lastToken;
 
+  public SimpleNode()
+  {
+	  id = 0;
+  }
+  
   public SimpleNode(int i) {
     id = i;
   }

@@ -19,7 +19,7 @@ class ASTDeclaration extends SimpleNode {
 	  if(this.jjtGetNumChildren() == 0)
 	  {
 		  
-		  symtab.put(this.jjtGetValue().toString(), 0);
+		  symtab.put(this.jjtGetValue().toString(), new VariableValue(0, SimpleNode.scope));
 		  return this.jjtGetValue().toString();
 	  }
 	  
