@@ -22,7 +22,9 @@ class ASTequal extends SimpleNode {
 		  // Validate the variable
 		  String variable = this.jjtGetChild(0).interpret().toString();
 		  
+		  System.out.println("Variable " + variable + " value " + value);
 		  // Find variable in hash and assign value to it.
+		  symtab.put(variable, value);
 		  
 		  // Valid
 		  return null;

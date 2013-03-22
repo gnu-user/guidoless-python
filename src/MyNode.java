@@ -38,7 +38,7 @@ import java.util.HashMap;
 public class MyNode
 {
   /** Symbol table */
-  protected static HashMap<String, Node> symtab = new HashMap<String, Node>();
+  protected static HashMap<String, Object> symtab = new HashMap<String, Object>();
 
   /** Scope depth */
   protected static Integer scope = 0;

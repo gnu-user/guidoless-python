@@ -14,7 +14,7 @@ class ASTProgram extends SimpleNode {
   {
 	for(int i = 0; i < this.jjtGetNumChildren(); i++)
 	{
-		((ASTprint_op)this.jjtGetChild(i)).interpret();
+		(this.jjtGetChild(i)).interpret();
 	}
 	return null;
   }

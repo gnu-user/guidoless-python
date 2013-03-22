@@ -177,14 +177,14 @@ void DefStatement() #void:
 void ArgList() #void:
 {}
 {
-    ((Variable() MoreArgs() {argAmount++;}) | {})
+    ((FuncVariable() MoreArgs() {argAmount++;}) | {})
 }
 
 
 void MoreArgs() #void: 
 {}
 {
-    (("," Variable() MoreArgs() {argAmount++;}) | {})
+    (("," FuncVariable() MoreArgs() {argAmount++;}) | {})
 }
 
 
@@ -500,8 +500,13 @@ void FunctionCallStatement() #void:
   // This could be simplified to Not include <INTEGER> as primitive expression
   // Also expression could be removed as well since the only way to properly call a function is through the function's <IDENTIFIER>
   {funcAmount.push(0);}
-  (t=<IDENTIFIER> (<LEFTR> ExpressionList() <RIGHTR>)?
-     {jjtThis.value=t.image;} #function(funcAmount.peek()) )
+  (t=<IDENTIFIER>
+    (
+      (<LEFTR> ExpressionList() <RIGHTR>) 
+      {jjtThis.value=t.image;} #function(funcAmount.peek())
+    | {} Variable(t)
+    )
+  )
   {funcAmount.pop();}
 }
 
@@ -522,11 +527,16 @@ void Number() #Number:
   t=<INTEGER>{jjtThis.value=t.image;}
 }
 
-Token Variable() #Variable:
+void FuncVariable() #FuncVariable:
 {Token t;}
 {
-  t=<IDENTIFIER>{jjtThis.value=t.image;
-    return t;}
+  t=<IDENTIFIER>{jjtThis.value=t.image;}
+}
+
+void Variable(Token t) #Variable:
+{}
+{
+  {jjtThis.value=t.image;}
 }
 
 void Declaration(Token t) #Declaration:

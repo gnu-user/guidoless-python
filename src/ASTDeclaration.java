@@ -18,9 +18,9 @@ class ASTDeclaration extends SimpleNode {
 	   */
 	  if(this.jjtGetNumChildren() == 0)
 	  {
-		  symtab.put(this.jjtGetValue().toString(), (Node)this.jjtGetValue());
 		  
-		  return this.jjtGetValue();
+		  symtab.put(this.jjtGetValue().toString(), 0);
+		  return this.jjtGetValue().toString();
 	  }
 	  
 	  return null;	
