@@ -12,7 +12,12 @@ class ASTdef_statement extends SimpleNode {
   
   public Object interpret()
   {
-	  // Add function node to hash table so it can be called later 
+	  // If the function already exists
+	  	// Error
+	  	// return null;
+	  // Else
+	  	// Add function node to hash table so it can be called later 
+	  
 	  return null;
   }
 
