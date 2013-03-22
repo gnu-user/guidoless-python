@@ -56,8 +56,7 @@ public class VariableValue implements Node {
 
 	@Override
 	public Object interpret() {
-		
-		return value;
+		return this.value;
 	}
 	
 	

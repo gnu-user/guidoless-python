@@ -20,7 +20,8 @@ class ASTdef_statement extends SimpleNode {
 	  {
 		  // Add function node to hash table so it can be called later 
 		  this.localScope = scope;
-		  symtab.put(((ASTarg_list)this.jjtGetChild(0)).interpret().toString(), this);
+		  
+		  symtab.put(((ASTarg_list)this.jjtGetChild(0)).getValue().toString(), this);
 		  
 		  return this.jjtGetChild(0);
 	  }

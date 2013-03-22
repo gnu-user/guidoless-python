@@ -14,10 +14,10 @@ class ASTfunction extends SimpleNode {
   public Object interpret()
   {
 	  // this.jjtGetValue().toString() is in the hashmap
+	  //System.out.println(this.jjtGetValue().toString());
 	  ASTdef_statement function = (ASTdef_statement) symtab.get(this.jjtGetValue().toString());
 	  
-	  
-	  System.out.println(function);
+	  //System.out.println(function);
 	  if(function != null)
 	  {
 		  
@@ -28,7 +28,8 @@ class ASTfunction extends SimpleNode {
 			  for(int i = 0; i < this.jjtGetNumChildren(); i++)
 			  {
 				  //symtab.put(scope, function.jjtGetChild(i).interpret(), this.jjtGetChild(i).interpret().toString());
-				  symtab.put(function.interpret().toString(), this.jjtGetChild(i).interpret().toString());
+				  String var = ((String[]) function.jjtGetChild(0).interpret())[i];
+				  symtab.put(var, new VariableValue(Integer.valueOf(this.jjtGetChild(i).interpret().toString())));
 			  }
 			  
 			  // Iterate through children (starting after the arguments list)		
@@ -39,7 +40,7 @@ class ASTfunction extends SimpleNode {
 				  
 				  if(returnValue != null)
 				  {
-					  return Integer.valueOf(returnValue.toString());
+					  return returnValue.toString();
 				  }
 			  }
 			  

@@ -27,7 +27,7 @@ class ASTVariable extends SimpleNode {
 		  }
 		  
 		  /* return the value of the variable */
-		  return symtab.get(this.jjtGetValue());
+		  return ((Node) symtab.get(this.jjtGetValue())).interpret();
 	  }
 	  
 	  return null;

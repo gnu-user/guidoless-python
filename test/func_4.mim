@@ -1,0 +1,4 @@
+def func(x):
+	x = x + 2
+	return x * x
+print func(1 + 2)

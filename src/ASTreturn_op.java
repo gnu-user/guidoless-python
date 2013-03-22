@@ -12,9 +12,7 @@ class ASTreturn_op extends SimpleNode {
   
   public Object interpret()
   {
-	  Integer a = Integer.valueOf(this.jjtGetChild(0).interpret().toString());
-	  System.out.println(a);
-	  return a;
+	  return this.jjtGetChild(0).interpret();
   }
 
 }
