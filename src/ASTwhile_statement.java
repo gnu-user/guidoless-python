@@ -20,9 +20,12 @@ class ASTwhile_statement extends SimpleNode {
 		  {			  
 			  for(int i = 1; i < this.jjtGetNumChildren(); i++)
 			  {
-				  Object returnValue = this.jjtGetChild(i).interpret();
+				  this.jjtGetChild(i).interpret();
 			  }
 		  }
+		  
+		  // Remove all entries that have the value of scope
+		  //symtab.remove(scope);
 		  scope--;
 	  }
 	  return null;

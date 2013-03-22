@@ -190,7 +190,9 @@ void MoreArgs() #void:
 
 void IfStatement() #void:
 {Token t;
- Token n;}
+ Token n;
+ Token a = new Token();
+ a.image = "condition";}
 {
     {
       seqAmount.push(0);
@@ -214,6 +216,7 @@ void IfStatement() #void:
     {
       seqAmount.pop();
     }
+    {jjtThis.value=a.image;} #condition(2)
 }
 
 

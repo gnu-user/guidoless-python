@@ -1,4 +1,5 @@
-if 5 == 5:
+var = 1
+if var == 2:
 	var = 5
 else:
 	var = 0
