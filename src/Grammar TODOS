@@ -3,13 +3,9 @@ Grammar TODOS
 - While statement
 	-test scope using assignment and while
 
-- arg_list
-
 - def statement
 - Function call statements
-	- Add to Symbol table
-
-- return statment
-	- Add to symbol table
+	- Scope
 
 - If statement 
+	- Implement and scope
