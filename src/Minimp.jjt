@@ -480,7 +480,7 @@ void ExpressionList() #void:
 {}
 {
     (
-      (Expression() {funcAmount.addToTop();} MoreExpressions())
+      (Expression() {funcAmount.addToTop();} MoreExpressions()) | {}
     )
 }
 
@@ -502,7 +502,7 @@ void FunctionCallStatement() #void:
   {funcAmount.push(0);}
   (t=<IDENTIFIER>
     (
-      (<LEFTR> ExpressionList() <RIGHTR>) 
+      (<LEFTR> (ExpressionList()) <RIGHTR>) 
       {jjtThis.value=t.image;} #function(funcAmount.peek())
     | {} Variable(t)
     )

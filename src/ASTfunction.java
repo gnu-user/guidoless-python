@@ -16,14 +16,24 @@ class ASTfunction extends SimpleNode {
 	  // this.jjtGetValue().toString() is in the hashmap
 	  ASTdef_statement function = (ASTdef_statement) symtab.get(this.jjtGetValue().toString());
 	  
+	  
+	  System.out.println(function);
 	  if(function != null)
 	  {
+		  
 		  // Scope check
 		  if(function.getScope() <= scope)
 		  {
+			  // Map the variable values to the values of the list
+			  for(int i = 0; i < this.jjtGetNumChildren(); i++)
+			  {
+				  //symtab.put(scope, function.jjtGetChild(i).interpret(), this.jjtGetChild(i).interpret().toString());
+				  symtab.put(function.jjtGetChild(i).interpret().toString(), this.jjtGetChild(i).interpret().toString());
+			  }
+			  
 			  // If there is a problem interpreting it will throw an error
 			  	// If there is no return then the return is null (therefore the return of this interpret is also null)
-			  	// Else return is the integer value returned.
+			  	// Else return is the integer value returned.			  
 			  return Integer.valueOf(function.interpret().toString());
 		  }
 	  }

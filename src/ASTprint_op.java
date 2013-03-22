@@ -20,6 +20,7 @@ class ASTprint_op extends SimpleNode {
 		  // Note that children can be a function call but must return a value
 		  
 		  //System.out.println(((SimpleNode) this.jjtGetChild(0)).jjtGetValue());
+		  
 		  System.out.println(this.jjtGetChild(0).interpret());
 	  }
 	return null;

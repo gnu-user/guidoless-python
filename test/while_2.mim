@@ -3,3 +3,4 @@ while var < 5:
 	var = var + 1
 	while var < 6:
 		var = var + 1
+print var

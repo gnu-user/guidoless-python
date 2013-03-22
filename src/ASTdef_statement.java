@@ -15,11 +15,12 @@ class ASTdef_statement extends SimpleNode {
   public Object interpret()
   {
 	  // If the function already exists
-	  if(symtab.get(this.jjtGetValue().toString()) != null)
+	  
+	  if(symtab.get(this.jjtGetValue().toString()) == null)
 	  {
-		 // Add function node to hash table so it can be called later 
+		  // Add function node to hash table so it can be called later 
 		  this.localScope = scope;
-		 symtab.put(this.jjtGetValue().toString(), this);
+		  symtab.put(((ASTarg_list)this.jjtGetChild(0)).interpret().toString(), this);
 	  }
 	  // ERROR
 	  return null;

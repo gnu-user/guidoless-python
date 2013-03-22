@@ -2,20 +2,14 @@
 public class VariableValue implements Node {
 
 	private Integer value;
-	private Integer scope;
 	
-	public VariableValue(Integer value, Integer scope)
+	public VariableValue(Integer value)
 	{
 		this.value = value;
-		this.scope = scope;
 	}
 	
 	public void setValue(Integer value) {
 		this.value = value;
-	}
-
-	public Integer getScope() {
-		return scope;
 	}
 
 	@Override
