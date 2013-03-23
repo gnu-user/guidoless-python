@@ -28,6 +28,7 @@ TARGET_NAME := Minimp
 JJTREE_SOURCE_FILE := Minimp.jjt
 JAVACC_SOURCE_FILE := Minimp.jj
 JAVA_SOURCE_FILES := *.java
+JAVA_CLASS_PATH := .:../lib/commons-collections-3.2.1.jar
 
 # Class files for make clean
 CLASS_FILES := *.class
@@ -50,7 +51,7 @@ mimpc:
 	javacc $(JAVACC_SOURCE_FILE)
 	@echo ''
 	@echo 'Building final target with Java: $@'
-	javac $(JAVA_SOURCE_FILES)
+	javac -cp $(JAVA_CLASS_PATH) $(JAVA_SOURCE_FILES)
 	@echo ''
 	@echo -e '\e[0;32mFinished building target: $@ \e[0m'
 
