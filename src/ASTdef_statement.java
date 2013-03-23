@@ -4,6 +4,7 @@ public
 class ASTdef_statement extends SimpleNode {
 	
 	private Integer localScope;
+	
   public ASTdef_statement(int id) {
     super(id);
   }
@@ -14,14 +15,14 @@ class ASTdef_statement extends SimpleNode {
   
   public Object interpret()
   {
-	  // If the function already exists
 	  
-	  if(symtab.get(this.jjtGetValue().toString()) == null)
+	  // If the function already exists
+	  if(symtab.get(this.jjtGetValue().toString(), scope) == null)
 	  {
-		  // Add function node to hash table so it can be called later 
-		  this.localScope = scope;
+	  	  // Add function node to hash table so it can be called later 
+	  	  this.localScope = scope;
 		  
-		  symtab.put(((ASTarg_list)this.jjtGetChild(0)).getValue().toString(), this);
+		  symtab.put(((ASTarg_list)this.jjtGetChild(0)).getValue().toString(), this.localScope, this);
 		  
 		  return this.jjtGetChild(0);
 	  }

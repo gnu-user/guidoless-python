@@ -25,7 +25,7 @@ class ASTequal extends SimpleNode {
 		  //System.out.println("Variable " + variable + " value " + value);
 		  
 		  // Find variable in hash and assign value to it.
-		  symtab.put(variable, new VariableValue(value));
+		  symtab.put(variable, scope, new VariableValue(value));
 		  
 		  // Valid
 		  return null;

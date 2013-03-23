@@ -19,7 +19,7 @@ class ASTVariable extends SimpleNode {
 	  if(this.jjtGetNumChildren() == 0)
 	  {
 		  /* TODO Throw an exception if variable is not in the table */
-		  if (! symtab.containsKey(this.jjtGetValue().toString()))
+		  if (! symtab.containsKey(this.jjtGetValue().toString(), scope))
 		  {
 			  // ERROR
 			  System.err.println("Undefined variable : " + this.jjtGetValue().toString());
@@ -27,7 +27,7 @@ class ASTVariable extends SimpleNode {
 		  }
 		  
 		  /* return the value of the variable */
-		  return ((Node) symtab.get(this.jjtGetValue())).interpret();
+		  return ((Node) symtab.get(this.jjtGetValue(), scope)).interpret();
 	  }
 	  
 	  return null;

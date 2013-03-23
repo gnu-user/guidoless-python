@@ -23,7 +23,7 @@ class ASTarg_list extends SimpleNode {
 	  {
 		  varNames[i] = this.jjtGetChild(i).interpret().toString();
 		  //symtab.put(scope, this.jjtGetChild(i).interpret().toString(), new VariableValue(null));
-		  symtab.put(varNames[i], new VariableValue(null));
+		  symtab.put(varNames[i], scope, new VariableValue(null));
 	  }
 	  
 	  return varNames;

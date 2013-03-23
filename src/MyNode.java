@@ -32,13 +32,16 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.HashMap;
 
+import org.apache.commons.collections.map.MultiKeyMap;
+
 /**
  * Specialised node.
  */
 public class MyNode
 {
   /** Symbol table */
-	protected static HashMap<String, Object> symtab = new HashMap<String, Object>();
+	protected static MultiKeyMap symtab = new MultiKeyMap();
+	//protected static HashMap<String, Object> symtab = new HashMap<String, Object>();
 	//protected static HashMap<Integer, HashMap<String, Object>> symtab = new HashMap<Integer, HashMap<String, Object>>();
 	
   /** Scope depth */
