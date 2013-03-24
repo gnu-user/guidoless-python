@@ -34,12 +34,13 @@ class ASTfunction extends SimpleNode {
 		  // Scope check
 		  // Map the variable values to the values of the list
 		  String[] var = ((String[]) function.jjtGetChild(0).interpret());
+		  //Decrement the scope for the variable binding.
 		  scope--;
 		  for(int i = 0; i < this.jjtGetNumChildren(); i++)
 		  {
 			  //symtab.put(scope, function.jjtGetChild(i).interpret(), this.jjtGetChild(i).interpret().toString());
 			  
-			  System.out.println("Var " + var[i] + " value = " + this.jjtGetChild(i).interpret().toString());
+			  //System.out.println("Var " + var[i] + " value = " + this.jjtGetChild(i).interpret().toString());
 			  symtab.put(var[i], scope+1, new VariableValue(Integer.valueOf(this.jjtGetChild(i).interpret().toString())));
 		  }
 		  scope++;
@@ -52,11 +53,12 @@ class ASTfunction extends SimpleNode {
 			  
 			  if(returnValue != null)
 			  {
-				  scope --;
+				  removeScope();
 				  return returnValue.toString();
 			  }
 		  }
-		  scope --;
+		  
+		  removeScope();
 		  
 		  // Success
 		  return null; 

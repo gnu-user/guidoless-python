@@ -12,6 +12,19 @@ class ASTreturn_op extends SimpleNode {
   
   public Object interpret()
   {
+	  Node parent= this.jjtGetParent();
+	  
+	  while(!ASTdef_statement.class.isAssignableFrom(parent.getClass()) && parent != null)
+	  {
+		  parent = parent.jjtGetParent();
+	  }
+	  
+	  // return is not defined within a a function's scope
+	  if(parent == null)
+	  {
+		  // TODO throw an ERROR 
+		  return null;
+	  }
 	  return this.jjtGetChild(0).interpret();
   }
 

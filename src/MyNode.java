@@ -30,8 +30,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.collections.MapIterator;
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.collections.map.MultiKeyMap;
 
 /**
@@ -43,6 +46,26 @@ public class MyNode
 	protected static MultiKeyMap symtab = new MultiKeyMap();
 	//protected static HashMap<String, Object> symtab = new HashMap<String, Object>();
 	//protected static HashMap<Integer, HashMap<String, Object>> symtab = new HashMap<Integer, HashMap<String, Object>>();
+	
+	protected void removeScope()
+	{
+		MapIterator mp = symtab.mapIterator();
+	    ArrayList<String> variables = new ArrayList<String>();
+	    while(mp.hasNext())
+	    {
+		    MultiKey mult = ((MultiKey)mp.next());
+		    if(mult.getKey(1) == scope)
+		    {
+		  	    variables.add(mult.getKey(0).toString());
+		    }
+	    }
+	  
+	    for(int i = 0; i < variables.size(); i++)
+	    {
+	    	symtab.remove(variables.get(i), scope);
+	    }
+	    scope--;
+	}
 	
   /** Scope depth */
   public static Integer scope = 0;

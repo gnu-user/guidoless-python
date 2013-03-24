@@ -23,12 +23,12 @@ class ASTif_statement extends SimpleNode {
 				  
 				  if(returnValue != null)
 				  {
-					  scope--;
+					  removeScope();
 					  return returnValue;
 				  }
 			  }
 			 
-			  scope--;
+			  removeScope();
 			  return true;
 		  }
 		  
