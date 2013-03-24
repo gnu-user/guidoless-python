@@ -24,13 +24,14 @@
 TEST="test/*.mim"
 SRC="src/"
 OUTPUT_EXTENSION="_out.log"
+JAVA_CLASS_PATH=${SRC}:lib/commons-collections-3.2.1.jar
 
 for file in $TEST
 do
 	test_file=${file##*/}
 
 	echo -e "\nTesting: $test_file"
-	java -cp $SRC mimpc $file &> out/${test_file}${OUTPUT_EXTENSION}
+	java -cp ${JAVA_CLASS_PATH} mimpc $file &> out/${test_file}${OUTPUT_EXTENSION}
 
 	if [ $? -eq 0 ]
 	then
