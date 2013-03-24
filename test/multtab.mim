@@ -1,13 +1,14 @@
+my = 0
 if 2 < 3:
 	my = 1 + 1
 	print (my + my)
 	dude = my * 2
 	if 4 < 5:
-		print (dude)
+		print (dude + 1)
 	else:
 		print (my)
 		if 2 < 5:
-			what (2)
+			print (2)
 		else: 
 			print (1)
 else:
@@ -15,3 +16,4 @@ else:
 	cool = 3 + 2
 while my < 1:
 	toool = 1
+	print my

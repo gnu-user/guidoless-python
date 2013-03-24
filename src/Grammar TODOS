@@ -1,6 +1,3 @@
 Grammar TODOS
 
-Pop off all variables of a given scope upon exiting the scope.
-
-Start adding errors to code
-	- Return statements outside of functions.
+Throw execptions in the code
