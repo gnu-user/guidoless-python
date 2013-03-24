@@ -18,8 +18,19 @@ class ASTVariable extends SimpleNode {
 	   */ 
 	  if(this.jjtGetNumChildren() == 0)
 	  {
-		  /* TODO Throw an exception if variable is not in the table */
-		  if (! symtab.containsKey(this.jjtGetValue().toString(), scope))
+		  int curScope = scope;
+		  for (int i = scope; i >= 0; i--)
+		  {
+			  if(symtab.get(this.jjtGetValue().toString(), i) != null)
+			  {
+				  //System.out.println("Scope " + scope);
+				  //System.out.println("HERE" + ((Node)symtab.get(this.jjtGetValue().toString(), i)).interpret());
+				  curScope = i;
+				  break;
+			  }
+		  }
+		  
+		  if (! symtab.containsKey(this.jjtGetValue().toString(), curScope))
 		  {
 			  // ERROR
 			  System.err.println("Undefined variable : " + this.jjtGetValue().toString());
@@ -27,7 +38,7 @@ class ASTVariable extends SimpleNode {
 		  }
 		  
 		  /* return the value of the variable */
-		  return ((Node) symtab.get(this.jjtGetValue(), scope)).interpret();
+		  return ((Node) symtab.get(this.jjtGetValue(), curScope)).interpret();
 	  }
 	  
 	  return null;

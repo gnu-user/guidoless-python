@@ -18,7 +18,12 @@ class ASTelse_statement extends SimpleNode {
 		  
 		  for(int i = 0; i < this.jjtGetNumChildren(); i++)
 		  {
-			  this.jjtGetChild(i).interpret();
+			  Object returnValue = this.jjtGetChild(i).interpret();
+			  if(returnValue != null)
+			  {
+				  scope--;
+				  return returnValue;
+			  }
 		  }
 		  scope--;
 		  return null;

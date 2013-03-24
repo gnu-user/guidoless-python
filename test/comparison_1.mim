@@ -1,8 +1,12 @@
+var = 0
+var2 = 0
 if 3 < 5:
 	var = 5
 else:
 	var = 3
+print var
 if 5 > 3:
 	var2 = 3
 else:
-	var3 = 5
+	var2 = 5
+print var2

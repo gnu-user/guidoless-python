@@ -19,14 +19,21 @@ class ASTif_statement extends SimpleNode {
 			  scope++;
 			  for(int i = 1; i < this.jjtGetNumChildren(); i++)
 			  {
-				  this.jjtGetChild(i).interpret();
+				  Object returnValue = this.jjtGetChild(i).interpret();
+				  
+				  if(returnValue != null)
+				  {
+					  scope--;
+					  return returnValue;
+				  }
 			  }
 			 
 			  scope--;
 			  return true;
 		  }
 		  
-		  return false;
+		  // Return of null is equal to false
+		  return null;
 	  }
 	  
 	  // Error

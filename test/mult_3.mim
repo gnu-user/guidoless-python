@@ -1,6 +1,8 @@
-if 2 < 3:
-	my = 1 + 1
+my = 0
+if my < 3:
+	my = 1
 else:
-	my = 2
-while 2 < 3:
-	print (my)
+	my = my + 2
+while my < 3:
+	print my
+	my = my + 1

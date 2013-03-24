@@ -15,38 +15,51 @@ class ASTfunction extends SimpleNode {
   {
 	  // this.jjtGetValue().toString() is in the hashmap
 	  //System.out.println(this.jjtGetValue().toString());
-	  ASTdef_statement function = (ASTdef_statement) symtab.get(this.jjtGetValue().toString(), scope);
+	  ASTdef_statement function = null;
+	  for (int i = scope; i >= 0; i--)
+	  {
+		  
+		  function = (ASTdef_statement) symtab.get(this.jjtGetValue().toString(), i);
+		  if(function != null)
+		  {
+			  break;
+		  }
+	  }
 	  
+	  scope++;
 	  //System.out.println(function);
 	  if(function != null)
 	  {
 		  
 		  // Scope check
-		  if(function.getScope() <= scope)
+		  // Map the variable values to the values of the list
+		  String[] var = ((String[]) function.jjtGetChild(0).interpret());
+		  scope--;
+		  for(int i = 0; i < this.jjtGetNumChildren(); i++)
 		  {
-			  // Map the variable values to the values of the list
-			  for(int i = 0; i < this.jjtGetNumChildren(); i++)
-			  {
-				  //symtab.put(scope, function.jjtGetChild(i).interpret(), this.jjtGetChild(i).interpret().toString());
-				  String var = ((String[]) function.jjtGetChild(0).interpret())[i];
-				  symtab.put(var, scope, new VariableValue(Integer.valueOf(this.jjtGetChild(i).interpret().toString())));
-			  }
+			  //symtab.put(scope, function.jjtGetChild(i).interpret(), this.jjtGetChild(i).interpret().toString());
 			  
-			  // Iterate through children (starting after the arguments list)		
-			  for(int i = 1; i < function.jjtGetNumChildren(); i++)
-			  {
-				  // Each child should return null unless it is a return statement
-				  Object returnValue = function.jjtGetChild(i).interpret();
-				  
-				  if(returnValue != null)
-				  {
-					  return returnValue.toString();
-				  }
-			  }
-			  
-			  // Success
-			  return null; 
+			  System.out.println("Var " + var[i] + " value = " + this.jjtGetChild(i).interpret().toString());
+			  symtab.put(var[i], scope+1, new VariableValue(Integer.valueOf(this.jjtGetChild(i).interpret().toString())));
 		  }
+		  scope++;
+		  
+		  // Iterate through children (starting after the arguments list)		
+		  for(int i = 1; i < function.jjtGetNumChildren(); i++)
+		  {
+			  // Each child should return null unless it is a return statement
+			  Object returnValue = function.jjtGetChild(i).interpret();
+			  
+			  if(returnValue != null)
+			  {
+				  scope --;
+				  return returnValue.toString();
+			  }
+		  }
+		  scope --;
+		  
+		  // Success
+		  return null; 
 	  }
 	  
 	  // ERROR function not found

@@ -14,12 +14,13 @@ class ASTcondition extends SimpleNode {
   {
 	  if(this.jjtGetNumChildren() == 2)
 	  {
-		  if(!Boolean.valueOf(this.jjtGetChild(0).interpret().toString()))
+		  Object ifReturn = this.jjtGetChild(0).interpret();
+		  if(ifReturn == null)
 		  {
-			  this.jjtGetChild(1).interpret();
+			  return this.jjtGetChild(1).interpret();
 		  }		  
 		  
-		  return null;
+		  return ifReturn;
 	  }
 	  
 	  // Error

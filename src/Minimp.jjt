@@ -205,7 +205,7 @@ void IfStatement() #void:
       IndentCopy()
       {
         seqAmount.pop();
-        seqAmount.addToTop();
+        //seqAmount.addToTop();
         seqAmount.push(0);
         indentStack.push("else");
       }
