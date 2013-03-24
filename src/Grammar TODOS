@@ -1,9 +1,6 @@
 Grammar TODOS
 
-- def statement
-- Function call statements
-	- Scope
+Pop off all variables of a given scope upon exiting the scope.
 
-- If statement 
-	- Implement and scope
-	- don't forget to include 'else'
+Start adding errors to code
+	- Return statements outside of functions.
