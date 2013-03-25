@@ -3,5 +3,6 @@ def factorial (x):
 	while (x > 1):
 		p = p * x
 		x = x - 1
+        print p
 	return x
 print factorial (5)
