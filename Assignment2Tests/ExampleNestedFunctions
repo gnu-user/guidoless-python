@@ -2,8 +2,6 @@ def lessThanGenerator(x):
 	def newfunc(y):
 		return y < x
 	return newfunc
-
 def less(f, number):
 	return f(number)
-
 print less(lessThanGenerator(10), 9)
