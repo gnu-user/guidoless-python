@@ -13,6 +13,7 @@ public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
+  public static boolean indentFlag = false;
 
   public static ChildrenStack seqAmount = new ChildrenStack();
 
@@ -355,6 +356,14 @@ void Indent(boolean total) #void:
 
       Indent(total);
     }
+    else
+    {
+      if(nesting + 1 == indentStack.size())
+      {
+        System.out.println("HERE");
+        indentFlag = true;
+      }
+    }
   }
 }
 
@@ -376,7 +385,7 @@ void AnotherStatement() #void:
      * Essentially, we need to get DEDENT working so that multiple statements can excepted within a single loop, as well.
      */
     (
-      LOOKAHEAD(3)
+      //LOOKAHEAD(3)
       ( IndentEnter() Statement() {seqAmount.addToTop();} AnotherStatement())
     | {}
 
