@@ -38,6 +38,19 @@ class ASTVariable extends SimpleNode {
 		  }
 		  
 		  /* return the value of the variable */
+		  if(((Node) symtab.get(this.jjtGetValue(), curScope)).interpret().toString().equals("arg_list"))
+		  {
+			  
+			  String[] args = (String[])((Node) symtab.get(this.jjtGetValue(), curScope)).jjtGetChild(0).interpret();
+			  /*String returnValue = "";
+			  for(int i = 0; i < args.length; i++) 
+			  {
+				  returnValue += args[i];
+			  }*/
+			  
+			  return "<function " + this.jjtGetValue() + " at 0x" + ((Node) symtab.get(this.jjtGetValue(), curScope)).hashCode() + ">"; //(" + returnValue + ")";
+			  //return this.jjtGetValue();
+		  }
 		  return ((Node) symtab.get(this.jjtGetValue(), curScope)).interpret();
 	  }
 	  

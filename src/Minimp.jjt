@@ -3,6 +3,9 @@ options
     MULTI=true;
     NODE_EXTENDS="MyNode";
     TRACK_TOKENS=true;
+
+    STATIC = false; 
+    COMMON_TOKEN_ACTION = true;
 }
 
 PARSER_BEGIN(Minimp)
@@ -13,7 +16,7 @@ public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
-  public static boolean indentFlag = false;
+  //public static boolean indentFlag = false;
 
   public static ChildrenStack seqAmount = new ChildrenStack();
 
@@ -88,12 +91,185 @@ public class Minimp
 
 PARSER_END(Minimp)
 
-SKIP: 
+TOKEN_MGR_DECLS:
+{
+    static int indentation[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    static int level = 0;
+    static int dedents = 0;
+    static int parens = 0;
+    static int indent;
+    static boolean seen_eof = false;
+    static boolean single_input = false;
+    static boolean compound = false;
+    public static boolean forcedNewline = false;
+
+    static Token addDedent(Token previous) {
+        Token t = new Token();
+        t.kind = DEDENT;
+        t.beginLine = previous.beginLine;
+        t.endLine = previous.endLine;
+        t.beginColumn = previous.beginColumn;
+        t.endColumn = previous.endColumn;
+        t.image = "<DEDENT>";
+        t.specialToken = null;
+        t.next = null;
+        previous.next = t;
+        return t;
+    }
+
+    void CommonTokenAction(Token t) {
+        if (t.kind == EOF) {
+            //System.out.println("EOF: "+single_input+", "+curLexState);
+            if (!single_input) {
+                if (curLexState == DEFAULT) {
+                    t.kind = NEWLINE;
+                }
+                else {
+                    t.kind = DEDENT;
+                    level -= 1;
+                }
+                while (level-- >= 0)
+                    t = addDedent(t);
+                //t = addDedent(t);
+                t.kind = EOF;
+                t.image = "<EOF>";
+            }
+        }
+    }
+}
+
+<INDENTING> TOKEN :
+{
+    <DEDENT: "">
+        {
+            if (indent > indentation[level]) {
+                level++;
+                indentation[level] = indent;
+                matchedToken.kind=INDENT;
+                matchedToken.image = "<INDENT>";
+            }
+            else {
+
+                Token t = matchedToken;
+                level -= 1;
+                while (level > 0 && indent < indentation[level]) {
+                    level--;
+                    t = addDedent(t);
+                }
+                if (indent != indentation[level]) {
+                    //throw new TokenMgrError("inconsistent dedent",
+                      //                      t.endLine, t.endColumn);
+                  System.out.println("ERROR");
+                }
+                t.next = null;
+            }
+        } : DEFAULT
+}
+
+SKIP :
+{
+    <SPACE: " ">
+|   "\t"
+|   "\014"
+|   <CONTINUATION: ("\\") ("\r\n"|"\n"|"\r")>
+|   <NEWLINE1: ("\r\n"|"\n"|"\r")>
+        {
+            if (parens == 0) {
+                indent = 0;
+                input_stream.backup(1);
+                if (level == 0)
+                    SwitchTo(FORCE_NEWLINE1);
+                else
+                    SwitchTo(FORCE_NEWLINE2);
+            }
+        }
+}
+
+
+<FORCE_NEWLINE1> TOKEN :
+{ <NEWLINE: ("\n" | "\r")> : INDENTATION_UNCHANGED }
+
+
+<FORCE_NEWLINE2> TOKEN :
+{ <NEWLINE2: ("\n" | "\r")> { matchedToken.kind = NEWLINE; }: INDENTING }
+
+
+<FORCE_NEWLINE> TOKEN :
+{
+    <NEWLINE3: ("\n" | "\r")>
+        {
+            Token t1 = matchedToken;
+            t1.kind = DEDENT;
+            while (level-- > 0) 
+                t1 = addDedent(t1);
+            t1.kind = NEWLINE;
+        } : DEFAULT
+}
+
+<INDENTING, INDENTATION_UNCHANGED> SKIP :
+{
+    "\t"
+        {
+            indent = (indent/8+1)*8;
+            if (indent == indentation[level])
+                SwitchTo(INDENTATION_UNCHANGED);
+            else
+                SwitchTo(INDENTING);
+        }
+        |   " "
+        {
+            indent += 1;
+            if (indent == indentation[level])
+                SwitchTo(INDENTATION_UNCHANGED);
+            else
+                SwitchTo(INDENTING);
+        }
+        |   "\014"
+        {
+            indent = 0;
+            if (indent == indentation[level])
+                SwitchTo(INDENTATION_UNCHANGED);
+            else
+                SwitchTo(INDENTING);
+        }
+        |   <CRLF1: ("\r\n" | "\n" | "\r")>
+        {
+
+            if (parens == 0 && single_input && indent==0) {
+                //System.out.println("force newline");
+                //backup a character!
+                forcedNewline = true;
+                input_stream.backup(1);
+                SwitchTo(FORCE_NEWLINE);
+            }
+            else {
+                //doPrompt();
+                indent = 0;
+                if (indent == indentation[level])
+                    SwitchTo(INDENTATION_UNCHANGED);
+                else
+                    SwitchTo(INDENTING);
+            }
+        }
+}
+
+<INDENTATION_UNCHANGED> SKIP :
+{
+    <""> : DEFAULT
+}
+
+<UNREACHABLE> TOKEN :
+{
+    < INDENT:"<INDENT>">
+//|     < DEDENT:"<DEDENT>">
+}
+
+/*SKIP: 
 {	
   	  "\r"  
     | "\f"
   	| " "
-}
+}*/
 
 
 /** Programming syntax structuring */
@@ -105,7 +281,7 @@ SimpleNode Program() :
        (Statement())
     /*| (Statement() Program())*/
     )*
-    (<NEWLINE>)*
+    //(<NEWLINE>)*
     <EOF>
     { 
       /*System.out.println("list:");
@@ -129,6 +305,7 @@ void Statement() #void:
     | PrintStatement()
     | WhileStatement()  
     | CallStatement()
+    | <NEWLINE>
     )
 }
 
@@ -270,13 +447,13 @@ void Sequence() #void:
       System.out.println(indentStack.get(i));
     }
   }*/
-  (<NEWLINE> IndentEnter() MoreStatements() /*<DEDENT>*/)
+  (<NEWLINE> /*IndentEnter()*/ <INDENT> MoreStatements() <DEDENT>)
     {
       
       /*for(int i = 0; i < indentStack.size(); i++)
       {
         System.out.println("i = " + i + " stack = " + indentStack.get(i));
-      }*/
+      }*/ 
       indentStack.pop();
 
       nesting--;
@@ -356,14 +533,14 @@ void Indent(boolean total) #void:
 
       Indent(total);
     }
-    else
+    /*else
     {
       if(nesting + 1 == indentStack.size())
       {
         System.out.println("HERE");
         indentFlag = true;
       }
-    }
+    }*/
   }
 }
 
@@ -384,9 +561,10 @@ void AnotherStatement() #void:
     /*
      * Essentially, we need to get DEDENT working so that multiple statements can excepted within a single loop, as well.
      */
+
     (
-      //LOOKAHEAD(3)
-      ( IndentEnter() Statement() {seqAmount.addToTop();} AnotherStatement())
+      LOOKAHEAD(3)
+      ( /*IndentEnter()*/ Statement() {seqAmount.addToTop();} AnotherStatement())
     | {}
 
     )
@@ -557,7 +735,6 @@ void Declaration(Token t) #Declaration:
   {jjtThis.value=t.image;}
 }
 
-
 TOKEN : /* IDENTIFIERS */
 {
       < IDENTIFIER: (<LETTER>|<UNDERSCORE>) (<LETTER>|<DIGIT>|<UNDERSCORE>)* >
@@ -573,12 +750,12 @@ TOKEN : /* LITERALS */
 }
 
 
-TOKEN : /* INDENTATION */
-{
+//TOKEN : /* INDENTATION */
+//{
     /*  <DEDENT: ~["\t"]> */
-      <INDENT: "\t">
+/*      <INDENT: "\t">
     | <NEWLINE: "\n">
-}
+}*/
 
 
 TOKEN : /* Comparison */
