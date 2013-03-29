@@ -55,10 +55,20 @@ mimpc:
 	@echo ''
 	@echo -e '\e[0;32mFinished building target: $@ \e[0m'
 
-# Test Minimp
+# Test Minimp with default tests
 test:
 	@echo "Testing: $(TARGET_NAME)"
 	@cd ..; ./test_suite.sh
+
+# Test Minimp with assignment 1 tests
+test1:
+	@echo "Testing: $(TARGET_NAME)"
+	@cd ..; ./test_suite.sh 1
+
+# Test Minimp with assignment 2 tests
+test2:
+	@echo "Testing: $(TARGET_NAME)"
+	@cd ..; ./test_suite.sh 2
 
 # Clean
 clean:
