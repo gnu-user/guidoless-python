@@ -21,7 +21,16 @@
 #
 ###############################################################################
 
-TEST="test/*.mim"
+if [[ ${1} == "1" ]]
+then
+	TEST="Assignment1Tests/*"
+elif [[ ${1} == "2" ]]
+then
+	TEST="Assignment2Tests/*"
+else
+	TEST="test/*.mim"
+fi
+
 SRC="src/"
 OUTPUT_EXTENSION="_out.log"
 JAVA_CLASS_PATH=${SRC}:lib/commons-collections-3.2.1.jar
