@@ -37,13 +37,13 @@ CLASS_FILES := *.class
 RM := rm -rf
 
 # Default target
-default: mimpc
+default: Minimp
 
 # All target
-all: mimpc
+all: Minimp
 
 # Make invocation
-mimpc:
+Minimp:
 	@echo 'Building target with JJTree: $@'
 	jjtree $(JJTREE_SOURCE_FILE)
 	@echo ''

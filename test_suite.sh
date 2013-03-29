@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-# Mimpc -- Minimp parser test suite runner
+# Mimp -- Minimp interpreter test suite runner
 # 
 # Copyright (C) 2013, Joseph Heron, Jonathan Gillett, and Daniel Smullen
 # All rights reserved.
@@ -40,7 +40,7 @@ do
 	test_file=${file##*/}
 
 	echo -e "\nTesting: $test_file"
-	java -cp ${JAVA_CLASS_PATH} mimpc $file &> out/${test_file}${OUTPUT_EXTENSION}
+	java -cp ${JAVA_CLASS_PATH} Mimp $file &> out/${test_file}${OUTPUT_EXTENSION}
 
 	if [ $? -eq 0 ]
 	then
