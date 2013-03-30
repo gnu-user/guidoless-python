@@ -10,21 +10,18 @@ options
 
 PARSER_BEGIN(Minimp)
 
-//import java.util.ArrayList;
-
 public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
-  //public static boolean indentFlag = false;
-
+  
   public static ChildrenStack seqAmount = new ChildrenStack();
 
   public static ChildrenStack funcAmount = new ChildrenStack();
 
   public static int argAmount=0;
 
-  public static IndentStack indentStack = new IndentStack();
+  //public static IndentStack indentStack = new IndentStack();
 
   public Node rootNode()
   {
@@ -284,11 +281,6 @@ SimpleNode Program() :
     //(<NEWLINE>)*
     <EOF>
     { 
-      /*System.out.println("list:");
-      for(int i = 0; i < indentStack.size(); i++) 
-      {
-        System.out.println(indentStack.get(i));
-      }*/
       return jjtThis;
     }
         
@@ -314,11 +306,7 @@ void CallStatement() #void:
 {
   Token t;
 }
-{     
-    /*  LOOKAHEAD(2) 
-      AssignmentStatement()
-    | FunctionCallStatement()*/  
-    
+{    
     t=<IDENTIFIER>
     (
       ( Declaration(t) t="=" Expression() 
@@ -341,7 +329,7 @@ void DefStatement() #void:
 {
     {
       argAmount=0; seqAmount.push(0);
-      indentStack.push("def");
+      //indentStack.push("def");
     }
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
@@ -374,7 +362,7 @@ void IfStatement() #void:
 {
     {
       seqAmount.push(0);
-      indentStack.push("if");
+      //indentStack.push("if");
     }
     (t="if " Expression() ":" Sequence() 
       {
@@ -385,7 +373,7 @@ void IfStatement() #void:
         seqAmount.pop();
         //seqAmount.addToTop();
         seqAmount.push(0);
-        indentStack.push("else");
+        //indentStack.push("else");
       }
       n="else:" Sequence()
       {
@@ -403,7 +391,7 @@ void WhileStatement() #void:
 {
   {
     seqAmount.push(0);
-    indentStack.push("while");
+    //indentStack.push("while");
   }
   (t="while " Expression() ":" Sequence()
     {jjtThis.value=t.image;} #while_statement(1+seqAmount.peek()))
@@ -427,123 +415,13 @@ void PrintStatement() #void:
       <NEWLINE>)
 }
 
-
-/*void AssignmentStatement() #void:
-{Token t;}
-{
-    (Variable() t="=" Expression()
-    {jjtThis.value=t.image;} #equal(2) <NEWLINE>)
-}*/
-
-
 void Sequence() #void:
 { Token t; }
 {
 
-  /*{
-    System.out.println("list:");
-    for(int i = 0; i < indentStack.size(); i++) 
-    {
-      System.out.println(indentStack.get(i));
-    }
-  }*/
-  (<NEWLINE> /*IndentEnter()*/ <INDENT> MoreStatements() <DEDENT>)
-    {
-      
-      /*for(int i = 0; i < indentStack.size(); i++)
-      {
-        System.out.println("i = " + i + " stack = " + indentStack.get(i));
-      }*/ 
-      /*indentStack.pop();
+  (<NEWLINE> <INDENT> MoreStatements() <DEDENT>)
 
-      nesting--;
-      int i = nesting;
-      while (i > 1)
-      {
-        Indent(false);
-        i--;
-      }*/
-      //System.out.println("nesting = " + nesting);
-      //System.out.println("token = " + t.toString());
-    }
 }
-
-/* 
- * Possible solution for fixing indentation problems, 
- * Keep the stack to identify depth. Create a token for each different depth '\t' '\t\t' ... 
- * Do it for like 5 to 10 depths. Create a call that will based on the stack choose the direction
- * However you would have to compare to each depth up to the current.
- * Example:
- * if you are at depth 2 your next statement could be (under most cases) 0, 1 or 2.
- * 
- * It could go to 3 the next line if indicated by the stack. If the stack adds an element on then the next line must be the depth.
- * Indentation can grown but not strink after an if an else must also follow the if at the same indentation. An else, while def do not have this restriction.
- */
-/*void IndentEnter() #void:
-{
-  Token t;
-}
-{
-  {
-    nesting = 1;
-    //System.out.println("nesting = " + nesting);
-    //System.out.println("first tab");
-  }
-  (
-      (t=<INDENT> Indent(true)) 
-  )
-}
-
-
-void IndentCopy() #void:
-{
-  Token t;
-}
-{
-  {
-    nesting = 1;
-    //System.out.println("nesting = " + nesting);
-    //System.out.println("first tab");
-  }
-  (
-      (Indent(true)) 
-  )
-}
-
-
-void Indent(boolean total) #void:
-{
-  Token t = null;
-}
-{
-  (
-        (t=<INDENT>) 
-      | {}
-  )
-  {
-    //Token t;
-    if(t != null)
-    {
-      if(total)
-      {
-        nesting++;
-      }
-      //System.out.println("nesting = " + nesting);
-      //System.out.println("token = " + t.toString());
-
-      Indent(total);
-    }
-    /*else
-    {
-      if(nesting + 1 == indentStack.size())
-      {
-        System.out.println("HERE");
-        indentFlag = true;
-      }
-    }/
-  }
-}*/
-
 
 void MoreStatements() #void:
 {}
@@ -557,20 +435,11 @@ void MoreStatements() #void:
 void AnotherStatement() #void:
 {}
 {
-    /* Requires the same number of indends as previous */
-    /*
-     * Essentially, we need to get DEDENT working so that multiple statements can excepted within a single loop, as well.
-     */
-
     (
-      //LOOKAHEAD(3)
-      ( /*IndentEnter()*/ Statement() {seqAmount.addToTop();} AnotherStatement())
+      (Statement() {seqAmount.addToTop();} AnotherStatement())
     | {}
 
     )
-    {
-    //System.out.println("anotherDone");
-    }
 }
 
 
@@ -626,7 +495,6 @@ void MultiplicationFactor() #void:
     | {}
     )
 }
-
 
 void ElementExpression() #void:
 {}
@@ -748,15 +616,6 @@ TOKEN : /* LITERALS */
 {
     <INTEGER: (<DIGIT>)+ >
 }
-
-
-//TOKEN : /* INDENTATION */
-//{
-    /*  <DEDENT: ~["\t"]> */
-/*      <INDENT: "\t">
-    | <NEWLINE: "\n">
-}*/
-
 
 TOKEN : /* Comparison */
 {
