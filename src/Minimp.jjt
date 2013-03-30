@@ -380,7 +380,7 @@ void IfStatement() #void:
       {
         jjtThis.value=t.image;
       } #if_statement(1+seqAmount.peek())
-      IndentCopy()
+      //IndentCopy()
       {
         seqAmount.pop();
         //seqAmount.addToTop();
@@ -454,7 +454,7 @@ void Sequence() #void:
       {
         System.out.println("i = " + i + " stack = " + indentStack.get(i));
       }*/ 
-      indentStack.pop();
+      /*indentStack.pop();
 
       nesting--;
       int i = nesting;
@@ -462,7 +462,7 @@ void Sequence() #void:
       {
         Indent(false);
         i--;
-      }
+      }*/
       //System.out.println("nesting = " + nesting);
       //System.out.println("token = " + t.toString());
     }
@@ -479,7 +479,7 @@ void Sequence() #void:
  * It could go to 3 the next line if indicated by the stack. If the stack adds an element on then the next line must be the depth.
  * Indentation can grown but not strink after an if an else must also follow the if at the same indentation. An else, while def do not have this restriction.
  */
-void IndentEnter() #void:
+/*void IndentEnter() #void:
 {
   Token t;
 }
@@ -540,9 +540,9 @@ void Indent(boolean total) #void:
         System.out.println("HERE");
         indentFlag = true;
       }
-    }*/
+    }/
   }
-}
+}*/
 
 
 void MoreStatements() #void:
@@ -563,7 +563,7 @@ void AnotherStatement() #void:
      */
 
     (
-      LOOKAHEAD(3)
+      //LOOKAHEAD(3)
       ( /*IndentEnter()*/ Statement() {seqAmount.addToTop();} AnotherStatement())
     | {}
 

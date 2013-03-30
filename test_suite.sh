@@ -22,6 +22,7 @@
 ###############################################################################
 
 TEST="test/*.mim"
+#TEST="Assignment2Tests/Example*[^~]"
 SRC="src/"
 OUTPUT_EXTENSION="_out.log"
 JAVA_CLASS_PATH=${SRC}:lib/commons-collections-3.2.1.jar
