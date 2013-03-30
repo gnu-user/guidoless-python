@@ -1,4 +1,5 @@
 max = 5
+i = 0
 while i < max-1:
 	print i
 	i = i + 1

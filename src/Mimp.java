@@ -21,9 +21,9 @@
  */
 
 /**
- * Minimc -- A parser for Minimp, an imperative subset of Python 
+ * Mimp -- An interpreter for Minimp, an imperative subset of Python 
  */
-public class mimpc
+public class Mimp
 {
     /* Exit return codes */
     private static final int VALID_SOURCE_FILE   =  0;
@@ -39,7 +39,7 @@ public class mimpc
         /* Attempt to read the Minimp source file provided */
         if (args.length == 1)
         {
-            System.out.println("Mimpc -- A Minimp Parser:  Reading from source file " + args[0] + " . . .");
+            System.out.println("Mimp -- A Minimp Interpreter:  Reading from source file " + args[0] + " . . .");
             
             try
             {
@@ -47,40 +47,38 @@ public class mimpc
             }
             catch (java.io.FileNotFoundException e)
             {
-                System.out.println("Mimpc -- A Minimp Parser:  File " + args[0] + " not found.");
+                System.out.println("Mimp -- A Minimp Interpreter:  File " + args[0] + " not found.");
                 System.exit(FILE_NOT_FOUND);
             }
         }
         /* Minimp source file not provided, print program usage */
         else
         {
-            System.out.println("Mimpc -- A Minimp Parser:  Source file not provided!");
-            System.out.println("USAGE:  java mimpc source_file");
+            System.out.println("Mimp -- A Minimp Interpreter:  Source file not provided!");
+            System.out.println("USAGE:  java Mimp source_file");
             System.exit(INVALID_ARGUMENTS);
         }
 
-        /* Attempt to parse the Minimp source file given and generate the AST */
+        /* Attempt to parse the Minimp source file given and interpret the AST */
         try
         {
             SimpleNode tree = parser.Program();
             
-            //tree.dump("");
             parser.print_AST(tree,"   ");
             System.out.println(parser.print_AST(tree));
             tree.interpret();
             
-            System.out.println("Minimp source file successfully parsed!");
             System.exit(VALID_SOURCE_FILE);
         } 
         catch (ParseException pe)
         {
-            System.out.println("Mimpc -- A Minimp Parser:  Encountered errors during parse.");
+            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during parse.");
             pe.printStackTrace();
             System.exit(INVALID_SOURCE_FILE);
         }
         catch (Exception e)
         {
-            System.out.println("Mimpc -- A Minimp Parser:  Encountered errors during interpretation/tree building.");
+            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during interpretation/tree building.");
             e.printStackTrace();
             System.exit(INVALID_SOURCE_FILE);
         }

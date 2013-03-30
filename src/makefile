@@ -37,13 +37,13 @@ CLASS_FILES := *.class
 RM := rm -rf
 
 # Default target
-default: mimpc
+default: Minimp
 
 # All target
-all: mimpc
+all: Minimp
 
 # Make invocation
-mimpc:
+Minimp:
 	@echo 'Building target with JJTree: $@'
 	jjtree $(JJTREE_SOURCE_FILE)
 	@echo ''
@@ -55,10 +55,20 @@ mimpc:
 	@echo ''
 	@echo -e '\e[0;32mFinished building target: $@ \e[0m'
 
-# Test Minimp
+# Test Minimp with default tests
 test:
 	@echo "Testing: $(TARGET_NAME)"
 	@cd ..; ./test_suite.sh
+
+# Test Minimp with assignment 1 tests
+test1:
+	@echo "Testing: $(TARGET_NAME)"
+	@cd ..; ./test_suite.sh 1
+
+# Test Minimp with assignment 2 tests
+test2:
+	@echo "Testing: $(TARGET_NAME)"
+	@cd ..; ./test_suite.sh 2
 
 # Clean
 clean:

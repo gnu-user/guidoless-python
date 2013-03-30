@@ -21,8 +21,16 @@
 #
 ###############################################################################
 
-TEST="test/*.mim"
-#TEST="Assignment2Tests/Example*[^~]"
+if [[ ${1} == "1" ]]
+then
+	TEST="Assignment2Tests/Example*[^~]"
+elif [[ ${1} == "2" ]]
+then
+	TEST="Assignment2Tests/Example*[^~]"
+else
+	TEST="test/*.mim"
+fi
+
 SRC="src/"
 OUTPUT_EXTENSION="_out.log"
 JAVA_CLASS_PATH=${SRC}:lib/commons-collections-3.2.1.jar
@@ -32,7 +40,7 @@ do
 	test_file=${file##*/}
 
 	echo -e "\nTesting: $test_file"
-	java -cp ${JAVA_CLASS_PATH} mimpc $file &> out/${test_file}${OUTPUT_EXTENSION}
+	java -cp ${JAVA_CLASS_PATH} Mimp $file &> out/${test_file}${OUTPUT_EXTENSION}
 
 	if [ $? -eq 0 ]
 	then
