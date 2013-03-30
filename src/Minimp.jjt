@@ -261,14 +261,6 @@ SKIP :
 //|     < DEDENT:"<DEDENT>">
 }
 
-/*SKIP: 
-{	
-  	  "\r"  
-    | "\f"
-  	| " "
-}*/
-
-
 /** Programming syntax structuring */
 SimpleNode Program() : 
 {}
@@ -276,16 +268,13 @@ SimpleNode Program() :
 
     (
        (Statement())
-    /*| (Statement() Program())*/
     )*
-    //(<NEWLINE>)*
     <EOF>
     { 
       return jjtThis;
     }
         
 }
-
 
 void Statement() #void:
 {}
@@ -300,7 +289,6 @@ void Statement() #void:
     | <NEWLINE>
     )
 }
-
 
 void CallStatement() #void: 
 {
@@ -438,7 +426,6 @@ void AnotherStatement() #void:
     (
       (Statement() {seqAmount.addToTop();} AnotherStatement())
     | {}
-
     )
 }
 
