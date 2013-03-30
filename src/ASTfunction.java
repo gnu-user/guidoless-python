@@ -32,7 +32,6 @@ class ASTfunction extends SimpleNode {
 		  }
 	  }
 	  
-	  // TODO check for parent defs.
 	  //System.out.println("right hwere");
 	  for(int i = 0; i < function.parents.size(); i++)
 	  {
