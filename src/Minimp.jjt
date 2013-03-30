@@ -167,7 +167,7 @@ SKIP :
 {
     <SPACE: " ">
 |   "\t"
-|   "\014"
+//|   "\014"
 |   <CONTINUATION: ("\\") ("\r\n"|"\n"|"\r")>
 |   <NEWLINE1: ("\r\n"|"\n"|"\r")>
         {
@@ -213,23 +213,23 @@ SKIP :
             else
                 SwitchTo(INDENTING);
         }
-        |   " "
+        /*|   " "
         {
             indent += 1;
             if (indent == indentation[level])
                 SwitchTo(INDENTATION_UNCHANGED);
             else
                 SwitchTo(INDENTING);
-        }
-        |   "\014"
+        }*/
+        /*|   "\014"
         {
             indent = 0;
             if (indent == indentation[level])
                 SwitchTo(INDENTATION_UNCHANGED);
             else
                 SwitchTo(INDENTING);
-        }
-        |   <CRLF1: ("\r\n" | "\n" | "\r")>
+        }*/
+        /*|   <CRLF1: ("\r\n" | "\n" | "\r")>
         {
 
             if (parens == 0 && single_input && indent==0) {
@@ -247,7 +247,7 @@ SKIP :
                 else
                     SwitchTo(INDENTING);
             }
-        }
+        }*/
 }
 
 <INDENTATION_UNCHANGED> SKIP :

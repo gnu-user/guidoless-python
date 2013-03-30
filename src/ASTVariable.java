@@ -38,7 +38,7 @@ class ASTVariable extends SimpleNode {
 		  }
 		  
 		  /* return the value of the variable */
-		  if(((Node) symtab.get(this.jjtGetValue(), curScope)).interpret().toString().equals("arg_list"))
+		  if(!(symtab.get(this.jjtGetValue(), curScope)).getClass().isAssignableFrom(VariableValue.class))
 		  {
 			  
 			  String[] args = (String[])((Node) symtab.get(this.jjtGetValue(), curScope)).jjtGetChild(0).interpret();

@@ -14,7 +14,7 @@ class ASTreturn_op extends SimpleNode {
   {
 	  Node parent= this.jjtGetParent();
 	  
-	  while(!ASTdef_statement.class.isAssignableFrom(parent.getClass()) && parent != null)
+	  while(parent != null && !ASTdef_statement.class.isAssignableFrom(parent.getClass()) )
 	  {
 		  parent = parent.jjtGetParent();
 	  }
@@ -25,7 +25,10 @@ class ASTreturn_op extends SimpleNode {
 		  // TODO throw an ERROR 
 		  return null;
 	  }
-	  return this.jjtGetChild(0).interpret();
+	  
+	  Object returnValue = this.jjtGetChild(0).interpret();
+	  //System.out.println("Here" + returnValue);
+	  return returnValue;
   }
 
 }
