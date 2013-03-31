@@ -151,8 +151,6 @@ TOKEN_MGR_DECLS:
                     t = addDedent(t);
                 }
                 if (indent != indentation[level]) {
-                    //throw new TokenMgrError("inconsistent dedent",
-                      //                      t.endLine, t.endColumn);
                   System.out.println("ERROR");
                 }
                 t.next = null;
@@ -164,7 +162,6 @@ SKIP :
 {
     <SPACE: " ">
 |   "\t"
-//|   "\014"
 |   <CONTINUATION: ("\\") ("\r\n"|"\n"|"\r")>
 |   <NEWLINE1: ("\r\n"|"\n"|"\r")>
         {
@@ -196,51 +193,6 @@ SKIP :
                 t1 = addDedent(t1);
             t1.kind = NEWLINE;
         } : DEFAULT
-}
-
-<INDENTING, INDENTATION_UNCHANGED> SKIP :
-{
-    "\t"
-        {
-            indent = (indent/8+1)*8;
-            if (indent == indentation[level])
-                SwitchTo(INDENTATION_UNCHANGED);
-            else
-                SwitchTo(INDENTING);
-        }
-        /*|   " "
-        {
-            indent += 1;
-            if (indent == indentation[level])
-                SwitchTo(INDENTATION_UNCHANGED);
-            else
-                SwitchTo(INDENTING);
-        }*/
-        /*|   "\014"
-        {
-            indent = 0;
-            if (indent == indentation[level])
-                SwitchTo(INDENTATION_UNCHANGED);
-            else
-                SwitchTo(INDENTING);
-        }*/
-        /*|   <CRLF1: ("\r\n" | "\n" | "\r")>
-        {
-
-            if (parens == 0 && single_input && indent==0) {
-                forcedNewline = true;
-                input_stream.backup(1);
-                SwitchTo(FORCE_NEWLINE);
-            }
-            else {
-                //doPrompt();
-                indent = 0;
-                if (indent == indentation[level])
-                    SwitchTo(INDENTATION_UNCHANGED);
-                else
-                    SwitchTo(INDENTING);
-            }
-        }*/
 }
 
 <INDENTATION_UNCHANGED> SKIP :
