@@ -14,14 +14,10 @@ public class Minimp
 {
   public static int nesting = 0;
   public static int numNewLines = 0;
-  
+  public static int argAmount = 0;
+
   public static ChildrenStack seqAmount = new ChildrenStack();
-
   public static ChildrenStack funcAmount = new ChildrenStack();
-
-  public static int argAmount=0;
-
-  //public static IndentStack indentStack = new IndentStack();
 
   public Node rootNode()
   {
@@ -30,12 +26,15 @@ public class Minimp
 
   public static void print_AST(SimpleNode root, String prefix)
   {
-    if (root != null) {
+    if (root != null) 
+    {
       if (root.value != null)
         System.out.println(prefix + root.value);
-      for (int i = 0; i < root.jjtGetNumChildren(); ++i) {
+      for (int i = 0; i < root.jjtGetNumChildren(); ++i) 
+      {
         SimpleNode n = (SimpleNode)root.jjtGetChild(i);
-        if (n != null) {
+        if (n != null) 
+        {
           print_AST(n, prefix + "   ");
         }
       }
@@ -57,7 +56,6 @@ public class Minimp
       {
         if(root.jjtGetNumChildren() > 0) 
         {
-          //System.out.println(root.value);
           value += " [ ";
           nonTerminal = true;
         }
@@ -127,7 +125,6 @@ TOKEN_MGR_DECLS:
                 }
                 while (level-- >= 0)
                     t = addDedent(t);
-                //t = addDedent(t);
                 t.kind = EOF;
                 t.image = "<EOF>";
             }
@@ -154,8 +151,6 @@ TOKEN_MGR_DECLS:
                     t = addDedent(t);
                 }
                 if (indent != indentation[level]) {
-                    //throw new TokenMgrError("inconsistent dedent",
-                      //                      t.endLine, t.endColumn);
                   System.out.println("ERROR");
                 }
                 t.next = null;
@@ -167,7 +162,6 @@ SKIP :
 {
     <SPACE: " ">
 |   "\t"
-//|   "\014"
 |   <CONTINUATION: ("\\") ("\r\n"|"\n"|"\r")>
 |   <NEWLINE1: ("\r\n"|"\n"|"\r")>
         {
@@ -186,10 +180,8 @@ SKIP :
 <FORCE_NEWLINE1> TOKEN :
 { <NEWLINE: ("\n" | "\r")> : INDENTATION_UNCHANGED }
 
-
 <FORCE_NEWLINE2> TOKEN :
 { <NEWLINE2: ("\n" | "\r")> { matchedToken.kind = NEWLINE; }: INDENTING }
-
 
 <FORCE_NEWLINE> TOKEN :
 {
@@ -203,53 +195,6 @@ SKIP :
         } : DEFAULT
 }
 
-<INDENTING, INDENTATION_UNCHANGED> SKIP :
-{
-    "\t"
-        {
-            indent = (indent/8+1)*8;
-            if (indent == indentation[level])
-                SwitchTo(INDENTATION_UNCHANGED);
-            else
-                SwitchTo(INDENTING);
-        }
-        /*|   " "
-        {
-            indent += 1;
-            if (indent == indentation[level])
-                SwitchTo(INDENTATION_UNCHANGED);
-            else
-                SwitchTo(INDENTING);
-        }*/
-        /*|   "\014"
-        {
-            indent = 0;
-            if (indent == indentation[level])
-                SwitchTo(INDENTATION_UNCHANGED);
-            else
-                SwitchTo(INDENTING);
-        }*/
-        /*|   <CRLF1: ("\r\n" | "\n" | "\r")>
-        {
-
-            if (parens == 0 && single_input && indent==0) {
-                //System.out.println("force newline");
-                //backup a character!
-                forcedNewline = true;
-                input_stream.backup(1);
-                SwitchTo(FORCE_NEWLINE);
-            }
-            else {
-                //doPrompt();
-                indent = 0;
-                if (indent == indentation[level])
-                    SwitchTo(INDENTATION_UNCHANGED);
-                else
-                    SwitchTo(INDENTING);
-            }
-        }*/
-}
-
 <INDENTATION_UNCHANGED> SKIP :
 {
     <""> : DEFAULT
@@ -258,7 +203,6 @@ SKIP :
 <UNREACHABLE> TOKEN :
 {
     < INDENT:"<INDENT>">
-//|     < DEDENT:"<DEDENT>">
 }
 
 /** Programming syntax structuring */
@@ -317,7 +261,6 @@ void DefStatement() #void:
 {
     {
       argAmount=0; seqAmount.push(0);
-      //indentStack.push("def");
     }
     (t="def " n=<IDENTIFIER> <LEFTR> ArgList() <RIGHTR>
     {jjtThis.value=n.image;} #arg_list(argAmount) 
@@ -350,18 +293,15 @@ void IfStatement() #void:
 {
     {
       seqAmount.push(0);
-      //indentStack.push("if");
     }
     (t="if " Expression() ":" Sequence() 
       {
         jjtThis.value=t.image;
       } #if_statement(1+seqAmount.peek())
-      //IndentCopy()
       {
         seqAmount.pop();
         //seqAmount.addToTop();
         seqAmount.push(0);
-        //indentStack.push("else");
       }
       n="else:" Sequence()
       {
@@ -379,7 +319,6 @@ void WhileStatement() #void:
 {
   {
     seqAmount.push(0);
-    //indentStack.push("while");
   }
   (t="while " Expression() ":" Sequence()
     {jjtThis.value=t.image;} #while_statement(1+seqAmount.peek()))
@@ -406,9 +345,7 @@ void PrintStatement() #void:
 void Sequence() #void:
 { Token t; }
 {
-
   (<NEWLINE> <INDENT> MoreStatements() <DEDENT>)
-
 }
 
 void MoreStatements() #void:
