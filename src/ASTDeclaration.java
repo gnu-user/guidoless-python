@@ -14,22 +14,19 @@ class ASTDeclaration extends SimpleNode {
   {
 	  /* 
 	   * This method will identify whether the variable exists or not and will
-	   *  call add look it up in the syntax table.
+	   * call add to look it up in the syntax table.
 	   */
 	  if(this.jjtGetNumChildren() == 0)
 	  {
 		  for (int i = scope; i >= 0; i--)
 		  {
-			  
 			  if(symtab.get(this.jjtGetValue().toString(), i) != null)
 			  {
-				  //System.out.println(symtab.get(this.jjtGetValue().toString(), i));
 				  return this.jjtGetValue().toString();
 			  }
 		  }
 		  
 		  symtab.put(this.jjtGetValue().toString(), scope, new VariableValue(0));
-		  //symtab.put(scope, this.jjtGetValue().toString(), new VariableValue(0));
 		  return this.jjtGetValue().toString();
 	  }
 	  

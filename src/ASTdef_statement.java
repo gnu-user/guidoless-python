@@ -20,8 +20,7 @@ class ASTdef_statement extends SimpleNode {
   
   public Object interpret()
   {
-	  
-	  // If the function already exists
+	  // Check if the function already exists
 	  if(symtab.get(((ASTarg_list)this.jjtGetChild(0)).getValue().toString(), scope) == null)
 	  {
 		  Node parent = this.jjtGetParent();
@@ -41,17 +40,17 @@ class ASTdef_statement extends SimpleNode {
 		  
 		  symtab.put(((ASTarg_list)this.jjtGetChild(0)).getValue().toString(), this.localScope, this);
 		  
-		  //System.out.println(((ASTarg_list)this.jjtGetChild(0)).getValue().toString());
-		  //return ((ASTarg_list)this.jjtGetChild(0)).getValue().toString();
 		  return this;
 	  }
+	  
 	  // ERROR
 	  return null;
   }
 
-	public Integer getScope() {
-		return localScope;
-	}
+  public Integer getScope()
+  {
+      return localScope;
+  }
 
 }
 /* JavaCC - OriginalChecksum=9e54365cc2c16b0828a03019a263de3b (do not edit this line) */

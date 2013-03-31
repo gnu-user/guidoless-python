@@ -17,35 +17,36 @@ class ASTfunction extends SimpleNode {
   
   public Object interpret()
   {
-	  // this.jjtGetValue().toString() is in the hashmap
-	  //System.out.println(this.jjtGetValue().toString());
 	  HashMap<String, Object> parameterValues = new HashMap<String, Object>();
 	  
 	  ASTdef_statement function = null;
+	  
 	  for (int i = scope; i >= 0; i--)
-	  {
-		  
+	  {  
 		  function = (ASTdef_statement) symtab.get(this.jjtGetValue().toString(), i);
+		  
 		  if(function != null)
 		  {
 			  break;
 		  }
 	  }
 	  
-	  //System.out.println("right hwere");
 	  for(int i = 0; i < function.parents.size(); i++)
 	  {
 		  Iterator iterator = function.parents.get(i).prevValues.entrySet().iterator();
+		  
 		  while(iterator.hasNext())
 		  {
 			  Map.Entry entry = (Map.Entry)iterator.next();
 			  
-			  try {
+			  try
+			  {
 				  VariableValue result = new VariableValue(Integer.valueOf(entry.getValue().toString()));
 				  symtab.put(entry.getKey(), scope+1, result);
 				  parameterValues.put(entry.getKey().toString(), result);
 			  }
-			  catch (NumberFormatException e) {
+			  catch (NumberFormatException e)
+			  {
 				  symtab.put(entry.getKey(), scope+1, (Node)entry.getValue());
 				  parameterValues.put(entry.getKey().toString(), entry.getValue());
 			  }
@@ -54,32 +55,28 @@ class ASTfunction extends SimpleNode {
 	  
 	  scope++;
 	  {
-		  
 		  // Scope check
 		  // Map the variable values to the values of the list
 		  String[] var = ((String[]) function.jjtGetChild(0).interpret());
+		  
 		  //Decrement the scope for the variable binding.
 		  scope--;
+		  
 		  for(int i = 0; i < this.jjtGetNumChildren(); i++)
 		  {
-			  //symtab.put(scope, function.jjtGetChild(i).interpret(), this.jjtGetChild(i).interpret().toString());
-			  
-			  //System.out.println("Var " + var[i] + " value = " + this.jjtGetChild(i).interpret().toString());
 			  Object parameter = this.jjtGetChild(i).interpret();
 			  
-			  try {
+			  try
+			  {
 				  VariableValue result = new VariableValue(Integer.valueOf(parameter.toString()));
 				  symtab.put(var[i], scope+1, result);
 				  parameterValues.put(var[i], result);
 			  }
-			  catch (NumberFormatException e) {
-				  //Node a = (Node)parameter;
-				  //System.out.println(a);
-				  //System.out.println(((ASTarg_list)((Node)parameter).jjtGetChild(0)).getValue().toString());
+			  catch (NumberFormatException e)
+			  {
 				  symtab.put(var[i], scope+1, (Node)parameter);
 				  parameterValues.put(var[i], parameter);
 			  }
-			 
 		  }
 		  
 		  function.prevValues = parameterValues;

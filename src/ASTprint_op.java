@@ -18,12 +18,10 @@ class ASTprint_op extends SimpleNode {
 	  {
 		  // Valid children are Integer or list
 		  // Note that children can be a function call but must return a value
-		  
-		  //System.out.println(((SimpleNode) this.jjtGetChild(0)).jjtGetValue());
-		  //System.out.println("HERE");
 		  System.out.println(this.jjtGetChild(0).interpret());
 	  }
-	return null;
+	  
+	  return null;
   }
 
 }

@@ -42,15 +42,19 @@ import org.apache.commons.collections.map.MultiKeyMap;
  */
 public class MyNode
 {
-  /** Symbol table */
+    /** Multi-key hashmap used for the symbol table */
 	protected static MultiKeyMap symtab = new MultiKeyMap();
-	//protected static HashMap<String, Object> symtab = new HashMap<String, Object>();
-	//protected static HashMap<Integer, HashMap<String, Object>> symtab = new HashMap<Integer, HashMap<String, Object>>();
 	
+	
+	/**
+	 * A method which is used to remove variables and functions from the
+	 * symbol table when they are out of scope.
+	 */
 	protected void removeScope()
 	{
 		MapIterator mp = symtab.mapIterator();
 	    ArrayList<String> variables = new ArrayList<String>();
+	    
 	    while(mp.hasNext())
 	    {
 		    MultiKey mult = ((MultiKey)mp.next());
@@ -66,7 +70,7 @@ public class MyNode
 	    }
 	    scope--;
 	}
-	
+
   /** Scope depth */
   public static Integer scope = 0;
   

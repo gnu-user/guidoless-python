@@ -26,6 +26,7 @@ class ASTwhile_statement extends SimpleNode {
 			  for(int i = 1; i < this.jjtGetNumChildren(); i++)
 			  {
 				  Object returnValue = this.jjtGetChild(i).interpret();
+				  
 				  if(returnValue != null)
 				  {
 					  removeScope();
@@ -33,8 +34,6 @@ class ASTwhile_statement extends SimpleNode {
 				  }
 			  }
 		  }
-		  
-		  
 		  
 		  removeScope();
 		  return null;

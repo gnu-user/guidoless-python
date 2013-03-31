@@ -65,7 +65,7 @@ public class Mimp
             SimpleNode tree = parser.Program();
             
             parser.print_AST(tree,"   ");
-            System.out.println(parser.print_AST(tree));
+            System.out.println("\n" + parser.print_AST(tree) + "\n");
             tree.interpret();
             
             System.exit(VALID_SOURCE_FILE);
@@ -78,7 +78,7 @@ public class Mimp
         }
         catch (Exception e)
         {
-            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during interpretation/tree building.");
+            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during interpretation.");
             e.printStackTrace();
             System.exit(INVALID_SOURCE_FILE);
         }

@@ -13,30 +13,22 @@ class ASTequal extends SimpleNode {
   public Object interpret()
   {
 	  if(this.jjtGetNumChildren() > 0 && this.jjtGetNumChildren() < 3)
-	  {
-		  // First child is the left side of the equal sign
-		  
+	  {		  
 		  // The second child is the right side of the equal sign  
 		  Integer value = Integer.valueOf(this.jjtGetChild(1).interpret().toString());
 		  
-		  // Validate the variable
+		  // The first child on the left side of the equal sign is the variable
 		  String variable = this.jjtGetChild(0).interpret().toString();
 		  
-		  //System.out.println("Variable " + variable + " value " + value);
-		  
 		  // Find variable in hash and assign value to it.
-		  // Adjust to use the defined variable.
-		  
 		  for (int i = scope; i >= 0; i--)
 		  {
-			 // System.out.println("HERE");
 			  if(symtab.get(variable, i) != null)
 			  {
-				  //System.out.println(symtab.get(variable, i));
 				  symtab.put(variable, i, new VariableValue(value));
-			  }	
+			  }
 		  }
-		  		  
+  
 		  // Valid
 		  return null;
 	  }

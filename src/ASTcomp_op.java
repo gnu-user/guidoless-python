@@ -44,7 +44,6 @@ class ASTcomp_op extends SimpleNode {
 			  // ERROR
 			  return null;
 		  }
-		  
 	  }
 	  
 	  // ERROR	  

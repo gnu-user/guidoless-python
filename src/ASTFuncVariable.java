@@ -19,11 +19,10 @@ class ASTFuncVariable extends SimpleNode {
 	  if(this.jjtGetNumChildren() == 0)
 	  {
 		  symtab.put(this.jjtGetValue().toString(), scope, new VariableValue(0));
-		  //symtab.put(scope, this.jjtGetValue().toString(), new VariableValue(0));
 		  return this.jjtGetValue().toString();
 	  }
 	  
-	  return null;	
+	  return null;
   }
 
 }

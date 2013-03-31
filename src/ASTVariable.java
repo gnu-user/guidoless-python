@@ -14,17 +14,16 @@ class ASTVariable extends SimpleNode {
   {
 	  /* 
 	   * This method will identify whether the variable exists or not and will
-	   *  call add look it up in the syntax table.
+	   * call add look it up in the syntax table.
 	   */ 
 	  if(this.jjtGetNumChildren() == 0)
 	  {
 		  int curScope = scope;
+		  
 		  for (int i = scope; i >= 0; i--)
 		  {
 			  if(symtab.get(this.jjtGetValue().toString(), i) != null)
 			  {
-				  //System.out.println("Scope " + scope);
-				  //System.out.println("HERE" + ((Node)symtab.get(this.jjtGetValue().toString(), i)).interpret());
 				  curScope = i;
 				  break;
 			  }
@@ -42,15 +41,11 @@ class ASTVariable extends SimpleNode {
 		  {
 			  
 			  String[] args = (String[])((Node) symtab.get(this.jjtGetValue(), curScope)).jjtGetChild(0).interpret();
-			  /*String returnValue = "";
-			  for(int i = 0; i < args.length; i++) 
-			  {
-				  returnValue += args[i];
-			  }*/
 			  
-			  return "<function " + this.jjtGetValue() + " at 0x" + ((Node) symtab.get(this.jjtGetValue(), curScope)).hashCode() + ">"; //(" + returnValue + ")";
-			  //return this.jjtGetValue();
+			  // Display the address of the function in memory
+			  return "<function " + this.jjtGetValue() + " at 0x" + ((Node) symtab.get(this.jjtGetValue(), curScope)).hashCode() + ">";
 		  }
+		  
 		  return ((Node) symtab.get(this.jjtGetValue(), curScope)).interpret();
 	  }
 	  
