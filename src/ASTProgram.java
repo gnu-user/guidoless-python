@@ -16,6 +16,7 @@ class ASTProgram extends SimpleNode {
 	{
 		(this.jjtGetChild(i)).interpret();
 	}
+	
 	return null;
   }
 

@@ -18,7 +18,7 @@ class ASTcondition extends SimpleNode {
 		  if(ifReturn == null)
 		  {
 			  return this.jjtGetChild(1).interpret();
-		  }		  
+		  }
 		  
 		  return ifReturn;
 	  }

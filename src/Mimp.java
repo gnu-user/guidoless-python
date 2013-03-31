@@ -78,7 +78,7 @@ public class Mimp
         }
         catch (Exception e)
         {
-            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during interpretation/tree building.");
+            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during interpretation.");
             e.printStackTrace();
             System.exit(INVALID_SOURCE_FILE);
         }
