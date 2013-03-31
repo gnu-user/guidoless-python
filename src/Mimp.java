@@ -65,7 +65,7 @@ public class Mimp
             SimpleNode tree = parser.Program();
             
             parser.print_AST(tree,"   ");
-            System.out.println(parser.print_AST(tree));
+            System.out.println("\n" + parser.print_AST(tree) + "\n");
             tree.interpret();
             
             System.exit(VALID_SOURCE_FILE);
