@@ -195,6 +195,18 @@ SKIP :
         } : DEFAULT
 }
 
+<INDENTING, INDENTATION_UNCHANGED> SKIP :
+{
+    "\t"
+    {
+        indent = (indent/8+1)*8;
+        if (indent == indentation[level])
+            SwitchTo(INDENTATION_UNCHANGED);
+        else
+            SwitchTo(INDENTING);
+    }
+}
+
 <INDENTATION_UNCHANGED> SKIP :
 {
     <""> : DEFAULT
