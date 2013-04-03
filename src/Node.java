@@ -45,8 +45,6 @@ interface Node {
    * Interprets the current node of the AST
    *  
    * @return an Object
-   * 
-   * @throws UnsupportedOperationException if not implemented 
    */
   public Object interpret();
 }
