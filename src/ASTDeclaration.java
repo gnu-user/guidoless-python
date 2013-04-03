@@ -26,7 +26,11 @@ class ASTDeclaration extends SimpleNode {
 			  }
 		  }
 		  
-		  symtab.put(this.jjtGetValue().toString(), scope, new VariableValue(0));
+		  symtab.put(this.jjtGetValue().toString(), scope, new VariableValue(""));
+		  // TODO create a list of variables, to declase in the data section
+		  // variable should be called buy <identifier> + "_" + <scope>
+		  dataList.add(this.jjtGetValue().toString() + "_" + scope);
+		  
 		  return this.jjtGetValue().toString();
 	  }
 	  

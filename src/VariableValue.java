@@ -1,14 +1,14 @@
 
 public class VariableValue implements Node {
 
-	private Integer value;
+	private String value;
 	
-	public VariableValue(Integer value)
+	public VariableValue(String value)
 	{
 		this.value = value;
 	}
 	
-	public void setValue(Integer value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

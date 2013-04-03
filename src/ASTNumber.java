@@ -13,7 +13,7 @@ class ASTNumber extends SimpleNode {
   @Override
   public Object interpret()
   {
-	  return this.jjtGetValue(); 
+	  return this.jjtGetValue();
   }
 
 }

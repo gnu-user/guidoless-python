@@ -12,10 +12,27 @@ class ASTProgram extends SimpleNode {
   
   public Object interpret()
   {
+	this.initStack();
+	System.out.println("\t.globl main\n");
+	System.out.println("\t.text\n");
+	System.out.println("main:\n");
+	
 	for(int i = 0; i < this.jjtGetNumChildren(); i++)
 	{
 		(this.jjtGetChild(i)).interpret();
 	}
+	
+	System.out.println("# Exit");
+	System.out.println("li $v0, 10");
+	System.out.println("syscall\n");
+	
+	System.out.println("\t.data");
+	
+	for(int i = 0; i < dataList.size(); i++)
+	{
+		System.out.println(dataList.get(i) + ": .word 0");
+	}
+	System.out.println(NEWLINE + ": .asciiz \"\\n\"");
 	
 	return null;
   }

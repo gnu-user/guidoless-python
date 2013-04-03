@@ -41,7 +41,7 @@ class ASTfunction extends SimpleNode {
 			  
 			  try
 			  {
-				  VariableValue result = new VariableValue(Integer.valueOf(entry.getValue().toString()));
+				  VariableValue result = new VariableValue(entry.getValue().toString());
 				  symtab.put(entry.getKey(), scope+1, result);
 				  parameterValues.put(entry.getKey().toString(), result);
 			  }
@@ -68,7 +68,7 @@ class ASTfunction extends SimpleNode {
 			  
 			  try
 			  {
-				  VariableValue result = new VariableValue(Integer.valueOf(parameter.toString()));
+				  VariableValue result = new VariableValue(parameter.toString());
 				  symtab.put(var[i], scope+1, result);
 				  parameterValues.put(var[i], result);
 			  }

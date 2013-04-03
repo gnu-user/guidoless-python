@@ -32,6 +32,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 import org.apache.commons.collections.MapIterator;
 import org.apache.commons.collections.keyvalue.MultiKey;
@@ -45,7 +46,26 @@ public class MyNode
     /** Multi-key hashmap used for the symbol table */
 	protected static MultiKeyMap symtab = new MultiKeyMap();
 	
+	protected static ArrayList<String> dataList = new ArrayList<String>();
 	
+	protected static Stack<String> regValues = new Stack<String>();
+	
+	public static final String NEWLINE = "newline";
+	
+	public static void initStack()
+	{
+		for(int i = 7; i >= 0; i--)
+		{
+			regValues.push("$s" + i);
+		}
+
+		for(int i = 9; i >= 0; i--)
+		{
+			regValues.push("$t" + i);
+		}
+		
+	}
+
 	/**
 	 * A method which is used to remove variables and functions from the
 	 * symbol table when they are out of scope.

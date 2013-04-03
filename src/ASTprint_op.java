@@ -18,7 +18,31 @@ class ASTprint_op extends SimpleNode {
 	  {
 		  // Valid children are Integer or list
 		  // Note that children can be a function call but must return a value
-		  System.out.println(this.jjtGetChild(0).interpret());
+		  //System.out.println(this.jjtGetChild(0).interpret());
+		  
+		  Object returnValue = this.jjtGetChild(0).interpret();
+		  
+		  if (returnValue.equals(Boolean.valueOf(true)) || returnValue.equals(Boolean.valueOf(false)))
+		  {			  
+			  System.out.println("li $v0, 4 # Print string");			  
+			  System.out.println("li $a0 , " + returnValue.toString());
+		  }
+		  else if (returnValue.getClass().isAssignableFrom(String.class))
+		  {
+			  System.out.println("li $v0, 1 # Print integer");			  
+			  System.out.println("move $a0 , " + returnValue);
+			  regValues.push(returnValue.toString());
+		  }
+		  else
+		  {
+			  System.out.println("li $v0, 1 # Print integer");			  
+			  System.out.println("li $a0 , " + returnValue);
+			  regValues.push(returnValue.toString());
+		  }
+		  System.out.println("syscall");
+		  System.out.println("li $v0, 4 # Print string");
+		  System.out.println("la $a0 , " + NEWLINE);
+		  System.out.println("syscall");
 	  }
 	  
 	  return null;

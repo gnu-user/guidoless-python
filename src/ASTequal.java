@@ -15,7 +15,7 @@ class ASTequal extends SimpleNode {
 	  if(this.jjtGetNumChildren() > 0 && this.jjtGetNumChildren() < 3)
 	  {		  
 		  // The second child is the right side of the equal sign  
-		  Integer value = Integer.valueOf(this.jjtGetChild(1).interpret().toString());
+		  Object value = this.jjtGetChild(1).interpret().toString();
 		  
 		  // The first child on the left side of the equal sign is the variable
 		  String variable = this.jjtGetChild(0).interpret().toString();
@@ -25,7 +25,21 @@ class ASTequal extends SimpleNode {
 		  {
 			  if(symtab.get(variable, i) != null)
 			  {
-				  symtab.put(variable, i, new VariableValue(value));
+				  // Do not need to pop of element since it truly is a temp use of it.
+				  String reg = regValues.peek();
+				  
+				  try
+				  {
+					  Integer.valueOf(value.toString());
+					  System.out.println("li " + reg + ", " + value);
+				  }
+				  catch (Exception e)
+				  {
+					  System.out.println("move " + reg + ", " + value);
+				  }				  
+				  System.out.println("sw " + reg + ", " + variable + "_" + i);
+				  
+				  symtab.put(variable, i, new VariableValue(value.toString()));
 			  }
 		  }
   
