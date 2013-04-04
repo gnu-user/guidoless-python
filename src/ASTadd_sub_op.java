@@ -18,11 +18,12 @@ class ASTadd_sub_op extends SimpleNode {
 		  if(this.jjtGetValue().toString().equalsIgnoreCase("+"))
 		  {
 			  Object returnValue = this.jjtGetChild(0).interpret();
-			  String regValue = regValues.pop();
+			  String regValue;
 			 
 			  try
 			  {
 				  Integer.valueOf(returnValue.toString());
+				  regValue = regValues.pop();
 				  System.out.println("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
@@ -43,11 +44,12 @@ class ASTadd_sub_op extends SimpleNode {
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase("-"))
 		  {
 			  Object returnValue = this.jjtGetChild(0).interpret();
-			  String regValue = regValues.pop();
+			  String regValue;
 			 
 			  try
 			  {
 				  Integer.valueOf(returnValue.toString());
+				  regValue = regValues.pop();
 				  System.out.println("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)

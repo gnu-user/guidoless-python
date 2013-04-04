@@ -22,10 +22,25 @@ class ASTprint_op extends SimpleNode {
 		  
 		  Object returnValue = this.jjtGetChild(0).interpret();
 		  
-		  if (returnValue.equals(Boolean.valueOf(true)) || returnValue.equals(Boolean.valueOf(false)))
-		  {			  
-			  System.out.println("li $v0, 4 # Print string");			  
-			  System.out.println("li $a0 , " + returnValue.toString());
+		  // Check that the child is a comp_op
+		 //if (returnValue.equals(Boolean.valueOf(true)) || returnValue.equals(Boolean.valueOf(false)))
+		  if (this.jjtGetChild(0).getClass().isAssignableFrom(ASTcomp_op.class))
+		  {
+			  //System.outreturnValue.toString();
+			  System.out.println("li $v0, 4 # Print string");
+			  
+			  //String regValue = regValues.pop();
+			  
+			  System.out.println("beqz " + returnValue + ", f_" + condPrintCount);
+			  System.out.println("la $a0 , " + TRUE);
+			  System.out.println("b c_" + condPrintCount);
+			  
+			  System.out.println("f_" + condPrintCount + ": la $a0, " + FALSE);
+			  System.out.print("c_" + condPrintCount + ": ");
+			  //System.out.println("c_" + condPrintCount + ": move $a0, " + regValue);
+
+			  condPrintCount++;
+			  //System.out.println("li $a0 , " + regValue);
 		  }
 		  else if (returnValue.getClass().isAssignableFrom(String.class))
 		  {

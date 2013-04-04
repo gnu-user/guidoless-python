@@ -33,6 +33,8 @@ class ASTProgram extends SimpleNode {
 		System.out.println(dataList.get(i) + ": .word 0");
 	}
 	System.out.println(NEWLINE + ": .asciiz \"\\n\"");
+	System.out.println(TRUE + ": .asciiz \"true\"");
+	System.out.println(FALSE + ": .asciiz \"false\"");
 	
 	return null;
   }

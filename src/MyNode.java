@@ -51,6 +51,10 @@ public class MyNode
 	protected static Stack<String> regValues = new Stack<String>();
 	
 	public static final String NEWLINE = "newline";
+	public static final String TRUE = "true";
+	public static final String FALSE = "false";
+	
+	public static int condPrintCount = 0;
 	
 	public static void initStack()
 	{
