@@ -14,8 +14,11 @@ class ASTif_statement extends SimpleNode {
   {
 	  if(this.jjtGetNumChildren() > 1)
 	  {
+		  int curCondCount = condCount;
+		  condCount++;
+		  
 		  System.out.println("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
-				  +  ", else_" + condCount);
+				  +  ", else_" + curCondCount);
 		  //if(Boolean.valueOf(this.jjtGetChild(0).interpret().toString()))
 		  //{
 			  scope++;
@@ -29,11 +32,10 @@ class ASTif_statement extends SimpleNode {
 					  return returnValue;
 				  }
 			  }
-			  System.out.println("b if_" + condCount);
-			  System.out.print("else_" + condCount + ": ");
-			  //condCount++;
+			  System.out.println("b if_" + curCondCount);
+			  System.out.println("else_" + curCondCount + ": nop");
 			  removeScope();
-			  return true;
+			  return curCondCount;
 		  //}
 		  
 		  // Return of null is equal to false

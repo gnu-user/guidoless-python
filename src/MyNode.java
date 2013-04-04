@@ -59,6 +59,7 @@ public class MyNode
 	
 	public static int condPrintCount = 0;
 	public static int condCount = 0;
+	public static int whileCount = 0;
 	
 	public static void initStack()
 	{

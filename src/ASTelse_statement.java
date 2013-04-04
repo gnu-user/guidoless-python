@@ -26,8 +26,6 @@ class ASTelse_statement extends SimpleNode {
 			  }
 		  }
 		  
-		  System.out.print("if_" + condCount + ": ");
-		  condCount++;
 		  scope--;
 		  return null;
 

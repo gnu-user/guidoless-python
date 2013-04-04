@@ -21,19 +21,26 @@ class ASTwhile_statement extends SimpleNode {
 	  {
 		  // Check the condition of the while loop
 		  scope++;
-		  while(Boolean.valueOf(this.jjtGetChild(0).interpret().toString()))
+		  //while(Boolean.valueOf(this.jjtGetChild(0).interpret().toString()))
+		  int curWhileCount = whileCount;
+		  whileCount++;
+		  System.out.print("w_start_" + whileCount + ": ");
+		  System.out.println("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
+				  +  ", while_" + curWhileCount);
+		  //{
+		  for(int i = 1; i < this.jjtGetNumChildren(); i++)
 		  {
-			  for(int i = 1; i < this.jjtGetNumChildren(); i++)
+			  Object returnValue = this.jjtGetChild(i).interpret();
+			  
+			  if(returnValue != null)
 			  {
-				  Object returnValue = this.jjtGetChild(i).interpret();
-				  
-				  if(returnValue != null)
-				  {
-					  removeScope();
-					  return returnValue;
-				  }
+				  removeScope();
+				  return returnValue;
 			  }
 		  }
+		  //}
+		  System.out.println("b w_start_" + curWhileCount);
+		  System.out.println("while_" + curWhileCount + ": nop");
 		  
 		  removeScope();
 		  return null;
