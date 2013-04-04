@@ -43,8 +43,6 @@ class ASTprint_op extends SimpleNode {
 				  returnValue = list.get(i);
 			  }
 			  
-			  // Check that the child is a comp_op
-			  //if (returnValue.equals(Boolean.valueOf(true)) || returnValue.equals(Boolean.valueOf(false)))
 			  if(returnValue.getClass().isAssignableFrom(CompareValue.class))
 			  {
 				  //System.outreturnValue.toString();
@@ -61,6 +59,7 @@ class ASTprint_op extends SimpleNode {
 				  //System.out.println("c_" + condPrintCount + ": move $a0, " + regValue);
 		
 				  condPrintCount++;
+				  regValues.push(((Node)returnValue).interpret().toString());
 				  //System.out.println("li $a0 , " + regValue);
 			  }
 			  else if (returnValue.getClass().isAssignableFrom(VariableValue.class))
