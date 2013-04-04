@@ -35,6 +35,9 @@ class ASTProgram extends SimpleNode {
 	System.out.println(NEWLINE + ": .asciiz \"\\n\"");
 	System.out.println(TRUE + ": .asciiz \"true\"");
 	System.out.println(FALSE + ": .asciiz \"false\"");
+	System.out.println(SLEFTB + ": .asciiz \"[\"");
+	System.out.println(SRIGHTB + ": .asciiz \"]\"");
+	System.out.println(SPACE + ": .asciiz \" \"");
 	
 	return null;
   }

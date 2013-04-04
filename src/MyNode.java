@@ -53,6 +53,9 @@ public class MyNode
 	public static final String NEWLINE = "newline";
 	public static final String TRUE = "true";
 	public static final String FALSE = "false";
+	public static final String SLEFTB = "slb";	
+	public static final String SRIGHTB = "srb";
+	public static final String SPACE = " ";
 	
 	public static int condPrintCount = 0;
 	
