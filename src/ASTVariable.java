@@ -29,7 +29,7 @@ class ASTVariable extends SimpleNode {
 			  }
 		  }
 		  
-		  if (! symtab.containsKey(this.jjtGetValue().toString(), curScope))
+		  if (!symtab.containsKey(this.jjtGetValue().toString(), curScope))
 		  {
 			  // ERROR
 			  System.err.println("Undefined variable : " + this.jjtGetValue().toString());
@@ -38,8 +38,7 @@ class ASTVariable extends SimpleNode {
 		  
 		  /* return the value of the variable */
 		  if(!(symtab.get(this.jjtGetValue(), curScope)).getClass().isAssignableFrom(VariableValue.class))
-		  {
-			  
+		  {			  
 			  String[] args = (String[])((Node) symtab.get(this.jjtGetValue(), curScope)).jjtGetChild(0).interpret();
 			  
 			  // Display the address of the function in memory
@@ -48,7 +47,7 @@ class ASTVariable extends SimpleNode {
 		  
 		  String tempValue = regValues.pop();
 		  System.out.println("lw " + tempValue + ", " + this.jjtGetValue() + "_" + curScope);
-		  return tempValue;
+		  return new VariableValue(tempValue);
 		  //return ((Node) symtab.get(this.jjtGetValue(), curScope)).interpret();
 	  }
 	  

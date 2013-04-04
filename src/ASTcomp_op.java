@@ -36,7 +36,7 @@ class ASTcomp_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new CompareValue(regTemp);
 			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) >
 			  	//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString())); 
 		  }
@@ -61,7 +61,7 @@ class ASTcomp_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new CompareValue(regTemp);
 			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) < 
 				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
@@ -86,7 +86,7 @@ class ASTcomp_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new CompareValue(regTemp);
 			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) <= 
 				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
@@ -111,7 +111,7 @@ class ASTcomp_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new CompareValue(regTemp);
 			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) >= 
 				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
@@ -136,7 +136,7 @@ class ASTcomp_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new CompareValue(regTemp);
 			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) == 
 				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }

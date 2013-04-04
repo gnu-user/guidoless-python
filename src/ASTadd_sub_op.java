@@ -36,7 +36,7 @@ class ASTadd_sub_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new VariableValue(regTemp);
 			  
 			  //return Integer.valueOf(this.jjtGetChild(0).interpret().toString()) +
 				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()); 
@@ -62,7 +62,7 @@ class ASTadd_sub_op extends SimpleNode {
 			  
 			  regValues.push(regValue);
 			  
-			  return regTemp;
+			  return new VariableValue(regTemp);
 			  
 			  //return Integer.valueOf(this.jjtGetChild(0).interpret().toString()) -
 				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString());
