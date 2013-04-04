@@ -42,23 +42,103 @@ class ASTcomp_op extends SimpleNode {
 		  }
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase("<"))
 		  {
-			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) < 
-					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+			  Object returnValue = this.jjtGetChild(0).interpret();
+			  String regValue = regValues.pop();
+			  
+			  try
+			  {
+				  Integer.valueOf(returnValue.toString());
+				  regValue = regValues.pop();
+				  System.out.println("li " + regValue + ", " + returnValue);
+			  }
+			  catch (Exception e)
+			  {
+				  regValue = returnValue.toString();
+			  }
+			  
+			  System.out.println("slt "+ regTemp + ", " +  regValue + ", " + 
+					  this.jjtGetChild(1).interpret().toString());
+			  
+			  regValues.push(regValue);
+			  
+			  return regTemp;
+			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) < 
+				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase("<="))
 		  {
-			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) <= 
-					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+			  Object returnValue = this.jjtGetChild(0).interpret();
+			  String regValue = regValues.pop();
+			  
+			  try
+			  {
+				  Integer.valueOf(returnValue.toString());
+				  regValue = regValues.pop();
+				  System.out.println("li " + regValue + ", " + returnValue);
+			  }
+			  catch (Exception e)
+			  {
+				  regValue = returnValue.toString();
+			  }
+			  
+			  System.out.println("sle "+ regTemp + ", " +  regValue + ", " + 
+					  this.jjtGetChild(1).interpret().toString());
+			  
+			  regValues.push(regValue);
+			  
+			  return regTemp;
+			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) <= 
+				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase(">="))
 		  {
-			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) >= 
-					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+			  Object returnValue = this.jjtGetChild(0).interpret();
+			  String regValue = regValues.pop();
+			  
+			  try
+			  {
+				  Integer.valueOf(returnValue.toString());
+				  regValue = regValues.pop();
+				  System.out.println("li " + regValue + ", " + returnValue);
+			  }
+			  catch (Exception e)
+			  {
+				  regValue = returnValue.toString();
+			  }
+			  
+			  System.out.println("sge "+ regTemp + ", " +  regValue + ", " + 
+					  this.jjtGetChild(1).interpret().toString());
+			  
+			  regValues.push(regValue);
+			  
+			  return regTemp;
+			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) >= 
+				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
 		  else if(this.jjtGetValue().toString().equalsIgnoreCase("=="))
 		  {
-			  return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) == 
-					  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
+			  Object returnValue = this.jjtGetChild(0).interpret();
+			  String regValue = regValues.pop();
+			  
+			  try
+			  {
+				  Integer.valueOf(returnValue.toString());
+				  regValue = regValues.pop();
+				  System.out.println("li " + regValue + ", " + returnValue);
+			  }
+			  catch (Exception e)
+			  {
+				  regValue = returnValue.toString();
+			  }
+			  
+			  System.out.println("seq "+ regTemp + ", " +  regValue + ", " + 
+					  this.jjtGetChild(1).interpret().toString());
+			  
+			  regValues.push(regValue);
+			  
+			  return regTemp;
+			  //return (Boolean) (Integer.valueOf(this.jjtGetChild(0).interpret().toString()) == 
+				//	  Integer.valueOf(this.jjtGetChild(1).interpret().toString()));
 		  }
 		  else
 		  {
