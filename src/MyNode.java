@@ -58,6 +58,7 @@ public class MyNode
 	public static final String SPACE = "space";
 	
 	public static int condPrintCount = 0;
+	public static int condCount = 0;
 	
 	public static void initStack()
 	{

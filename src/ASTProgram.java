@@ -12,7 +12,7 @@ class ASTProgram extends SimpleNode {
   
   public Object interpret()
   {
-	this.initStack();
+	initStack();
 	System.out.println("\t.globl main\n");
 	System.out.println("\t.text\n");
 	System.out.println("main:\n");
