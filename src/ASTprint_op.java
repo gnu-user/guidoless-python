@@ -23,40 +23,76 @@ class ASTprint_op extends SimpleNode {
 		  //System.out.println(this.jjtGetChild(0).interpret());
 		  
 		  Object returnValue = this.jjtGetChild(0).interpret();
+		  int size = 1;
+		  ArrayList<TypeValue> list = null;
 		  
-		  // Check that the child is a comp_op
-		  //if (returnValue.equals(Boolean.valueOf(true)) || returnValue.equals(Boolean.valueOf(false)))
-		  if(returnValue.getClass().isAssignableFrom(CompareValue.class))
+		  if (returnValue.getClass().isAssignableFrom(ArrayList.class))
 		  {
-			  //System.outreturnValue.toString();
 			  System.out.println("li $v0, 4 # Print string");
+			  System.out.println("la $a0, " + SLEFTB);
+			  System.out.println("syscall");
 			  
-			  //String regValue = regValues.pop();
+			  list = (ArrayList<TypeValue>)returnValue;
+			  size = list.size();
+		  }
+		  
+		  for(int i = 0; i < size; i++)
+		  {
+			  if(list != null)
+			  {
+				  returnValue = list.get(i);
+			  }
+			  
+			  // Check that the child is a comp_op
+			  //if (returnValue.equals(Boolean.valueOf(true)) || returnValue.equals(Boolean.valueOf(false)))
+			  if(returnValue.getClass().isAssignableFrom(CompareValue.class))
+			  {
+				  //System.outreturnValue.toString();
+				  System.out.println("li $v0, 4 # Print string");
 				  
-			  System.out.println("beqz " + ((Node)returnValue).interpret() + ", f_" + condPrintCount);
-			  System.out.println("la $a0 , " + TRUE);
-			  System.out.println("b c_" + condPrintCount);
+				  //String regValue = regValues.pop();
+					  
+				  System.out.println("beqz " + ((Node)returnValue).interpret() + ", f_" + condPrintCount);
+				  System.out.println("la $a0, " + TRUE);
+				  System.out.println("b c_" + condPrintCount);
+				  
+				  System.out.println("f_" + condPrintCount + ": la $a0, " + FALSE);
+				  System.out.print("c_" + condPrintCount + ": ");
+				  //System.out.println("c_" + condPrintCount + ": move $a0, " + regValue);
+		
+				  condPrintCount++;
+				  //System.out.println("li $a0 , " + regValue);
+			  }
+			  else if (returnValue.getClass().isAssignableFrom(VariableValue.class))
+			  {
+				  System.out.println("li $v0, 1 # Print variable");			  
+				  System.out.println("move $a0, " + ((Node)returnValue).interpret());
+				  regValues.push(((Node)returnValue).interpret().toString());
+			  }
+			  else
+			  {
+				  System.out.println("li $v0, 1 # Print integer");			  
+				  System.out.println("li $a0, " + returnValue);
+				  //regValues.push(returnValue.toString());
+			  }
+			  System.out.println("syscall");
 			  
-			  System.out.println("f_" + condPrintCount + ": la $a0, " + FALSE);
-			  System.out.print("c_" + condPrintCount + ": ");
-			  //System.out.println("c_" + condPrintCount + ": move $a0, " + regValue);
-	
-			  condPrintCount++;
-			  //System.out.println("li $a0 , " + regValue);
+			  if(list != null)
+			  {
+				  if(i + 1 < size)
+				  {
+					  System.out.println("li $v0, 4 # Print string");
+					  System.out.println("la $a0, " + SPACE);
+					  System.out.println("syscall");
+				  }
+				  else
+				  {
+					  System.out.println("li $v0, 4 # Print string");
+					  System.out.println("la $a0, " + SRIGHTB);
+					  System.out.println("syscall");
+				  }
+			  }
 		  }
-		  else if (returnValue.getClass().isAssignableFrom(VariableValue.class))
-		  {
-			  System.out.println("li $v0, 1 # Print variable");			  
-			  System.out.println("move $a0 , " + ((Node)returnValue).interpret());
-			  regValues.push(((Node)returnValue).interpret().toString());
-		  }
-		  else
-		  {
-			  System.out.println("li $v0, 1 # Print integer");			  
-			  System.out.println("li $a0 , " + returnValue);
-			  //regValues.push(returnValue.toString());
-		  }
-		  System.out.println("syscall");
 		  System.out.println("li $v0, 4 # Print string");
 		  System.out.println("la $a0 , " + NEWLINE);
 		  System.out.println("syscall");
