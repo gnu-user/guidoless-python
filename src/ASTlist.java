@@ -34,7 +34,7 @@ class ASTlist extends SimpleNode {
 			  else
 			  {
 				  String tempValue = regValues.pop();
-				  System.out.println("li " + tempValue + ", " + returnValue.toString());
+				  asmBuffer.add("li " + tempValue + ", " + returnValue.toString());
 				  regValue.add(new VariableValue(tempValue));
 			  }
 		  }

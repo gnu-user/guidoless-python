@@ -24,14 +24,14 @@ class ASTcomp_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("sgt "+ regTemp + ", " +  regValue + ", " + 
+			  asmBuffer.add("sgt "+ regTemp + ", " +  regValue + ", " + 
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);
@@ -49,14 +49,14 @@ class ASTcomp_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("slt "+ regTemp + ", " +  regValue + ", " + 
+			  asmBuffer.add("slt "+ regTemp + ", " +  regValue + ", " + 
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);
@@ -74,14 +74,14 @@ class ASTcomp_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("sle "+ regTemp + ", " +  regValue + ", " + 
+			  asmBuffer.add("sle "+ regTemp + ", " +  regValue + ", " + 
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);
@@ -99,14 +99,14 @@ class ASTcomp_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("sge "+ regTemp + ", " +  regValue + ", " + 
+			  asmBuffer.add("sge "+ regTemp + ", " +  regValue + ", " + 
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);
@@ -124,14 +124,14 @@ class ASTcomp_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("seq "+ regTemp + ", " +  regValue + ", " + 
+			  asmBuffer.add("seq "+ regTemp + ", " +  regValue + ", " + 
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);

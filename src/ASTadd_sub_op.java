@@ -24,14 +24,14 @@ class ASTadd_sub_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("add " + regTemp + ", " + regValue + ", " +
+			  asmBuffer.add("add " + regTemp + ", " + regValue + ", " +
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);
@@ -50,14 +50,14 @@ class ASTadd_sub_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("sub "+ regTemp + ", " +  regValue + ", " + 
+			  asmBuffer.add("sub "+ regTemp + ", " +  regValue + ", " + 
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);

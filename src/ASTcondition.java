@@ -20,7 +20,7 @@ class ASTcondition extends SimpleNode {
 		  //{
 		  Object elseReturn = this.jjtGetChild(1).interpret();
 		  
-		  System.out.println("if_" + ifReturn.toString() + ": nop");
+		  asmBuffer.add("if_" + ifReturn.toString() + ": nop");
 		  //}
 		  return elseReturn;
 		  

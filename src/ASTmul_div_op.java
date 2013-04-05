@@ -24,14 +24,14 @@ class ASTmul_div_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("mul " + regTemp + ", " + regValue + ", " +
+			  asmBuffer.add("mul " + regTemp + ", " + regValue + ", " +
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);
@@ -49,14 +49,14 @@ class ASTmul_div_op extends SimpleNode {
 			  {
 				  Integer.valueOf(returnValue.toString());
 				  regValue = regValues.pop();
-				  System.out.println("li " + regValue + ", " + returnValue);
+				  asmBuffer.add("li " + regValue + ", " + returnValue);
 			  }
 			  catch (Exception e)
 			  {
 				  regValue = returnValue.toString();
 			  }
 			  
-			  System.out.println("div " + regTemp + ", " + regValue + ", " +
+			  asmBuffer.add("div " + regTemp + ", " + regValue + ", " +
 					  this.jjtGetChild(1).interpret().toString());
 			  
 			  regValues.push(regValue);

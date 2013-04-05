@@ -28,9 +28,9 @@ class ASTprint_op extends SimpleNode {
 		  
 		  if (returnValue.getClass().isAssignableFrom(ArrayList.class))
 		  {
-			  System.out.println("li $v0, 4 # Print string");
-			  System.out.println("la $a0, " + SLEFTB);
-			  System.out.println("syscall");
+			  asmBuffer.add("li $v0, 4 # Print string");
+			  asmBuffer.add("la $a0, " + SLEFTB);
+			  asmBuffer.add("syscall");
 			  
 			  list = (ArrayList<TypeValue>)returnValue;
 			  size = list.size();
@@ -46,55 +46,55 @@ class ASTprint_op extends SimpleNode {
 			  if(returnValue.getClass().isAssignableFrom(CompareValue.class))
 			  {
 				  //System.outreturnValue.toString();
-				  System.out.println("li $v0, 4 # Print string");
+				  asmBuffer.add("li $v0, 4 # Print string");
 				  
 				  //String regValue = regValues.pop();
 					  
-				  System.out.println("beqz " + ((Node)returnValue).interpret() + ", f_" + condPrintCount);
-				  System.out.println("la $a0, " + TRUE);
-				  System.out.println("b c_" + condPrintCount);
+				  asmBuffer.add("beqz " + ((Node)returnValue).interpret() + ", f_" + condPrintCount);
+				  asmBuffer.add("la $a0, " + TRUE);
+				  asmBuffer.add("b c_" + condPrintCount);
 				  
-				  System.out.println("f_" + condPrintCount + ": la $a0, " + FALSE);
+				  asmBuffer.add("f_" + condPrintCount + ": la $a0, " + FALSE);
 				  System.out.print("c_" + condPrintCount + ": ");
-				  //System.out.println("c_" + condPrintCount + ": move $a0, " + regValue);
+				  //asmBuffer.add("c_" + condPrintCount + ": move $a0, " + regValue);
 		
 				  condPrintCount++;
 				  regValues.push(((Node)returnValue).interpret().toString());
-				  //System.out.println("li $a0 , " + regValue);
+				  //asmBuffer.add("li $a0 , " + regValue);
 			  }
 			  else if (returnValue.getClass().isAssignableFrom(VariableValue.class))
 			  {
-				  System.out.println("li $v0, 1 # Print variable");			  
-				  System.out.println("move $a0, " + ((Node)returnValue).interpret());
+				  asmBuffer.add("li $v0, 1 # Print variable");			  
+				  asmBuffer.add("move $a0, " + ((Node)returnValue).interpret());
 				  regValues.push(((Node)returnValue).interpret().toString());
 			  }
 			  else
 			  {
-				  System.out.println("li $v0, 1 # Print integer");			  
-				  System.out.println("li $a0, " + returnValue);
+				  asmBuffer.add("li $v0, 1 # Print integer");			  
+				  asmBuffer.add("li $a0, " + returnValue);
 				  //regValues.push(returnValue.toString());
 			  }
-			  System.out.println("syscall");
+			  asmBuffer.add("syscall");
 			  
 			  if(list != null)
 			  {
 				  if(i + 1 < size)
 				  {
-					  System.out.println("li $v0, 4 # Print string");
-					  System.out.println("la $a0, " + SPACE);
-					  System.out.println("syscall");
+					  asmBuffer.add("li $v0, 4 # Print string");
+					  asmBuffer.add("la $a0, " + SPACE);
+					  asmBuffer.add("syscall");
 				  }
 				  else
 				  {
-					  System.out.println("li $v0, 4 # Print string");
-					  System.out.println("la $a0, " + SRIGHTB);
-					  System.out.println("syscall");
+					  asmBuffer.add("li $v0, 4 # Print string");
+					  asmBuffer.add("la $a0, " + SRIGHTB);
+					  asmBuffer.add("syscall");
 				  }
 			  }
 		  }
-		  System.out.println("li $v0, 4 # Print string");
-		  System.out.println("la $a0 , " + NEWLINE);
-		  System.out.println("syscall");
+		  asmBuffer.add("li $v0, 4 # Print string");
+		  asmBuffer.add("la $a0 , " + NEWLINE);
+		  asmBuffer.add("syscall");
 	  }
 	  
 	  return null;

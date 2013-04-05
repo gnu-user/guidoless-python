@@ -46,7 +46,7 @@ class ASTVariable extends SimpleNode {
 		  }
 		  
 		  String tempValue = regValues.pop();
-		  System.out.println("lw " + tempValue + ", " + this.jjtGetValue() + "_" + curScope);
+		  asmBuffer.add("lw " + tempValue + ", " + this.jjtGetValue() + "_" + curScope);
 		  return new VariableValue(tempValue);
 		  //return ((Node) symtab.get(this.jjtGetValue(), curScope)).interpret();
 	  }

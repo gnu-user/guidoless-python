@@ -25,7 +25,7 @@ class ASTwhile_statement extends SimpleNode {
 		  int curWhileCount = whileCount;
 		  whileCount++;
 		  System.out.print("w_start_" + whileCount + ": ");
-		  System.out.println("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
+		  asmBuffer.add("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
 				  +  ", while_" + curWhileCount);
 		  //{
 		  for(int i = 1; i < this.jjtGetNumChildren(); i++)
@@ -39,8 +39,8 @@ class ASTwhile_statement extends SimpleNode {
 			  }
 		  }
 		  //}
-		  System.out.println("b w_start_" + curWhileCount);
-		  System.out.println("while_" + curWhileCount + ": nop");
+		  asmBuffer.add("b w_start_" + curWhileCount);
+		  asmBuffer.add("while_" + curWhileCount + ": nop");
 		  
 		  removeScope();
 		  return null;
