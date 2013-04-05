@@ -19,9 +19,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+
 
 /**
- * Mimp -- An interpreter for Minimp, an imperative subset of Python 
+ * Mimp -- A compiler for Minimp, an imperative subset of Python, generates
+ * assembly code for the MIPS architecture.
  */
 public class Mimp
 {
@@ -30,55 +38,94 @@ public class Mimp
     private static final int INVALID_SOURCE_FILE = -1;
     private static final int FILE_NOT_FOUND      = -2;
     private static final int INVALID_ARGUMENTS   = -3;
-
-
+    private static final int WRITE_FAILURE       = -4;
+    
+    /* The input file and resultant assembly output file */
+    private static String inputSourceFile;
+    private static String outputASMFile;
+    
     public static void main(String args[])
     {
         Minimp parser = null;
 
         /* Attempt to read the Minimp source file provided */
-        if (args.length == 1)
+        if (args.length == 2)
         {
-            System.out.println("Mimp -- A Minimp Interpreter:  Reading from source file " + args[0] + " . . .");
+            System.out.println("Mimp -- A Minimp Compiler:  Reading from source file " + args[0] + " . . .");
+            inputSourceFile = args[0];
+            outputASMFile = args[1];
             
             try
-            {
-                parser = new Minimp(new java.io.FileInputStream(args[0]));
+            {                
+                parser = new Minimp(new java.io.FileInputStream(inputSourceFile));
             }
             catch (java.io.FileNotFoundException e)
             {
-                System.out.println("Mimp -- A Minimp Interpreter:  File " + args[0] + " not found.");
+                System.out.println("Mimp -- A Minimp Compiler:  File " + args[0] + " not found.");
                 System.exit(FILE_NOT_FOUND);
             }
         }
-        /* Minimp source file not provided, print program usage */
+        /* Minimp source file or output file not provided, print program usage */
         else
         {
-            System.out.println("Mimp -- A Minimp Interpreter:  Source file not provided!");
-            System.out.println("USAGE:  java Mimp source_file");
+            System.out.println("Mimp -- A Minimp Compiler:  Invalid arguments provided!");
+            System.out.println("USAGE:  java Mimp source_file output_file");
+            System.out.println("EXAMPLE:  java Mimp fibonacci.mimp fibonacci.asm");
             System.exit(INVALID_ARGUMENTS);
         }
 
-        /* Attempt to parse the Minimp source file given and interpret the AST */
+        /* Attempt to parse the Minimp source file and generate the assembly output from the AST */
         try
         {
             SimpleNode tree = parser.Program();
             
             parser.print_AST(tree,"   ");
             System.out.println("\n" + parser.print_AST(tree) + "\n");
-            tree.interpret();
+           
+            /* Perform semantic analysis of the AST and return the generated ASM code */
+            System.out.println("Mimp -- A Minimp Compiler:  Generating assembly output file " + outputASMFile + " . . .");
+            ArrayList<String> asmBuffer = (ArrayList<String>) tree.interpret();
+            
+            /* Attempt to write the generate ASM code to a file */
+            try 
+            {
+                BufferedWriter writer;
+                File file = new File(outputASMFile);
+     
+                /* Create the file if it does not exist */
+                if (!file.exists())
+                {
+                    file.createNewFile();
+                }
+        
+                writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+                
+                /* Write the generated ASM to the file */
+                for (String line : asmBuffer)
+                {
+                    writer.write(line);
+                }
+                
+                writer.close();
+            } 
+            catch (IOException e)
+            {
+                System.out.println("Mimp -- A Minimp Compiler:  Encountered errors writing assembly output file.");
+                e.printStackTrace();
+                System.exit(WRITE_FAILURE);
+            }
             
             System.exit(VALID_SOURCE_FILE);
         } 
         catch (ParseException pe)
         {
-            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during parse.");
+            System.out.println("Mimp -- A Minimp Compiler:  Encountered errors during parse.");
             pe.printStackTrace();
             System.exit(INVALID_SOURCE_FILE);
         }
         catch (Exception e)
         {
-            System.out.println("Mimp -- A Minimp Interpreter:  Encountered errors during interpretation.");
+            System.out.println("Mimp -- A Minimp Compiler:  Encountered errors during assembly code generation.");
             e.printStackTrace();
             System.exit(INVALID_SOURCE_FILE);
         }
