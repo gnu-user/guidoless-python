@@ -10,34 +10,40 @@ class ASTProgram extends SimpleNode {
     super(p, id);
   }
   
+  /**
+   * The root node of the AST which is interpreted, it returns a buffer 
+   * containing the generated MIPS assembly code.
+   * 
+   * @return ArrayList<String> containing the generated MIPS assembly code
+   */
   public Object interpret()
   {
 	initStack();
-	System.out.println("\t.globl main\n");
-	System.out.println("\t.text\n");
-	System.out.println("main:\n");
+	asmBuffer.add(".globl main\n");
+	asmBuffer.add(".text\n");
+	asmBuffer.add("main:\n");
 	
 	for(int i = 0; i < this.jjtGetNumChildren(); i++)
 	{
 		(this.jjtGetChild(i)).interpret();
 	}
 	
-	System.out.println("# Exit");
-	System.out.println("li $v0, 10");
-	System.out.println("syscall\n");
+	asmBuffer.add("# Exit");
+	asmBuffer.add("li $v0, 10");
+	asmBuffer.add("syscall\n");
 	
-	System.out.println("\t.data");
+	asmBuffer.add(".data");
 	
 	for(int i = 0; i < dataList.size(); i++)
 	{
-		System.out.println(dataList.get(i) + ": .word 0");
+		asmBuffer.add(dataList.get(i) + ": .word 0");
 	}
-	System.out.println(NEWLINE + ": .asciiz \"\\n\"");
-	System.out.println(TRUE + ": .asciiz \"true\"");
-	System.out.println(FALSE + ": .asciiz \"false\"");
-	System.out.println(SLEFTB + ": .asciiz \"[\"");
-	System.out.println(SRIGHTB + ": .asciiz \"]\"");
-	System.out.println(SPACE + ": .asciiz \" \"");
+	asmBuffer.add(NEWLINE + ": .asciiz \"\\n\"");
+	asmBuffer.add(TRUE + ": .asciiz \"true\"");
+	asmBuffer.add(FALSE + ": .asciiz \"false\"");
+	asmBuffer.add(SLEFTB + ": .asciiz \"[\"");
+	asmBuffer.add(SRIGHTB + ": .asciiz \"]\"");
+	asmBuffer.add(SPACE + ": .asciiz \" \"");
 	
 	return null;
   }
