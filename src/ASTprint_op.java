@@ -55,7 +55,7 @@ class ASTprint_op extends SimpleNode {
 				  asmBuffer.add("b c_" + condPrintCount);
 				  
 				  asmBuffer.add("f_" + condPrintCount + ": la $a0, " + FALSE);
-				  System.out.print("c_" + condPrintCount + ": ");
+				  asmBuffer.add("c_" + condPrintCount + ": nop");
 				  //asmBuffer.add("c_" + condPrintCount + ": move $a0, " + regValue);
 		
 				  condPrintCount++;
