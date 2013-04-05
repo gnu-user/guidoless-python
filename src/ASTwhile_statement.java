@@ -24,7 +24,7 @@ class ASTwhile_statement extends SimpleNode {
 		  //while(Boolean.valueOf(this.jjtGetChild(0).interpret().toString()))
 		  int curWhileCount = whileCount;
 		  whileCount++;
-		  System.out.print("w_start_" + whileCount + ": ");
+		  System.out.print("w_start_" + curWhileCount + ": ");
 		  System.out.println("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
 				  +  ", while_" + curWhileCount);
 		  //{
