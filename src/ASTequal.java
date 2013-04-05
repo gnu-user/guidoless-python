@@ -31,13 +31,13 @@ class ASTequal extends SimpleNode {
 				  try
 				  {
 					  Integer.valueOf(value.toString());
-					  System.out.println("li " + reg + ", " + value);
+					  asmBuffer.add("li " + reg + ", " + value);
 				  }
 				  catch (Exception e)
 				  {
-					  System.out.println("move " + reg + ", " + value);
+					  asmBuffer.add("move " + reg + ", " + value);
 				  }				  
-				  System.out.println("sw " + reg + ", " + variable + "_" + i);
+				  asmBuffer.add("sw " + reg + ", " + variable + "_" + i);
 				  
 				  symtab.put(variable, i, new VariableValue(value.toString()));
 			  }

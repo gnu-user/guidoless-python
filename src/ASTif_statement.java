@@ -17,7 +17,7 @@ class ASTif_statement extends SimpleNode {
 		  int curCondCount = condCount;
 		  condCount++;
 		  
-		  System.out.println("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
+		  asmBuffer.add("beqz " + ((CompareValue)this.jjtGetChild(0).interpret()).interpret()
 				  +  ", else_" + curCondCount);
 		  //if(Boolean.valueOf(this.jjtGetChild(0).interpret().toString()))
 		  //{
@@ -32,8 +32,8 @@ class ASTif_statement extends SimpleNode {
 					  return returnValue;
 				  }
 			  }
-			  System.out.println("b if_" + curCondCount);
-			  System.out.println("else_" + curCondCount + ": nop");
+			  asmBuffer.add("b if_" + curCondCount);
+			  asmBuffer.add("else_" + curCondCount + ": nop");
 			  removeScope();
 			  return curCondCount;
 		  //}

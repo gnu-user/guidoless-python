@@ -50,6 +50,9 @@ public class MyNode
 	
 	protected static Stack<String> regValues = new Stack<String>();
 	
+	/* A buffer containing the generated assembly code */
+	protected static ArrayList<String> asmBuffer = new ArrayList<String>();
+	
 	public static final String NEWLINE = "newline";
 	public static final String TRUE = "true";
 	public static final String FALSE = "false";
