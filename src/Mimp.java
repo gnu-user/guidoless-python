@@ -103,7 +103,7 @@ public class Mimp
                 /* Write the generated ASM to the file */
                 for (String line : asmBuffer)
                 {
-                    writer.write(line);
+                    writer.write(line + "\n");
                 }
                 
                 writer.close();
@@ -115,6 +115,7 @@ public class Mimp
                 System.exit(WRITE_FAILURE);
             }
             
+            System.out.println("Assembly output file " + outputASMFile + " generated successfully!");
             System.exit(VALID_SOURCE_FILE);
         } 
         catch (ParseException pe)

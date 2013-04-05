@@ -45,7 +45,7 @@ class ASTProgram extends SimpleNode {
 	asmBuffer.add(SRIGHTB + ": .asciiz \"]\"");
 	asmBuffer.add(SPACE + ": .asciiz \" \"");
 	
-	return null;
+	return asmBuffer;
   }
 
 }
