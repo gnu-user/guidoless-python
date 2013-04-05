@@ -38,13 +38,25 @@ JAVA_CLASS_PATH=${SRC}:lib/commons-collections-3.2.1.jar
 for file in $TEST
 do
 	test_file=${file##*/}
+	file_name=${test_file%.*} 	# Filename without extension
+	asm_file=${file_name}.asm	# Output assembly file
 
 	echo -e "\nTesting: $test_file"
-	java -cp ${JAVA_CLASS_PATH} Mimp $file &> out/${test_file}${OUTPUT_EXTENSION}
+	java -cp ${JAVA_CLASS_PATH} Mimp $file asm/${asm_file} &> out/${test_file}${OUTPUT_EXTENSION}
 
 	if [ $? -eq 0 ]
 	then
-		echo -en "\033[0;32mTest $test_file PASSED!"
+		# Verify that the assembly output is correct using diff
+		spim -noquiet -exception -file asm/${asm_file} > out/${file_name}.out 2>&1
+		diff -sbBaq test/${file_name}.out out/${file_name}.out > /dev/null
+
+		# If the executed assembly file output differs, test failed
+		if [ $? -eq 0 ]
+		then
+			echo -en "\033[0;32mTest $test_file PASSED!"
+		else
+			echo -en "\033[0;33mAssembly Output $asm_file FAILED!"
+		fi
 	else
 		echo -en "\033[0;31mTest $test_file FAILED!"
 	fi
