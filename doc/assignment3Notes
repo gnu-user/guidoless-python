@@ -35,5 +35,33 @@ What was done.
 	- condition will jump to the end of the while body if false (0)
 	- the very last statement of the while will jump to the while_<instance_count>
 
+                                | Minifun    | Minimp    
+________________________________|____________|_____________
+Sequence of Instructions        |    x       |    x
+Integer Values                  |    x       |    x
+Boolean Values                  |            |    o
+Variables                       |    x       |    x
+Assignment Operator             |    x       |    x
+Addition Operator               |    x       |    x
+Subtraction Operator            |            |    o
+Multiplication Operator         |            |    o
+Division Operator               |            |    o
+Equality Operator               |            |    x
+Greater Than Operator           |            |    o
+Less Than Operator              |            |    o
+Greater Than Or Equal Operator  |            |    o
+Less Than or Equal Operator     |            |    o
+Conditional Statements          |    x       |    x
+Loop Statements                 |            |    x
+Function Definitions            |            |
+Function Calls                  |            |
+Return Statements               |            |
+Print Statement                 |            |    o
+Lists                           |            |    o
+
+
+
+
+
 What needs to be done.
 	- Clean up so that attempts made to use functions or returns will result in an error thrown.
