@@ -70,6 +70,11 @@ test2:
 	@echo "Testing: $(TARGET_NAME)"
 	@cd ..; ./test_suite.sh 2
 
+# Test Minimp with assignment 3 tests
+test3:
+	@echo "Testing: $(TARGET_NAME)"
+	@cd ..; ./test_suite.sh 3
+
 # Clean
 clean:
 	@$(RM) $(CLASS_FILES)
