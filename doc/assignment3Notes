@@ -1,0 +1,39 @@
+What was done.
+- We used a stack to keep track of the temp registers used
+- Implemented printing integers
+	- store value in output register
+	- use system call
+- addition, subtraction, multiplication, division
+	- pop a reg off the stack to store the answer in
+	- If the first operand was a constant value, store it in a register
+		- else use the register value it is already in
+	- add it to the other operand (it doesnt matter whether this is value is a register or a actual integer value)
+ 	- return the name of the reg value
+- Implemented varaible storing, printing
+	- create a data value of the variable <name>_<scope#>
+	- return the variable's name
+- Implemented using variables in arithmatic operations
+	- load variable into memory
+	- return temp memory address
+- all comparison operations
+	- similar to addition operations
+	- return address of reg that stores 0 or 1 (false or true respectively)
+- Implemented printing boolean
+	- Make so that boolean return addresses would be reconized, and would print out the stored 'true' (if address stores 1) or the stored 'false' (if address stores 0)
+- Implemented Lists printing
+	- Returns a list of elements to print out
+	- iterates through the list to print out the elements
+- if statements
+	- creates a incremeting label (increments per instance of 'if') 
+	- the condition will evaulate and jump to the else_<instance count> if the condition is false (0)
+	- at the end of the if body a statement will be added to jump past the else body
+	- the else statement starts with the lable else_<instance_count>
+	- after the end of the else body a lable will be created for the if to jump to after finishing execution.
+- while statements
+	- similar to the if statement.
+	- starts with a incremeting label defined as while_<instance_count>
+	- condition will jump to the end of the while body if false (0)
+	- the very last statement of the while will jump to the while_<instance_count>
+
+What needs to be done.
+	- Clean up so that attempts made to use functions or returns will result in an error thrown.
