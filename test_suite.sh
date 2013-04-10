@@ -27,12 +27,16 @@ then
 elif [[ ${1} == "2" ]]
 then
 	TEST="Assignment2Tests/Example*[^~]"
+elif [[ ${1} == "3" ]]
+then
+	TEST="Assignment3Tests/*.mimp"
 else
 	TEST="test/*.mim"
 fi
 
 SRC="src/"
 OUTPUT_EXTENSION="_out.log"
+TEST_DIR=${TEST%/*}
 JAVA_CLASS_PATH=${SRC}:lib/commons-collections-3.2.1.jar
 
 for file in $TEST
@@ -48,7 +52,7 @@ do
 	then
 		# Verify that the assembly output is correct using diff
 		spim -noquiet -exception -file asm/${asm_file} > out/${file_name}.out 2>&1
-		diff -sbBaq test/${file_name}.out out/${file_name}.out > /dev/null
+		diff -sbBaq ${TEST_DIR}/${file_name}.out out/${file_name}.out > /dev/null
 
 		# If the executed assembly file output differs, test failed
 		if [ $? -eq 0 ]
