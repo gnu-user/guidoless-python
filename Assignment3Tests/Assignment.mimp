@@ -1,0 +1,4 @@
+x = 10
+print x
+y = 100
+print y

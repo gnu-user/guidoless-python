@@ -1,0 +1,4 @@
+x = 2 + 2
+y = x + x + x + x
+print x
+print y
