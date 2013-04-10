@@ -4,20 +4,20 @@ Minimp Interpreter README
 Building the Mimp Interpreter
 ----------------------------------------
 
-1.	On Linux computers that have support for makefiles the Mimp interpreter can
-	be built using the following commands.
-
-	cd src/
-	make
-
-
-2.	On Windows computers the Mimp interpreter can be build using the following
+1.	On Windows computers the Mimp interpreter can be built using the following
 	commands, the Java class path to the library file MUST be provided.
 
 	cd src/
 	jjtree Minimp.jjt
 	javacc Minimp.jj
 	javac -cp .;../lib/commons-collections-3.2.1.jar *.java
+
+
+2.	On Linux computers that have support for makefiles the Mimp interpreter can
+	be built using the following commands.
+
+	cd src/
+	make
 
 
 3.	Alternatively, you can use the pre-built JAR file, Mimp.jar, which is
