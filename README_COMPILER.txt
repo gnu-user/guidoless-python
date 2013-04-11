@@ -59,7 +59,7 @@ Compiling source files using Mimp
 	For example, using our while_1.mim source file to generate while_1.asm:
 
 		cd src/
-		java -cp .:../lib/commons-collections-3.2.1.jar Mimp  ../test/while_1.mim while_1.asm
+		java -cp .:../lib/commons-collections-3.2.1.jar Mimp ../test/while_1.mim while_1.asm
 
 
 4.	Alternatively, the Mimp compiler can simply be executed using the included
@@ -129,7 +129,7 @@ line version of the SPIM emulator installed, and the command line diff tool.
 	./test_suite.sh 3
 
 
-4.	The test suite will test the Mimp compiler on all of the Minimp source file tests
+5.	The test suite will test the Mimp compiler on all of the Minimp source file tests
 	directory, all tests that passed will output a message in green "Test ... PASSED!"
  	any tests that failed will output a message in red "Test ... FAILED!" 
     Lastly, any tests where the generated assembly output file executes differently
