@@ -1,0 +1,17 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Ignore Backup Files #
+*~
+
+# Ignore log files #
+*.log
+*.out
+
+# Ignore project files #
+.p*
+.c*
