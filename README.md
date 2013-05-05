@@ -13,7 +13,7 @@ we have two branches, master and asm. The master branch contains the main interp
 contains the compiler, which supports generating MIPS32 assembly code which can be assembled using the 
 [SPIM MIPS Simulator](http://pages.cs.wisc.edu/~larus/spim.html).
 
-Currently we have Guidless Python supports a lot the functionality that Python has, such as functions, 
+Currently, Guidoless Python supports a lot of the functionality that Python has, such as functions, 
 iteration, conditions, print, and operations on booleans and integers. For a complete listing of the
 supported functionality and more information on our implementation pleases see the assignment 1 - 3
 reports in the [documentation](doc/) directory.
@@ -22,6 +22,14 @@ In addition, we have also included a test suite, [test_suite.sh](test_suite.sh),
 automatically test the compiler against a list of test files we have created. If you would like to 
 see examples of source files written for the Guidoless Python programming language, please see the
 test files located in the [test](test/) and [AssignmentTests](Assignment2Tests/) directories.
+
+
+Usage
+-----------------------------------------
+
+For instructions on how to use the interpreter, compiler, and test suite, please see the documentation
+included in the following README documents: [README.txt](README.txt), [README_COMPILER.txt](README_COMPILER.txt),
+[README_INTERPRETER.txt](README_INTERPRETER.txt).
 
 
 Authors
