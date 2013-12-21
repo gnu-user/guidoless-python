@@ -21,7 +21,7 @@ reports in the [documentation](doc/) directory.
 In addition, we have also included a test suite, [test_suite.sh](test_suite.sh), which can be used to 
 automatically test the compiler against a list of test files we have created. If you would like to 
 see examples of source files written for the Guidoless Python programming language, please see the
-test files located in the [test](test/) and [AssignmentTests](Assignment2Tests/) directories.
+test files located in the [tests](tests/) directory.
 
 
 Usage
