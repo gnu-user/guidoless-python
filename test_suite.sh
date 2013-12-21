@@ -23,15 +23,15 @@
 
 if [[ ${1} == "1" ]]
 then
-	TEST="Assignment2Tests/Example*[^~]"
+	TEST="tests/assignment_1/Example*[^~]"
 elif [[ ${1} == "2" ]]
 then
-	TEST="Assignment2Tests/Example*[^~]"
+	TEST="tests/assignment_2/Example*[^~]"
 elif [[ ${1} == "3" ]]
 then
-	TEST="Assignment3Tests/*.mimp"
+	TEST="tests/assignment_3/*.mimp"
 else
-	TEST="test/*.mim"
+	TEST="tests/*.mim"
 fi
 
 SRC="src/"
