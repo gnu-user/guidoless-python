@@ -23,12 +23,12 @@
 
 if [[ ${1} == "1" ]]
 then
-	TEST="Assignment2Tests/Example*[^~]"
+	TEST="tests/assignment_1/Example*[^~]"
 elif [[ ${1} == "2" ]]
 then
-	TEST="Assignment2Tests/Example*[^~]"
+	TEST="tests/assignment_2/Example*[^~]"
 else
-	TEST="test/*.mim"
+	TEST="tests/*.mim"
 fi
 
 SRC="src/"
